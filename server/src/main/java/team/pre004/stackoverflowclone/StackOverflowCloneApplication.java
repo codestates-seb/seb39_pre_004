@@ -8,9 +8,7 @@ import org.springframework.boot.context.ApplicationPidFileWriter;
 public class StackOverflowCloneApplication {
 
 	public static void main(String[] args) {
-		SpringApplication application = new SpringApplication(StackOverflowCloneApplication.class);
-		application.addListeners(new ApplicationPidFileWriter());
-		application.run(args);
+		SpringApplication.run(StackOverflowCloneApplication.class, args);
 	}
 
 }

@@ -1,5 +1,7 @@
 package team.pre004.stackoverflowclone.web.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,10 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Api(tags = {"유저관리 API"})
 @RequestMapping("/users")
 public class AuthController {
 
     @PostMapping("/signup")
+    @ApiOperation(value = "회원가입")
     public ResponseEntity postSignUp(){
 
         Map<String, String> map = new HashMap<>();
