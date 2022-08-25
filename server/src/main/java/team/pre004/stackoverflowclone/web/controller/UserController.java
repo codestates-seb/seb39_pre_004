@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping("/users")
 public class UserController {
 
     @PostMapping("/{username_id}")
