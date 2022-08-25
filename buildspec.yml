@@ -7,15 +7,15 @@ phases:
   build:
     commands:
       - echo Build Strarting on 'date'
-      - cd 
+      - cd server
       - chmod +x ./gradlew
       - ./gradlew build
   post_build:
     commands:
-      - echo $(basename .//build/libs/*.jar)
+      - echo $(basename ./server/build/libs/*.jar)
 artifacts:
   files:
-    - /build/libs/*.jar
-    - /scripts/**
-    - /appspec.yml
+    - server/build/libs/*.jar
+    - server/scripts/**
+    - server/appspec.yml
   discard-paths: yes
