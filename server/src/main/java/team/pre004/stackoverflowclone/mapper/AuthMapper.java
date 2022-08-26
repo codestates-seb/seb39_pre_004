@@ -8,8 +8,8 @@ import team.pre004.stackoverflowclone.dto.UserSignUpDto;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AuthMapper {
-    User userSignUpToUser(UserSignUpDto requestBody);
-
+    User userSignUpDtoToUser(UserSignUpDto requestBody);
+    UserDto.response userToUserResponse(User user);
 
 
 }

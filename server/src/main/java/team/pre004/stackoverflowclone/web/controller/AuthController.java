@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.pre004.stackoverflowclone.domain.user.User;
+import team.pre004.stackoverflowclone.dto.UserDto;
 import team.pre004.stackoverflowclone.dto.UserSignUpDto;
+import team.pre004.stackoverflowclone.mapper.AuthMapper;
+import team.pre004.stackoverflowclone.service.UserService;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -19,16 +23,22 @@ import java.util.Map;
 @RequestMapping("/users")
 public class AuthController {
 
+    private final AuthMapper mapper;
+    private final UserService userService;
+
+    public AuthController(UserService userService, AuthMapper mapper){
+        this.mapper = mapper;
+        this.userService = userService;
+    }
+
     @PostMapping("/signup")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity postSignUp(@Valid @RequestBody UserSignUpDto requestbody){
+    public ResponseEntity postSignUp(@Valid @RequestBody UserSignUpDto requestBody){
+        User user = mapper.userSignUpDtoToUser(requestBody);
+        User createdUser = userService.createdUser(user);
+        UserDto.response response = mapper.userToUserResponse(createdUser);
 
-
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postSignUp");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
