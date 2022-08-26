@@ -1,9 +1,8 @@
-package team.pre004.stackoverflowclone.dto;
+package team.pre004.stackoverflowclone.dto.request;
 
 
 import lombok.Getter;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 

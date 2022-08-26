@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.domain.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -33,4 +34,12 @@ public class User {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime modDate;
+
+    @Builder
+    public User(String name, String email, String password, String bio) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.bio = bio;
+    }
 }

@@ -2,42 +2,36 @@ package team.pre004.stackoverflowclone.web.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.user.User;
-import team.pre004.stackoverflowclone.dto.UserDto;
-import team.pre004.stackoverflowclone.dto.UserSignUpDto;
+import team.pre004.stackoverflowclone.domain.user.UserRepository;
+import team.pre004.stackoverflowclone.dto.request.UserSignUpDto;
+import team.pre004.stackoverflowclone.dto.response.UserResponseDto;
 import team.pre004.stackoverflowclone.mapper.AuthMapper;
-import team.pre004.stackoverflowclone.service.UserService;
 
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+
+@RequiredArgsConstructor
 @RestController
 @Api(tags = {"유저관리 API"})
 @RequestMapping("/users")
 public class AuthController {
 
-    private final AuthMapper mapper;
-    private final UserService userService;
-
-    public AuthController(UserService userService, AuthMapper mapper){
-        this.mapper = mapper;
-        this.userService = userService;
-    }
+    private final UserRepository userRepository;
+    private final AuthMapper authMapper;
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity postSignUp(@Valid @RequestBody UserSignUpDto requestBody){
-        User user = mapper.userSignUpDtoToUser(requestBody);
-        User createdUser = userService.createdUser(user);
-        UserDto.response response = mapper.userToUserResponse(createdUser);
+    public ResponseEntity postSignUp(@Valid @RequestBody UserSignUpDto requestbody){
 
+        User user = userRepository.save(authMapper.userSignUpToUser(requestbody));
+        UserResponseDto response = authMapper.userToUserResponseDto(userRepository.getReferenceById(user.getId()));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
