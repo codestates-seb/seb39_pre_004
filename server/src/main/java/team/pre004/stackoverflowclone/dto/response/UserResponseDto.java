@@ -11,7 +11,7 @@ public class UserResponseDto{
     private String name;
     private String email;
     private String password;
-    private String bio = "";
+    private String bio;
     private LocalDateTime createDate;
     private LocalDateTime modDate;
 }

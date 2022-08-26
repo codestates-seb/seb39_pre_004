@@ -3,6 +3,7 @@ package team.pre004.stackoverflowclone.web.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import team.pre004.stackoverflowclone.dto.response.UserResponseDto;
 import team.pre004.stackoverflowclone.mapper.AuthMapper;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +34,13 @@ public class AuthController {
 
         User user = userRepository.save(authMapper.userSignUpToUser(requestbody));
         UserResponseDto response = authMapper.userToUserResponseDto(userRepository.getReferenceById(user.getId()));
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        //정상일 경우
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/users/login"));
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+
+        //예외 처리일 경우
     }
 
 
