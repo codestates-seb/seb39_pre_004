@@ -5,9 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.pre004.stackoverflowclone.dto.UserSignUpDto;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +21,9 @@ public class AuthController {
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity postSignUp(){
+    public ResponseEntity postSignUp(@Valid @RequestBody UserSignUpDto requestbody){
+
+
 
         Map<String, String> map = new HashMap<>();
         map.put("body", "postSignUp");
