@@ -46,7 +46,7 @@ public class AnswerController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/likes-down/undo") // 답글 싫어요 요청
+    @PostMapping("/{id}/likes-down/undo") // 답글 싫어요 요청 취소
     public ResponseEntity downUndoAnswerLike(@PathVariable Long id) {
 
         return new ResponseEntity(HttpStatus.OK);
