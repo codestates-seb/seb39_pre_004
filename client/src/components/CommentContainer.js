@@ -1,7 +1,8 @@
 import { TextButton } from './ViewContainer';
+import BlueButton from './BlueButton';
 const CommentContainer = () => {
   return (
-    <div>
+    <>
       <ul className="commentList">
         <li>
           <p>{'commentContent'}</p>
@@ -9,12 +10,15 @@ const CommentContainer = () => {
           <div>{'23 hours ago'}</div>
         </li>
       </ul>
-      <div className="commentInputArea">
-        <textarea></textarea>
-        <div>{'Enter at least 15 charactors'}</div>
-      </div>
+      <section>
+        <div className="commentInputArea">
+          <textarea />
+          <div>{'Enter at least 15 charactors'}</div>
+        </div>
+        <BlueButton text="Add comment" />
+      </section>
       <TextButton text="Add a comment" />
-    </div>
+    </>
   );
 };
 export default CommentContainer;
