@@ -28,6 +28,7 @@ const Answer = () => {
       </section>
       <section className="addAnswer">
         <h3>Your Answer</h3>
+        {/* text editor 컴포넌트 적용 */}
         <div>text editer space</div>
         <button>Post Your Answer</button>
       </section>
