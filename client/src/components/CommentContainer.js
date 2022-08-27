@@ -1,5 +1,4 @@
 import { TextButton } from './ViewContainer';
-import BlueButton from './BlueButton';
 const CommentContainer = () => {
   return (
     <>
@@ -15,7 +14,7 @@ const CommentContainer = () => {
           <textarea />
           <div>{'Enter at least 15 charactors'}</div>
         </div>
-        <BlueButton text="Add comment" />
+        {/* <BlueButton text="Add comment" /> */}
       </section>
       <TextButton text="Add a comment" />
     </>
