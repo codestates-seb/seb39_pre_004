@@ -1,11 +1,12 @@
 import Question from '../components/Question';
+import BlueButton from '../components/BlueButton';
 
 const Post = () => {
   return (
     <main>
-      <Question></Question>
-      {/* <Anwser></Anwser> */}
-      <button>Ask Question</button>
+      <Question />
+      {/* <Answer /> */}
+      <BlueButton text="Ask Question" />
     </main>
   );
 };
