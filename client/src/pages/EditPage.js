@@ -2,7 +2,7 @@ import React, { useState } from 'react'; // eslint-disable-line no-unused-vars
 import styled from 'styled-components';
 import Subtitle from '../components/Subtitle';
 import Input from '../components/Input';
-import PostBodyTextarea from '../components/PostBodyTextarea';
+import TextEditor from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
 const Container = styled.div`
@@ -25,7 +25,7 @@ function Ask() {
         placeholder="e.g is threr an R function for finding the index if an element in a vector"
       />
       <Subtitle>Body</Subtitle>
-      <PostBodyTextarea placeholder="More info about your question. You can use markdown here" />
+      <TextEditor placeholder="More info about your question. You can use markdown here" />
       <Subtitle>Tags</Subtitle>
       <Input
         type="text"
