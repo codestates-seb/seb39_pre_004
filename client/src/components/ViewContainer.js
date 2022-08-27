@@ -6,7 +6,7 @@ export const TextButton = ({ text }) => {
 
 const ViewContainer = ({ isAnswer }) => {
   return (
-    <main>
+    <>
       <section className="menu">
         <i className="fa-solid fa-angle-up"></i>
         {0}
@@ -43,7 +43,7 @@ const ViewContainer = ({ isAnswer }) => {
         </div>
         <CommentContainer />
       </section>
-    </main>
+    </>
   );
 };
 export default ViewContainer;
