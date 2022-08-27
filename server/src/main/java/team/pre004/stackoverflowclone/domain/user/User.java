@@ -30,6 +30,11 @@ public class User {
     private String password;
     private String bio;
 
+    @Column(nullable = false)
+    private String link;
+
+    private String imagePath;
+
     @CreatedDate
     private LocalDateTime createDate;
     @LastModifiedDate
