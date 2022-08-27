@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import team.pre004.stackoverflowclone.domain.user.User;
+import team.pre004.stackoverflowclone.domain.user.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -35,8 +35,8 @@ public class Answer {
     private LocalDateTime modDate;
 
     @ManyToOne
-    private User userId;
+    private Users users;
 
     @ManyToOne
-    private Question questionId;
+    private Question question;
 }

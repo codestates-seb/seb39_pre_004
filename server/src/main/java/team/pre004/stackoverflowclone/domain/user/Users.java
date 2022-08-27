@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,7 +41,7 @@ public class User {
     private LocalDateTime modDate;
 
     @Builder
-    public User(String name, String email, String password, String bio) {
+    public Users(String name, String email, String password, String bio) {
         this.name = name;
         this.email = email;
         this.password = password;

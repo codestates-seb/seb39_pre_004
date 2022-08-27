@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import team.pre004.stackoverflowclone.domain.user.User;
+import team.pre004.stackoverflowclone.domain.user.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,13 +29,14 @@ public class Question{
     private String link;
 
     @Column(nullable = false)
-    private int view = 0;
+    private int views = 0;
 
     @CreatedDate
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime modDate;
 
+
     @ManyToOne
-    private User userId;
+    private Users users;
 }

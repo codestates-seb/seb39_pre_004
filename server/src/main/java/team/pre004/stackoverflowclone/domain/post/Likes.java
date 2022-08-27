@@ -3,7 +3,7 @@ package team.pre004.stackoverflowclone.domain.post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import team.pre004.stackoverflowclone.domain.user.User;
+import team.pre004.stackoverflowclone.domain.user.Users;
 
 import javax.persistence.*;
 
@@ -21,11 +21,11 @@ public class Likes {
     private String postType;
 
     @ManyToOne
-    private User userId;
+    private Users users;
 
     @ManyToOne
-    private Answer answerId;
+    private Answer answer;
 
     @ManyToOne
-    private Question questionId;
+    private Question question;
 }

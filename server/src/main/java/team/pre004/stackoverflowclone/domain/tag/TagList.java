@@ -16,6 +16,7 @@ public class TagList {
 
     @ManyToOne
     private Tag tag;
+
     @ManyToOne
     private Question question;
 }
