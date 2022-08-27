@@ -1,43 +1,74 @@
 package team.pre004.stackoverflowclone.web.controller;
 
-import io.swagger.annotations.Api;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
-@RequiredArgsConstructor
 @RestController
-@Api(tags = {"유저관리 API"})
 @RequestMapping("/users")
 public class AuthController {
 
-    @GetMapping("/{id}/me") //내 정보 페이지 이동
-    public ResponseEntity getAccountForm(@PathVariable Long id){
+    @GetMapping("/signup") //회원 가입 페이지
+    public ResponseEntity getSignUpForm() {
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/{id}") //해당 회원 조회 페이지 이동
-    public ResponseEntity getUserForm(@PathVariable Long id){
+    @PostMapping("/signup") //회원 가입 요청
+    public ResponseEntity signUp() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/signup/oauth2/authorization/google") //구글 회원 가입 페이지
+    public ResponseEntity getGoogleSignUpForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/signup/oauth2/authorization/github") //깃허브 회원 가입 페이지
+    public ResponseEntity getGithubSignUpForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/signup/oauth2/authorization/facebook") //페이스북 회원 가입 페이지
+    public ResponseEntity getFacebookSignUpForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/login") //로그인 페이지
+    public ResponseEntity getLoginForm() {
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
 
-    @GetMapping("/{id}/edit") // 내 정보 수정 페이지 이동
-    public ResponseEntity getEditAccountForm(@PathVariable Long id){
+    @PostMapping("/login") //로그인요청
+    public ResponseEntity login() {
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PutMapping ("/{id}/me/edit") // 내 정보 수정
-    public ResponseEntity updateAccount(@PathVariable Long id){
+    @GetMapping("/login/oauth2/authorization/google") // 구글 로그인 페이지
+    public ResponseEntity getGoogleLoginForm() {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @GetMapping("/login/oauth2/authorization/github") // 깃허브 로그인 페이지
+    public ResponseEntity getGithubLoginForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/login/oauth2/authorization/facebook") // 페이스북 로그인 페이지
+    public ResponseEntity getFacebookLoginForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 }
