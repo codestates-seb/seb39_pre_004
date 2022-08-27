@@ -5,7 +5,21 @@ const Answer = () => {
       <section className="viewAnswer">
         <div className="sortMenu">
           <div>{2} Answers</div>
-          <div>답변 정렬 영역</div>
+          <div>
+            <div>
+              <lable htmlFor="answerSort">Sorted by:</lable>
+              <div id="answerSort">Trending sort available</div>
+            </div>
+            <div className="sortType">
+              <select name="">
+                {/* option value 추가 필요 */}
+                <option selected>Highest score (default)</option>
+                <option>Trending (recent votes count more)</option>
+                <option>Date modified (newest first)</option>
+                <option>Date created (oldest first)</option>
+              </select>
+            </div>
+          </div>
         </div>
         <section className="answersList">
           {/* AnswerList data에 map 적용 예정 */}
