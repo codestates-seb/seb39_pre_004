@@ -42,6 +42,7 @@ dependencies {
 	//JPA to Maria DB Connection Driver
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
+
 	//validation Check
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 

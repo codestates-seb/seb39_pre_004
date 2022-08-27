@@ -2,7 +2,7 @@ package team.pre004.stackoverflowclone.domain.tag;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import team.pre004.stackoverflowclone.domain.question.Question;
+import team.pre004.stackoverflowclone.domain.post.Question;
 
 import javax.persistence.*;
 

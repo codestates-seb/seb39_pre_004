@@ -1,4 +1,4 @@
-package team.pre004.stackoverflowclone.domain.comment;
+package team.pre004.stackoverflowclone.domain.post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -70,6 +70,20 @@ public class AnswerController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/selected") // 답글 채택 요청
+    public ResponseEntity selectAnswer(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/selected/undo") //답글 채택 취소 요청
+    public ResponseEntity undoSelectAnswer(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+
 
 
 
