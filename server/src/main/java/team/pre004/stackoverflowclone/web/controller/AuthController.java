@@ -1,22 +1,12 @@
 package team.pre004.stackoverflowclone.web.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.pre004.stackoverflowclone.domain.user.User;
-import team.pre004.stackoverflowclone.domain.user.UserRepository;
-import team.pre004.stackoverflowclone.dto.request.UserSignUpDto;
-import team.pre004.stackoverflowclone.dto.response.UserResponseDto;
-import team.pre004.stackoverflowclone.mapper.AuthMapper;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -25,68 +15,29 @@ import java.util.Map;
 @RequestMapping("/users")
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final AuthMapper authMapper;
+    @GetMapping("/{id}/me") //내 정보 페이지 이동
+    public ResponseEntity getAccountForm(@PathVariable Long id){
 
-    @PostMapping("/signup")
-    @ApiOperation(value = "회원가입")
-    public ResponseEntity postSignUp(@Valid @RequestBody UserSignUpDto requestbody){
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-        User user = userRepository.save(authMapper.userSignUpToUser(requestbody));
-        UserResponseDto response = authMapper.userToUserResponseDto(userRepository.getReferenceById(user.getId()));
+    @GetMapping("/{id}") //해당 회원 조회 페이지 이동
+    public ResponseEntity getUserForm(@PathVariable Long id){
 
-        //정상일 경우
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/users/login"));
-        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
-
-        //예외 처리일 경우
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
-    @PostMapping("/auth/google")
-    public ResponseEntity postSignUpGoogle(){
+    @GetMapping("/{id}/edit") // 내 정보 수정 페이지 이동
+    public ResponseEntity getEditAccountForm(@PathVariable Long id){
 
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postSignUpGoogle");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PutMapping ("/{id}/me/edit") // 내 정보 수정
+    public ResponseEntity updateAccount(@PathVariable Long id){
 
-    @PostMapping("/login")
-    public ResponseEntity postLogin(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postLogin");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/login/auth/google")
-    public ResponseEntity postLoginGoogle(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postLoginGoogle");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/findpw")
-    public ResponseEntity postFindPw(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postFindPw");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity postLogout(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postLogout");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }
