@@ -11,79 +11,73 @@ import java.util.Map;
 @RequestMapping("/questions")
 public class QuestionController {
 
-    @GetMapping("/list")
-    public ResponseEntity getQuestionsList(){
+    @GetMapping("/") //메인 페이지 (게시글들 전체 조회)
+    public ResponseEntity index() {
 
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "getQuestionsList");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/add") // 게시글 작성 페이지
+    public ResponseEntity getAddQuestionForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/add") //게시글 작성 요청
+    public ResponseEntity addQuestion() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}") // 게시글 조회 페이지
+    public ResponseEntity getQuestion(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/edit") // 게시글 수정 페이지
+    public ResponseEntity getEditQuestionForm(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/edit") // 게시글 수정 요청
+    public ResponseEntity editQuestion(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}") // 게시글 삭제 요청
+    public ResponseEntity deleteQuestion(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/likes-up") // 게시글 좋아요 요청
+    public ResponseEntity upQuestionLike(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/likes-down") // 게시글 싫어요 요청
+    public ResponseEntity downQuestionLike(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/likes-up/undo") // 게시글 좋아요 요청 취소
+    public ResponseEntity upUndoQuestionLike(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/likes-down/undo") // 게시글 싫어요 요청
+    public ResponseEntity downUndoQuestionLike(@PathVariable Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
-
-    @GetMapping
-    public ResponseEntity getQuestion(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "getQuestion");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/write")
-    public ResponseEntity postQuestion(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postQuestion");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/write")
-    public ResponseEntity deleteQuestion(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "deleteQuestion");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/write/{question_id}")
-    public ResponseEntity putQuestion(@PathVariable Long question_id ){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "putQuestion");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/comment/{question_id}")
-    public ResponseEntity getComment(@PathVariable Long question_id){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "getComment");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/comment/{question_id}")
-    public ResponseEntity postComment(@PathVariable Long question_id){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postComment");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/comment/{question_id}")
-    public ResponseEntity putComment(@PathVariable Long question_id){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "putComment");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/comment/{question_id}")
-    public ResponseEntity deleteComment(@PathVariable Long question_id){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "deleteComment");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
 
 
 }
