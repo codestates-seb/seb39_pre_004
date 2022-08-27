@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const BodyTextarea = styled.textarea`
+const Textarea = styled.textarea`
   background: none;
   border: 1px solid #777;
   border-radius: 3px;
@@ -13,12 +13,12 @@ const BodyTextarea = styled.textarea`
   font-family: inherit;
 `;
 
-function PostBodyTextarea() {
+function TextEditor() {
   return (
     <>
-      <BodyTextarea />
+      <Textarea />
     </>
   );
 }
 
-export default PostBodyTextarea;
+export default TextEditor;
