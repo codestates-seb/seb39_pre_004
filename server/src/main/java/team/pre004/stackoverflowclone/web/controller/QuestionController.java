@@ -12,7 +12,7 @@ import java.util.Map;
 public class QuestionController {
 
     @GetMapping("/") //메인 페이지 (게시글들 전체 조회)
-    public ResponseEntity index() {
+    public ResponseEntity getQuestions() {
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -42,7 +42,7 @@ public class QuestionController {
     }
 
     @PutMapping("/{id}/edit") // 게시글 수정 요청
-    public ResponseEntity editQuestion(@PathVariable Long id) {
+    public ResponseEntity updateQuestion(@PathVariable Long id) {
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -77,7 +77,23 @@ public class QuestionController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/comments") //게시글 댓글 작성 요청
+    public ResponseEntity addQuestionComment(@PathVariable Long id) {
 
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/comments/{commentId}") //게시글 댓글 수정 요청
+    public ResponseEntity updateQuestionComment(@PathVariable Long id, @PathVariable Long commentId) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/comments/{commentId}") //게시글 댓글 삭제 요청
+    public ResponseEntity deleteQuestionComment(@PathVariable Long id, @PathVariable Long commentId) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 
 }
