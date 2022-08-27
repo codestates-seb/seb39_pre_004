@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SubHeader from '../components/SubHeader';
 import Subtitle from '../components/Subtitle';
 import Input from '../components/Input';
-import PostBodyTextarea from '../components/PostBodyTextarea';
+import Textarea from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
 const Container = styled.div`
@@ -31,7 +31,7 @@ function Ask() {
           Include all the information someone would need to answer your question
         </p>
       </Subtitle>
-      <PostBodyTextarea placeholder="More info about your question. You can use markdown here" />
+      <Textarea placeholder="More info about your question. You can use markdown here" />
       <Subtitle>Tags</Subtitle>
       <Input
         type="text"
