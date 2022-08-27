@@ -1,5 +1,13 @@
 package team.pre004.stackoverflowclone.dto;
 
-public class CMRespDto {
-    //test
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class CMRespDto<T> {
+
+    private int code;
+    private String message;
+    private T data;
 }
