@@ -4,10 +4,14 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.pre004.stackoverflowclone.domain.post.entity.Answer;
+import team.pre004.stackoverflowclone.domain.post.entity.Likes;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -39,6 +43,13 @@ public class Users {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime modDate;
+
+    @OneToMany
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany
+    private List<Likes> likes = new ArrayList<>();
+
 
 
 }

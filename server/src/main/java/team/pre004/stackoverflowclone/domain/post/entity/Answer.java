@@ -10,6 +10,8 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -39,4 +41,10 @@ public class Answer {
 
     @ManyToOne
     private Question question;
+
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany
+    private List<Likes> likes = new ArrayList<>();
 }

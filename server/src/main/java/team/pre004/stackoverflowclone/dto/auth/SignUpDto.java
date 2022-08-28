@@ -4,13 +4,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
+import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 @Data
 @Setter(AccessLevel.NONE)
 public class SignUpDto {
 
     private String name;
-    private String email;
+    private final String email;
     private String password;
 
     @Builder
@@ -19,4 +20,6 @@ public class SignUpDto {
         this.email = email;
         this.password = password;
     }
+
+
 }

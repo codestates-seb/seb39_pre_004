@@ -6,10 +6,13 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -40,4 +43,16 @@ public class Question{
 
     @ManyToOne
     private Users users;
+
+    @OneToMany
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany
+    private List<Likes> likes = new ArrayList<>();
+
+    @OneToMany
+    private List<TagList> tagLists = new ArrayList<>();
 }

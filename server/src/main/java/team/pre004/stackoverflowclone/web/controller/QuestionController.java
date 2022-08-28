@@ -6,18 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.dto.common.CMRequestDto;
 import team.pre004.stackoverflowclone.dto.request.QuestionPostDto;
+import team.pre004.stackoverflowclone.service.QuestionService;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/questions")
 public class QuestionController {
 
-
+    private final QuestionService questionService;
 
     @GetMapping("/add") // 게시글 작성 페이지
-    public ResponseEntity getAddQuestionForm(@RequestBody CMRequestDto cmRequestDto) {
+    public ResponseEntity getAddQuestionForm(@RequestBody QuestionPostDto questionPostDto) {
 
-        QuestionPostDto questionPostDto = (QuestionPostDto)cmRequestDto.getRequestData();
 
         return new ResponseEntity(HttpStatus.OK);
     }
