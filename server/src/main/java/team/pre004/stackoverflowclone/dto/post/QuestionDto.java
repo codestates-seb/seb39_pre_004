@@ -1,15 +1,17 @@
 package team.pre004.stackoverflowclone.dto.post;
 
+import lombok.Data;
 import team.pre004.stackoverflowclone.dto.data.Owner;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 public class QuestionDto {
 
-    private Owner owner;
+    private final Owner owner;
 
-    private Long questionId;
+    private final Long id;
 
     private String title;
     private String body;

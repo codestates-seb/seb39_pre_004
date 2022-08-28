@@ -28,8 +28,6 @@ public class Answer {
     @Column(nullable = false)
     private boolean isAccepted;
 
-    @Column(nullable = false)
-    private String link;
 
     @CreatedDate
     private LocalDateTime createDate;

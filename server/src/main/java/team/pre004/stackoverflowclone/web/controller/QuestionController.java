@@ -1,15 +1,25 @@
 package team.pre004.stackoverflowclone.web.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import team.pre004.stackoverflowclone.domain.post.Question;
+import team.pre004.stackoverflowclone.domain.post.QuestionRepository;
+import team.pre004.stackoverflowclone.dto.post.QuestionDto;
+import team.pre004.stackoverflowclone.dto.post.request.RequestQuestionDto;
+import team.pre004.stackoverflowclone.mapper.PostMapper;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/questions")
 public class QuestionController {
+
+    private final QuestionRepository questionRepository;
+    private final PostMapper postMapper;
 
     @GetMapping("/") //메인 페이지 (게시글들 전체 조회)
     public ResponseEntity getQuestions() {
@@ -24,9 +34,11 @@ public class QuestionController {
     }
 
     @PostMapping("/add") //게시글 작성 요청
-    public ResponseEntity addQuestion() {
+    public ResponseEntity addQuestion(@RequestBody RequestQuestionDto requestQuestionDto) {
 
-        return new ResponseEntity(HttpStatus.OK);
+        Question question = questionRepository.save(postMapper.addQuestion(requestQuestionDto));
+
+        return new ResponseEntity(question,HttpStatus.OK);
     }
 
     @GetMapping("/{id}") // 게시글 조회 페이지

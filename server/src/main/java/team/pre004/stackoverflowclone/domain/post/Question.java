@@ -2,8 +2,10 @@ package team.pre004.stackoverflowclone.domain.post;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import team.pre004.stackoverflowclone.domain.user.Users;
 
 import javax.persistence.*;
@@ -12,7 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Getter
-//@EntityListeners(AuditingEntityListener.class)
+@Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Question{
 
     @Id
@@ -25,10 +28,8 @@ public class Question{
     @Column(nullable = false)
     private String body;
 
-    @Column(nullable = false)
     private String link;
 
-    @Column(nullable = false)
     private int views = 0;
 
     @CreatedDate
