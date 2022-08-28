@@ -7,16 +7,18 @@ const Answer = () => {
           <div>{2} Answers</div>
           <div>
             <div>
-              <lable htmlFor="answerSort">Sorted by:</lable>
-              <div id="answerSort">Trending sort available</div>
+              <label htmlFor="answerSort">Sorted by:</label>
+              <div>Trending sort available</div>
             </div>
-            <div className="sortType">
-              <select name="">
-                {/* option value 추가 필요 */}
-                <option selected>Highest score (default)</option>
-                <option>Trending (recent votes count more)</option>
-                <option>Date modified (newest first)</option>
-                <option>Date created (oldest first)</option>
+            <div className="sortTypeContainer">
+              <select name="sortType" id="answerSort">
+                {/* select 추가 예정 */}
+                <option value="high">Highest score (default)</option>
+                <option value="Trend">
+                  Trending (recent votes count more)
+                </option>
+                <option value="newest">Date modified (newest first)</option>
+                <option value="oldest">Date created (oldest first)</option>
               </select>
             </div>
           </div>
