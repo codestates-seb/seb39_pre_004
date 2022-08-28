@@ -1,11 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CommonLayout from './components/CommonLayout';
+import GlobalStyle from './components/GlobalStyle';
 import AskPage from './pages/AskPage';
 import Mypage from './pages/Mypage';
 
 const App = () => {
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<CommonLayout />}>
           <Route path="/login" element={<div>login</div>}></Route>
