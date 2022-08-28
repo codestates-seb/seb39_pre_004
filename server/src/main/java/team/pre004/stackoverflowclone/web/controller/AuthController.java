@@ -2,28 +2,37 @@ package team.pre004.stackoverflowclone.web.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import team.pre004.stackoverflowclone.domain.user.User;
+import team.pre004.stackoverflowclone.domain.user.UserRepository;
+import team.pre004.stackoverflowclone.dto.request.UserSignUpDto;
+import team.pre004.stackoverflowclone.dto.response.UserResponseDto;
+import team.pre004.stackoverflowclone.mapper.AuthMapper;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+
+@RequiredArgsConstructor
 @RestController
 @Api(tags = {"유저관리 API"})
 @RequestMapping("/users")
 public class AuthController {
 
+    private final UserRepository userRepository;
+    private final AuthMapper authMapper;
+
     @PostMapping("/signup")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity postSignUp(){
+    public ResponseEntity postSignUp(@Valid @RequestBody UserSignUpDto requestbody){
 
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postSignUp");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        User user = userRepository.save(authMapper.userSignUpToUser(requestbody));
+        UserResponseDto response = authMapper.userToUserResponseDto(userRepository.getReferenceById(user.getId()));
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
