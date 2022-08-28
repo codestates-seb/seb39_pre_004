@@ -1,4 +1,4 @@
-package team.pre004.stackoverflowclone.dto.response;
+package team.pre004.stackoverflowclone.dto.post;
 
 import lombok.*;
 

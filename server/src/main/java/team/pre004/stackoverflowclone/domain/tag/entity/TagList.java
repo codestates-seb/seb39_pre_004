@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class TagList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long tagListId;
 
     @ManyToOne
     private Tag tag;

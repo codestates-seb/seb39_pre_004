@@ -22,7 +22,7 @@ import java.util.List;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long usersId;
 
     @Column(unique = true, nullable = false)
     private String name;

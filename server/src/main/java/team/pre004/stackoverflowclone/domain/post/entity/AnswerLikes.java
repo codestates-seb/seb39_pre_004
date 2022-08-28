@@ -18,9 +18,11 @@ public class AnswerLikes {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name ="usersId")
     private Users users;
 
     @ManyToOne
+    @JoinColumn(name = "answerId")
     private Answer answer;
 
 }
