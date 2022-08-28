@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,8 +32,6 @@ public class Question{
     @Column(nullable = false)
     private String body;
 
-    private String link;
-
     private int views = 0;
 
     @CreatedDate
@@ -40,6 +39,7 @@ public class Question{
     @LastModifiedDate
     private LocalDateTime modDate;
 
+    private String link;
 
     @ManyToOne
     private Users users;
@@ -48,11 +48,19 @@ public class Question{
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany
-    private List<Comment> comments = new ArrayList<>();
+    private List<QuestionComment> questionComments = new ArrayList<>();
 
     @OneToMany
-    private List<Likes> likes = new ArrayList<>();
+    private List<QuestionLikes> questionLikes = new ArrayList<>();
 
     @OneToMany
     private List<TagList> tagLists = new ArrayList<>();
+
+    @Builder
+    public Question(String title, String body, String link, List<TagList> tagLists) {
+        this.title = title;
+        this.body = body;
+        this.link = link;
+        this.tagLists = tagLists;
+    }
 }

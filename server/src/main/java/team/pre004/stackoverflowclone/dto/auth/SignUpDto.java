@@ -21,5 +21,11 @@ public class SignUpDto {
         this.password = password;
     }
 
-
+    public Users toUsers(){
+        return Users.builder()
+                .name(name)
+                .email(email)
+                .password(password)
+                .build();
+    }
 }

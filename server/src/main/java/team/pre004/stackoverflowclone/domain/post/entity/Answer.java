@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +31,6 @@ public class Answer {
     @Column(nullable = false)
     private boolean isAccepted;
 
-
     @CreatedDate
     private LocalDateTime createDate;
     @LastModifiedDate
@@ -43,8 +43,13 @@ public class Answer {
     private Question question;
 
     @OneToMany
-    private List<Comment> comments = new ArrayList<>();
+    private List<AnswerComment> answerComments = new ArrayList<>();
 
     @OneToMany
-    private List<Likes> likes = new ArrayList<>();
+    private List<AnswerLikes> likes = new ArrayList<>();
+
+    @Builder
+    public Answer(String body) {
+        this.body = body;
+    }
 }

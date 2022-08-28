@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.dto.common.CMRequestDto;
+import team.pre004.stackoverflowclone.dto.request.CommentPostDto;
 import team.pre004.stackoverflowclone.dto.request.QuestionPostDto;
 import team.pre004.stackoverflowclone.service.QuestionService;
 
@@ -78,7 +79,9 @@ public class QuestionController {
     }
 
     @PostMapping("/{id}/comments") //게시글 댓글 작성 요청
-    public ResponseEntity addQuestionComment(@PathVariable Long id) {
+    public ResponseEntity addQuestionComment(@PathVariable Long id, @RequestBody CommentPostDto commentPostDto) {
+
+
 
         return new ResponseEntity(HttpStatus.OK);
     }
