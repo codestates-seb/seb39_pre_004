@@ -21,13 +21,16 @@ repositories {
 dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// Annotation Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// Map Struckt
+
+	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
 
 	//Swagger REST API Docs
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
@@ -41,6 +44,7 @@ dependencies {
 
 	//validation Check
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 }
 
 tasks.named('test') {

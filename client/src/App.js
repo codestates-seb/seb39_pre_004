@@ -3,6 +3,7 @@ import CommonLayout from './components/CommonLayout';
 import GlobalStyle from './components/GlobalStyle';
 import AskPage from './pages/AskPage';
 import Mypage from './pages/Mypage';
+import Post from './pages/Post';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <Route path="/login" element={<div>login</div>}></Route>
           <Route path="/ask" element={<AskPage />}></Route>
           <Route path="/users" element={<Mypage />}></Route>
+          <Route path="/questions" element={<Post />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
