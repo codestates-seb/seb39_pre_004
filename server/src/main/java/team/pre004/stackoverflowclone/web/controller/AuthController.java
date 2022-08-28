@@ -1,22 +1,15 @@
 package team.pre004.stackoverflowclone.web.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.pre004.stackoverflowclone.domain.user.Users;
-import team.pre004.stackoverflowclone.domain.user.UsersRepository;
 import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
-import team.pre004.stackoverflowclone.mapper.AuthMapper;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class AuthController {
-
-    private final AuthMapper authMapper;
-    private final UsersRepository usersRepository;
 
 
 
@@ -30,8 +23,6 @@ public class AuthController {
     @PostMapping("/signup") //회원 가입 요청
     public ResponseEntity signUp(@RequestBody SignUpDto signUpDto) {
 
-        Users users = usersRepository.save(authMapper.SignUpDtoToUsers(signUpDto));
-        System.out.println(users);
 
         return new ResponseEntity(HttpStatus.OK);
     }
