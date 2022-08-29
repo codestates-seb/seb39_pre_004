@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Bluebutton from './Bluebutton';
 import ViewContainer from './ViewContainer';
 
@@ -29,7 +30,9 @@ const Question = () => {
       <Header>
         <TitleContainer>
           <H1>{'question title'}</H1>
-          <Bluebutton>Ask Question</Bluebutton>
+          <Link to="/ask">
+            <Bluebutton>Ask Question</Bluebutton>
+          </Link>
         </TitleContainer>
         <div>
           <InfoPost keyword={'Asked'} value={'today'} />
