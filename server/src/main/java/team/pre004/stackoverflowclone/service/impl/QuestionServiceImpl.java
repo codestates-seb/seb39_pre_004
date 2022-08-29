@@ -16,6 +16,7 @@ import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
+import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointItemsExeption;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
 import team.pre004.stackoverflowclone.service.QuestionService;
@@ -47,16 +48,17 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public Question save(QuestionDto questionDto) {
+    public Question save(Question question) {
 
-        return questionRepository.save(questionDto.toEntity());
+
+        return questionRepository.save(question);
     }
 
     @Override
     public Optional<Question> findById(Long id) {
 
         return Optional.ofNullable(questionRepository.findById(id).orElseThrow(
-                () -> new CustomNullPointItemsExeption("해당되는 질문이 없습니다. id : " + id)
+                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         ));
     }
 
@@ -79,12 +81,11 @@ public class QuestionServiceImpl implements QuestionService{
 
         //Todo: 좋아요 버튼 클릭 (좋아요가 없는 경우 좋아요 추가, 있는 경우 취소 / 싫어요가 눌려져 있는 경우 싫어요 취소)
         Question question = questionRepository.findById(questionId).orElseThrow(
-                () -> new CustomNullPointItemsExeption("해당되는 질문이 없습니다. id : " + questionId)
+                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         );
         Users users = usersRepository.findById(userId).orElseThrow(
-                () -> new CustomNullPointUsersException("해당되는 아이디가 없습니다. id : " + userId)
+                () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
         );
-
         Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
         Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);
 
@@ -122,10 +123,10 @@ public class QuestionServiceImpl implements QuestionService{
 
         //Todo: 싫어요 버튼 클릭 (싫어요 가 없는 경우 싫어요  추가, 있는 경우 취소 / 좋아요가 눌려져 있는 경우 좋아요 취소)
         Question question = questionRepository.findById(questionId).orElseThrow(
-                () -> new CustomNullPointItemsExeption("해당되는 질문이 없습니다. id : " + questionId)
+                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         );
         Users users = usersRepository.findById(userId).orElseThrow(
-                () -> new CustomNullPointUsersException("해당되는 아이디가 없습니다. id : " + userId)
+                () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
         );
         Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
         Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);

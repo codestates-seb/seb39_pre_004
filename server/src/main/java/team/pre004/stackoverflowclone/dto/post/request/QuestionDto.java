@@ -9,6 +9,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -17,7 +18,7 @@ import java.util.List;
 public class QuestionDto {
 
     private Users owner;
-    private Long questionId;
+    private Long id;
 
     private String title;
     private String body;
@@ -31,12 +32,12 @@ public class QuestionDto {
     private LocalDateTime createDate;
     private LocalDateTime modDate;
 
-    private List<AnswerDto> answers;
-    private List<QuestionCommentDto> comments;
+    private Set<AnswerDto> answers;
+    private Set<QuestionCommentDto> comments;
 
     @Builder
-    public QuestionDto(Long questionId, String title, String body, int views, List<TagList> tags, String link, List<AnswerDto> answers, List<QuestionCommentDto> comments) {
-        this.questionId = questionId;
+    public QuestionDto(Long id, String title, String body, int views, List<TagList> tags, String link, Set<AnswerDto> answers, Set<QuestionCommentDto> comments) {
+        this.id = id;
         this.title = title;
         this.body = body;
         this.views = views;
@@ -46,15 +47,5 @@ public class QuestionDto {
         this.comments = comments;
     }
 
-    public Question toEntity(){
-        return Question.builder()
-                .owner(owner)
-                .title(title)
-                .body(body)
-                .tags(tags)
-                .build();
-    }
 
-
-    //public Page<QuestionDto> toQuestionPage(List<Question> questions,  )
 }

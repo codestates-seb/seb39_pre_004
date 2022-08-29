@@ -44,8 +44,6 @@ public class Question{
     private String link;
 
 
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Users owner;

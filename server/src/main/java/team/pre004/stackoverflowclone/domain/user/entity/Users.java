@@ -32,6 +32,7 @@ public class Users {
     private String email;
 
 
+    @Column(unique = true, nullable = false)
     private String password;
     private String bio;
 
@@ -47,7 +48,7 @@ public class Users {
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Answer> answers;
 
-    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Question> questions;
 
     @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

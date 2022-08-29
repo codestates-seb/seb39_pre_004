@@ -3,11 +3,14 @@ package team.pre004.stackoverflowclone.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionCommentRepository;
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
+import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.exception.CustomNullPointItemsExeption;
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 
 import java.util.List;
@@ -39,13 +42,16 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
     }
 
     @Override
+    @Transactional
     public QuestionComment save(Long questionId, QuestionCommentDto questionCommentDto) {
 
         QuestionCommentDto comment = QuestionCommentDto
                 .builder()
                 .body(questionCommentDto.getBody())
                 .question(questionRepository.findById(questionId)
-                        .orElseThrow())
+                        .orElseThrow(
+                                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_COMMENT_BODY)
+                        ))
                 .build();
 
         return questionCommentRepository.save(comment.toEntity());
