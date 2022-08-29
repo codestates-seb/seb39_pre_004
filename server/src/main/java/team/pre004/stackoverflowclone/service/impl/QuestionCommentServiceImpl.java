@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.pre004.stackoverflowclone.domain.post.entity.Question;
 import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionCommentRepository;
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
@@ -43,18 +44,11 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 
     @Override
     @Transactional
-    public QuestionComment save(Long questionId, QuestionCommentDto questionCommentDto) {
+    public QuestionComment save(Long questionId, QuestionComment questionComment) {
 
-        QuestionCommentDto comment = QuestionCommentDto
-                .builder()
-                .body(questionCommentDto.getBody())
-                .question(questionRepository.findById(questionId)
-                        .orElseThrow(
-                                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_COMMENT_BODY)
-                        ))
-                .build();
+        QuestionComment comment = questionComment;
 
-        return questionCommentRepository.save(comment.toEntity());
+        return new QuestionComment();
     }
 
     @Override

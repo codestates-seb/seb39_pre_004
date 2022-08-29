@@ -19,14 +19,10 @@ public class QuestionDto {
 
     private Users owner;
     private Long id;
-
     private String title;
     private String body;
-
     private int views;
-
     private List<TagList> tags;
-
     private String link;
 
     private LocalDateTime createDate;

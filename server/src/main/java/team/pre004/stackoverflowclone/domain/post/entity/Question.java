@@ -60,7 +60,7 @@ public class Question{
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<QuestionLikeDown> questionLikeDown;
 
-    @OneToMany
+    @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TagList> tags;
 
     @Builder
@@ -90,6 +90,12 @@ public class Question{
 
     public void undoQuestionLikeDown(QuestionLikeDown questionLikeDown) {
         this.questionLikeDown.remove(questionLikeDown);
+    }
+
+    public void update(String title, String body, List<TagList> tags){
+        this.title = title;
+        this.body = body;
+        this.tags = tags;
     }
 
 

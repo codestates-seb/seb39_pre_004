@@ -12,6 +12,7 @@ public interface QuestionService {
     Page<Question> findAll(Pageable pageable);
     List<Question> findAll();
     Question save(Question question);
+    Question update(Long id, Question question);
     Optional<Question> findById(Long id);
     void deleteById(Long id);
     Integer selectLikeUp(Long userId, Long questionId);

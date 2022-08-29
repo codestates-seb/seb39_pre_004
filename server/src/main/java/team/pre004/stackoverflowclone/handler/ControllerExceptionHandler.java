@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointItemsExeption;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
 
@@ -21,6 +22,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(CustomNullPointItemsExeption.class)
     public ResponseEntity<?> nullPointUserItemsException(CustomNullPointItemsExeption e){
         return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomNotAccessItemsException.class)
+    public ResponseEntity<?> notAccessItemsException(CustomNotAccessItemsException e){
+        return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(), null), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
 }

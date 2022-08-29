@@ -16,6 +16,6 @@ public class Tag {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy ="tag", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TagList> tagLists = new ArrayList<>();
 }

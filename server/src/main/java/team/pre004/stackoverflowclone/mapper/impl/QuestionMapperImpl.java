@@ -27,13 +27,13 @@ public class QuestionMapperImpl implements QuestionMapper {
     @Override
     public Question questionDtoToQuestion(Users users, QuestionDto questionDto) {
 
-        if(questionDto == null){
+        if(questionDto == null)
             throw new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
-        }
 
-        if(users == null){
+
+        if(users == null)
             throw new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID);
-        }
+
 
         return Question.builder()
                 .owner(users)
@@ -45,9 +45,9 @@ public class QuestionMapperImpl implements QuestionMapper {
 
     @Override
     public QuestionInfoDto getQuestionInfo(Question question) {
-        if(question == null){
+        if(question == null)
             throw new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
-        }
+
 
         UserInfoDto userInfo = usersMapper.getUserInfo(question.getOwner());
         Set<Answer> answers = question.getAnswers();

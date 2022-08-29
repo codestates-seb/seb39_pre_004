@@ -13,7 +13,6 @@ public class QuestionCommentInfoDto {
 
     private UserInfoDto owner;
     private String body;
-
     private LocalDateTime createDate;
     private LocalDateTime modDate;
 }

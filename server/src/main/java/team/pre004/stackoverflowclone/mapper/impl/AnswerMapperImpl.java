@@ -19,21 +19,17 @@ public class AnswerMapperImpl implements AnswerMapper {
 
     @Override
     public Set<AnswerInfoDto> answerToAnswerInfoDto(Set<Answer> answers) {
-        Set<AnswerInfoDto> set = new LinkedHashSet<>(answers.size());
+        Set<AnswerInfoDto> answerInfos = new LinkedHashSet<>(answers.size());
         for(Answer answer :answers )
         {
-            set.add(mappingAnswerDto(answer));
+            answerInfos.add(mappingAnswerDto(answer));
         }
-
-        return set;
+        return answerInfos;
     }
 
-
-
     protected AnswerInfoDto mappingAnswerDto(Answer answer) {
-        if (answer == null) {
+        if (answer == null)
             return null;
-        }
 
         return AnswerInfoDto.builder()
                 .owner(usersMapper.getUserInfo(answer.getOwner()))

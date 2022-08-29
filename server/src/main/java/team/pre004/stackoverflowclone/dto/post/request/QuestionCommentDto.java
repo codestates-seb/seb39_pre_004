@@ -15,12 +15,6 @@ public class QuestionCommentDto {
 
     private Question question;
 
-    public QuestionComment toEntity(){
-        return QuestionComment.builder()
-                .body(body)
-                .question(question)
-                .build();
-    }
 
     @Builder
     public QuestionCommentDto(String body, Question question) {

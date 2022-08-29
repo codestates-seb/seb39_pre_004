@@ -48,10 +48,28 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+    @Transactional
     public Question save(Question question) {
 
-
         return questionRepository.save(question);
+    }
+
+    @Override
+    @Transactional
+    public Question update(Long id, Question question) {
+
+        Question updateQuestion = questionRepository.findById(id).orElseThrow(
+                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
+
+        updateQuestion.update(
+                question.getTitle(),
+                question.getBody(),
+                question.getTags()
+        );
+
+        return updateQuestion;
+
     }
 
     @Override
