@@ -1,4 +1,18 @@
+import styled from 'styled-components';
+import Bluebutton from './Bluebutton';
 import ViewContainer from './ViewContainer';
+
+const Header = styled.header`
+  display: flex;
+  flex-direction: column;
+`;
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const H1 = styled.h1`
+  flex: 1;
+`;
 
 const InfoPost = ({ keyword, value }) => {
   return (
@@ -12,14 +26,17 @@ const InfoPost = ({ keyword, value }) => {
 const Question = () => {
   return (
     <>
-      <header>
-        <h2>{'question title'}</h2>
+      <Header>
+        <TitleContainer>
+          <H1>{'question title'}</H1>
+          <Bluebutton>Ask Question</Bluebutton>
+        </TitleContainer>
         <div>
           <InfoPost keyword={'Asked'} value={'today'} />
           <InfoPost keyword={'Modified'} value={'todat'} />
           <InfoPost keyword={'Views'} value={`${5} times`} />
         </div>
-      </header>
+      </Header>
       <ViewContainer isAnswer={false} />
     </>
   );

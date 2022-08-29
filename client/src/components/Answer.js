@@ -1,11 +1,30 @@
+import styled from 'styled-components';
+import BlueButton from './Bluebutton';
 import ViewContainer from './ViewContainer';
+
+const SortMenu = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const SeletContainer = styled.div`
+  display: flex;
+
+  & > :first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .sortTypeContainer {
+  }
+`;
+
 const Answer = () => {
   return (
     <>
       <section className="viewAnswer">
-        <div className="sortMenu">
+        <SortMenu>
           <div>{2} Answers</div>
-          <div>
+          <SeletContainer>
             <div>
               <label htmlFor="answerSort">Sorted by:</label>
               <div>Trending sort available</div>
@@ -21,8 +40,8 @@ const Answer = () => {
                 <option value="oldest">Date created (oldest first)</option>
               </select>
             </div>
-          </div>
-        </div>
+          </SeletContainer>
+        </SortMenu>
         <section className="answersList">
           {/* AnswerList data에 map 적용 예정 */}
           <ViewContainer isAnswer={true} />
@@ -32,7 +51,7 @@ const Answer = () => {
         <h3>Your Answer</h3>
         {/* text editor 컴포넌트 적용 */}
         <div>text editer space</div>
-        <button>Post Your Answer</button>
+        <BlueButton>Post Your Answer</BlueButton>
       </section>
     </>
   );

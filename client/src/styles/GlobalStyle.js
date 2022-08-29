@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;  
     box-sizing: border-box;
   }
-  
+
   body {
     background: #ffffff;
     padding-top: 50px;

@@ -1,13 +1,40 @@
+import styled from 'styled-components';
 import CommentContainer from './CommentContainer';
 
 export const TextButton = ({ text }) => {
   return <button>{text}</button>;
 };
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const Menu = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+const QuestionBody = styled.section`
+  flex: 1;
+`;
+const Div = styled.div`
+  display: flex;
+  justify-content: space-between;
+  .controllButtons {
+    flex-grow: 1;
+  }
+  .userInfoContainer {
+    display: flex;
+    flex-direction: column;
+    .userInfo {
+      display: flex;
+    }
+  }
+`;
+
 const ViewContainer = ({ isAnswer }) => {
   return (
-    <>
-      <section className="menu">
+    <Container>
+      <Menu>
         <i className="fa-solid fa-angle-up"></i>
         {0}
         <i className="fa-solid fa-chevron-down"></i>
@@ -16,16 +43,16 @@ const ViewContainer = ({ isAnswer }) => {
         ) : (
           <i className="fa-solid fa-check"></i>
         )}
-      </section>
-      <section>
+      </Menu>
+      <QuestionBody>
         <div>{'question body'}</div>
         <div>tags</div>
-        <div>
-          <div>
+        <Div>
+          <div className="controllButtons">
             <TextButton text="Edit" />
             <TextButton text="Delete" />
           </div>
-          <div>
+          <div className="userInfoContainer">
             <div>asked {'23 minite ago'}</div>
             <div className="userInfo">
               <div>userImage</div>
@@ -40,10 +67,10 @@ const ViewContainer = ({ isAnswer }) => {
             </div>
             <div>New contributor</div>
           </div>
-        </div>
+        </Div>
         <CommentContainer />
-      </section>
-    </>
+      </QuestionBody>
+    </Container>
   );
 };
 export default ViewContainer;
