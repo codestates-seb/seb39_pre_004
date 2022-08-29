@@ -18,7 +18,6 @@ const HeaderBlock = styled.div`
 
 const FooterBlock = styled.div`
   padding: 10px;
-  border: 1px solid;
   display: flex;
   flex-direction: row;
   background: #232629;
@@ -58,6 +57,7 @@ const ContainerBlock = styled.div`
 const MainBlock = styled.div`
   display: block;
   margin-left: 230px;
+  padding: 20px 0;
   &:first-child {
     width: 100vw;
   }
