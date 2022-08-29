@@ -52,9 +52,7 @@ const ContainerBlock = styled.div`
   width: 100%;
 `;
 
-const MainBlock = styled.div`
-  height: 100vh;
-`;
+const MainBlock = styled.div``;
 
 const ButtonBlock = styled.div`
   button {
