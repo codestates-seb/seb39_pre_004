@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom';
+import Logo from '../assets/images/Logo.png';
 import styled from 'styled-components';
 import BlueButton from './Bluebutton';
 
@@ -44,23 +45,15 @@ const SideBarBlock = styled.div`
   max-height: 100%;
   height: 100vh;
   position: fixed;
-  top: 71px;
+  top: 49px;
 `;
 
 const ContainerBlock = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
 `;
 
 const MainBlock = styled.div`
-  display: block;
-  margin-left: 230px;
-  padding: 20px 0;
-  &:first-child {
-    width: 100vw;
-  }
+  height: 100vh;
 `;
 
 const ButtonBlock = styled.div`
@@ -75,7 +68,7 @@ const CommonLayout = () => {
       <header>
         <HeaderBlock>
           <a href="*">
-            <span>Stack Overflow</span>
+            <img src={Logo} width="150" height="40" alt="" />
           </a>
           <input type="search" />
           <ButtonBlock>

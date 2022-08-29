@@ -1,18 +1,12 @@
-import styled from 'styled-components';
 import SubHeader from '../components/SubHeader';
 import Subtitle from '../components/Subtitle';
 import Input from '../components/Input';
 import Textarea from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
-const Container = styled.div`
-  width: 60%;
-  margin: 0 auto;
-`;
-
-function Ask() {
+const Ask = () => {
   return (
-    <Container>
+    <>
       <SubHeader>Ask a public question</SubHeader>
       <Subtitle>
         Title
@@ -37,8 +31,8 @@ function Ask() {
         placeholder="e.g. &#40;ruby-on-rails.net sql-server&#40;"
       />
       <BlueButton>Post question</BlueButton>
-    </Container>
+    </>
   );
-}
+};
 
 export default Ask;
