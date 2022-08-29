@@ -1,5 +1,5 @@
 package team.pre004.stackoverflowclone.domain.user.entity;
-
+;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -52,10 +52,10 @@ public class Users {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<AnswerLikeUp> likes = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<QuestionLikeUp> questionLikeUpList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<QuestionLikeDown> questionLikeDownList = new ArrayList<>();
 
 

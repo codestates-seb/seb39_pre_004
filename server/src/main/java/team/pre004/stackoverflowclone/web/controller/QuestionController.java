@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import team.pre004.stackoverflowclone.domain.user.entity.Users;
+import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.post.QuestionDto;
 
 import team.pre004.stackoverflowclone.service.QuestionService;
@@ -14,7 +16,16 @@ import team.pre004.stackoverflowclone.service.QuestionService;
 @RequestMapping("/questions")
 public class QuestionController {
 
+    //Test User
+    Users users = Users.builder()
+            .password("1234")
+            .name("ward")
+            .email("ward@ward.com")
+            .bio("와드입니다")
+            .build();
+
     private final QuestionService questionService;
+    private final UsersRepository usersRepository;
     @GetMapping("/add") // 게시글 작성 페이지
     public ResponseEntity getAddQuestionForm() {
 
@@ -24,10 +35,10 @@ public class QuestionController {
     @PostMapping("/add") //게시글 작성 요청
     public ResponseEntity addQuestion(@RequestBody QuestionDto questionDto) {
 
+        questionDto.setOwner(usersRepository.save(users));
 
 
-
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(questionService.save(questionDto), HttpStatus.OK);
     }
 
     @GetMapping("/{id}") // 게시글 조회 페이지
@@ -59,7 +70,7 @@ public class QuestionController {
         Long userId = 1L;
 
         questionService.selectLikeUp(userId,id);
-        
+
         return new ResponseEntity(HttpStatus.OK);
     }
 

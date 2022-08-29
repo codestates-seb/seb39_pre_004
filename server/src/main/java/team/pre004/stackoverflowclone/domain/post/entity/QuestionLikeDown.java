@@ -16,14 +16,12 @@ public class QuestionLikeDown {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionCommentId;
+    private Long questionLikeDownId;
 
     @ManyToOne
-    @JoinColumn(name = "usersId")
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "questionId")
     private Question question;
 
     public void mappingUsers(Users users){

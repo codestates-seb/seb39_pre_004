@@ -1,9 +1,8 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -48,16 +47,16 @@ public class Question{
     @ManyToOne
     private Users owner;
 
-    @OneToMany
+    @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
-    @OneToMany
-    private List<QuestionComment> questionComments = new ArrayList<>();
+    @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<QuestionComment> questionComment = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<QuestionLikeUp> questionLikeUp;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<QuestionLikeDown> questionLikeDown;
 
     @OneToMany

@@ -29,7 +29,6 @@ public class QuestionComment {
     private LocalDateTime modDate;
 
     @ManyToOne
-    @JoinColumn(name = "questionId")
     private Question question;
 
     @Builder

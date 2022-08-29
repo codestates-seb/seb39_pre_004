@@ -1,5 +1,7 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,14 +19,14 @@ public class QuestionLikeUp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionCommentId;
+    private Long questionLikeUpId;
 
     @ManyToOne
-    @JoinColumn(name = "usersId")
+    @JsonIgnore
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "questionId")
+    @JsonIgnore
     private Question question;
 
     public void mappingUsers(Users users){
