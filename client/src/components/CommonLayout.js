@@ -9,20 +9,59 @@ const HeaderBlock = styled.div`
   justify-content: space-between;
   align-items: center;
   background: #f8f9f9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 `;
 
 const FooterBlock = styled.div`
   padding: 10px;
   border: 1px solid;
   display: flex;
+  flex-direction: row;
   background: #232629;
   color: #ffffff;
+  div {
+    width: 100%;
+  }
+  ul {
+    padding: 10px;
+    display: block;
+  }
+  .footer-col {
+    display: flex;
+  }
 `;
 
-const NavBlock = styled.div`
+const SideBarBlock = styled.div`
   padding: 10px;
   background-color: aliceblue;
   border: 1px solid;
+  width: 164px;
+  max-height: 100%;
+`;
+
+const ContainerBlock = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+`;
+
+const MainBlock = styled.div`
+  display: block;
+  margin-left: 50px;
+  &:first-child {
+    width: 100vw;
+  }
+`;
+
+const ButtonBlock = styled.div`
+  button {
+    font-size: 20px;
+    margin: 10px;
+  }
 `;
 
 const CommonLayout = () => {
@@ -34,26 +73,67 @@ const CommonLayout = () => {
             <span>Stack Overflow</span>
           </a>
           <input type="search" />
-          <button>Log in</button>
-          <button>Sign up</button>
+          <ButtonBlock>
+            <button>profile</button>
+            <button>Log in</button>
+            <button>Sign up</button>
+          </ButtonBlock>
         </HeaderBlock>
       </header>
 
-      <div>
+      <ContainerBlock>
         <nav>
-          <NavBlock>nav</NavBlock>
+          <SideBarBlock>
+            <ul>
+              <li>
+                <a href="*">Home</a>
+              </li>
+              <li>
+                <a href="*">Tags</a>
+              </li>
+            </ul>
+          </SideBarBlock>
         </nav>
         <main>
-          <Outlet />
+          <MainBlock>
+            <Outlet />
+          </MainBlock>
         </main>
-      </div>
+      </ContainerBlock>
 
       <footer>
         <FooterBlock>
+          <div>footer logo</div>
+          <div className="footer-col">
+            <div>
+              <ul>
+                <h5>STACK OVERFLOW</h5>
+                <li>Ouestions</li>
+                <li>Help</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <h5>PRODUCTS</h5>
+                <li>Teams</li>
+                <li>Advertising</li>
+                <li>Collectives</li>
+                <li>Talent</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <h5>COMPANY</h5>
+                <li>About</li>
+                <li>Press</li>
+                <li>Work Here</li>
+                <li>Privacy Policy</li>
+              </ul>
+            </div>
+          </div>
           <div>
-            <div>footer logo</div>
-            <div>footer nav</div>
-            <div>footer copyright</div>
+            Site design / logo © 2022 Stack Exchange Inc; user contributions
+            licensed under CC BY-SA. rev 2022.8.26.42925
           </div>
         </FooterBlock>
       </footer>
