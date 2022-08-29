@@ -3,7 +3,7 @@ import Input from '../components/Input';
 import Textarea from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
-const Ask = () => {
+const Edit = () => {
   return (
     <>
       <Subtitle>Title</Subtitle>
@@ -23,4 +23,4 @@ const Ask = () => {
   );
 };
 
-export default Ask;
+export default Edit;
