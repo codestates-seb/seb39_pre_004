@@ -1,7 +1,7 @@
 package team.pre004.stackoverflowclone.service;
 
 import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
-import team.pre004.stackoverflowclone.dto.post.QuestionCommentDto;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 
 import java.util.List;
 import java.util.Optional;

@@ -3,7 +3,7 @@ package team.pre004.stackoverflowclone.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
-import team.pre004.stackoverflowclone.dto.post.QuestionDto;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,8 @@
-package team.pre004.stackoverflowclone.dto.post;
+package team.pre004.stackoverflowclone.dto.post.request;
 
 
+
+import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -7,7 +7,7 @@ import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionCommentRepository;
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
-import team.pre004.stackoverflowclone.dto.post.QuestionCommentDto;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 
 import java.util.List;

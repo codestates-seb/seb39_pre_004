@@ -8,10 +8,10 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
-import team.pre004.stackoverflowclone.dto.post.LikesDto;
+import team.pre004.stackoverflowclone.dto.post.response.LikesDto;
 import team.pre004.stackoverflowclone.dto.post.PostType;
-import team.pre004.stackoverflowclone.dto.post.QuestionCommentDto;
-import team.pre004.stackoverflowclone.dto.post.QuestionDto;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
 
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 import team.pre004.stackoverflowclone.service.QuestionService;

@@ -1,8 +1,7 @@
-package team.pre004.stackoverflowclone.dto.post;
+package team.pre004.stackoverflowclone.dto.post.request;
 
 import lombok.*;
 
-import lombok.extern.slf4j.Slf4j;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
 import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;

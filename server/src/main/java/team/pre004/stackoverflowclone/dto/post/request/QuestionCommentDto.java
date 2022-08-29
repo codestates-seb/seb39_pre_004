@@ -1,4 +1,4 @@
-package team.pre004.stackoverflowclone.dto.post;
+package team.pre004.stackoverflowclone.dto.post.request;
 
 import lombok.Builder;
 import lombok.Data;

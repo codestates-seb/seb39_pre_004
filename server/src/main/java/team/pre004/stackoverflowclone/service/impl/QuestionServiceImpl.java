@@ -15,7 +15,7 @@ import team.pre004.stackoverflowclone.domain.post.repository.QuestionLikeUpRepos
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
-import team.pre004.stackoverflowclone.dto.post.QuestionDto;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointItemsExeption;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
 import team.pre004.stackoverflowclone.service.QuestionService;

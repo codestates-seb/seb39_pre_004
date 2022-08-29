@@ -1,4 +1,4 @@
-package team.pre004.stackoverflowclone.dto.post;
+package team.pre004.stackoverflowclone.dto.post.response;
 
 import lombok.*;
 
@@ -6,13 +6,13 @@ import lombok.*;
 @Setter(AccessLevel.NONE)
 public class UserAccountDto {
 
-    private final Long userId;
+    private Long userId;
     private String image;
     private String name;
     private String email;
     private String password;
     private String bio;
-    private final String link;
+    private String link;
 
     @Builder
     public UserAccountDto(Long userId, String image, String name, String email, String password,  String bio, String link) {
