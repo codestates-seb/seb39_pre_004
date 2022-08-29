@@ -49,15 +49,20 @@ public class QuestionController {
                 .build();
 
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(reponse, HttpStatus.OK);
     }
 
     @GetMapping("/{id}") // 게시글 조회 페이지
     public ResponseEntity getQuestion(@PathVariable Long id) {
 
+        questionService.updateView(id);
 
+        CMRespDto<?> reponse = CMRespDto.builder()
+                .code(ResponseCode.SUCCESS)
+                .data(questionService.findById(id))
+                .build();
 
-        return new ResponseEntity(questionService.findById(id), HttpStatus.OK);
+        return new ResponseEntity(reponse, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/edit") // 게시글 수정 페이지

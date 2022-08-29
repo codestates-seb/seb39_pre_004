@@ -1,4 +1,5 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.CreatedDate;
@@ -30,7 +31,9 @@ public class Question{
     @Column(nullable = false)
     private String body;
 
-    private Integer views = 0;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view;
+
     private Integer likes = 0;
 
     @CreatedDate
@@ -42,7 +45,9 @@ public class Question{
 
 
 
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Users owner;
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

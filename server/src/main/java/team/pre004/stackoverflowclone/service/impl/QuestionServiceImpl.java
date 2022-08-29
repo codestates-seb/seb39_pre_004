@@ -161,7 +161,11 @@ public class QuestionServiceImpl implements QuestionService{
         return question.getLikes();
     }
 
-
+    @Override
+    @Transactional
+    public int updateView(Long id) {
+        return questionRepository.updateView(id);
+    }
 
 
 }

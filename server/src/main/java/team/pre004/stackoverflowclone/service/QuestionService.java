@@ -17,4 +17,6 @@ public interface QuestionService {
     Integer selectLikeUp(Long userId, Long questionId);
     Integer selectLikeDown(Long userId, Long questionId);
 
+    int updateView(Long id);
+
 }
