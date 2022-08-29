@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CommonLayout from './components/CommonLayout';
-import GlobalStyle from './components/GlobalStyle';
+import GlobalStyle from './styles/GlobalStyle';
 import AskPage from './pages/AskPage';
 import Mypage from './pages/Mypage';
 import EditPage from './pages/EditPage';
