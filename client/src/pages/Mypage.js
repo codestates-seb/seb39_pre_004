@@ -5,11 +5,6 @@ import Input from '../components/Input';
 import Textarea from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
-const Container = styled.div`
-  width: 60%;
-  margin: 0 auto;
-`;
-
 const Profile = styled.div`
   display: flex;
 `;
@@ -43,9 +38,9 @@ const ProfileEdit = styled.div`
   border-radius: 3px;
 `;
 
-function Ask() {
+const Users = () => {
   return (
-    <Container>
+    <>
       <Profile>
         <ProfileImage></ProfileImage>
         <UserInfo>
@@ -66,8 +61,8 @@ function Ask() {
         <Textarea placeholder="More info about your question. You can use markdown here" />
       </ProfileEdit>
       <BlueButton>Save profile</BlueButton>
-    </Container>
+    </>
   );
-}
+};
 
-export default Ask;
+export default Users;

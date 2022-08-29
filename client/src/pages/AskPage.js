@@ -33,6 +33,6 @@ const Ask = () => {
       <BlueButton>Post question</BlueButton>
     </>
   );
-}
+};
 
 export default Ask;
