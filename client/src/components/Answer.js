@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import BlueButton from './Bluebutton';
 import ViewContainer from './ViewContainer';
 
 const SortMenu = styled.div`
@@ -50,7 +51,7 @@ const Answer = () => {
         <h3>Your Answer</h3>
         {/* text editor 컴포넌트 적용 */}
         <div>text editer space</div>
-        <button>Post Your Answer</button>
+        <BlueButton>Post Your Answer</BlueButton>
       </section>
     </>
   );
