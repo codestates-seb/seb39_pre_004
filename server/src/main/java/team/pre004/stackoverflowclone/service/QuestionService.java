@@ -10,15 +10,11 @@ import java.util.Optional;
 
 public interface QuestionService {
     Page<Question> findAll(Pageable pageable);
-
     List<Question> findAll();
     Question save(QuestionDto questionDto);
-
     Optional<Question> findById(Long id);
-
-    void deleteById(Long questionId);
-
-    void selectLikeUp(Long userId, Long questionId);
-    void selectLikeDown(Long userId, Long questionId);
+    void deleteById(Long id);
+    Integer selectLikeUp(Long userId, Long questionId);
+    Integer selectLikeDown(Long userId, Long questionId);
 
 }

@@ -18,5 +18,5 @@ public class AnswerDto {
     private LocalDateTime createDate;
     private LocalDateTime modDate;
 
-    private List<CommentDto> commets;
+    private List<QuestionCommentDto> commets;
 }

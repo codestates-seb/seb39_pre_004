@@ -57,12 +57,12 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public void deleteById(Long questionId) {
+    public void deleteById(Long id) {
         //Todo: 해당 게시판을 삭제합니다.
         try {
-            questionRepository.deleteById(questionId);
+            questionRepository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
-            log.info("해당하는 게시물이 없습니다 id : " + questionId , ex);
+            log.info("해당하는 게시물이 없습니다 id : " + id , ex);
         }
     }
 
@@ -70,7 +70,7 @@ public class QuestionServiceImpl implements QuestionService{
     //좋아요 버튼 관련 Service
 
     @Override
-    public void selectLikeUp(Long userId, Long questionId) {
+    public Integer selectLikeUp(Long userId, Long questionId) {
 
         //Todo: 좋아요 버튼 클릭 (좋아요가 없는 경우 좋아요 추가, 있는 경우 취소 / 싫어요가 눌려져 있는 경우 싫어요 취소)
         Question question = questionRepository.findById(questionId).orElseThrow();
@@ -92,7 +92,7 @@ public class QuestionServiceImpl implements QuestionService{
         //해당 질문에 좋아요 버튼이 눌려져 있는 경우
         byQuestionAndUsersLikeUp.ifPresentOrElse(
                 questionLikeUp -> { //좋아요 취소
-                    questionLikeUpRepository.delete(questionLikeUp);
+                    questionLikeUpRepository.delete(questionLikeUp); //
                     question.undoQuestionLikeUp(questionLikeUp);
                     question.updateLikeCount();
                 },
@@ -108,10 +108,12 @@ public class QuestionServiceImpl implements QuestionService{
                 }
 
         );
+
+        return question.getLikes();
     }
 
     @Override
-    public void selectLikeDown(Long userId, Long questionId) {
+    public Integer selectLikeDown(Long userId, Long questionId) {
 
         //Todo: 싫어요 버튼 클릭 (싫어요 가 없는 경우 싫어요  추가, 있는 경우 취소 / 좋아요가 눌려져 있는 경우 좋아요 취소)
         Question question = questionRepository.getReferenceById(questionId);
@@ -147,6 +149,10 @@ public class QuestionServiceImpl implements QuestionService{
 
         );
 
+        return question.getLikes();
     }
+
+
+
 
 }

@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,10 +30,12 @@ public class QuestionComment {
     private LocalDateTime modDate;
 
     @ManyToOne
+    @JsonIgnore
     private Question question;
 
     @Builder
-    public QuestionComment(String body) {
+    public QuestionComment(String body, Question question) {
         this.body = body;
+        this.question = question;
     }
 }

@@ -3,15 +3,12 @@ package team.pre004.stackoverflowclone.dto.post;
 import lombok.*;
 
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
-import team.pre004.stackoverflowclone.domain.post.entity.QuestionLikeUp;
 import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 
-import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,10 +31,10 @@ public class QuestionDto {
     private LocalDateTime modDate;
 
     private List<AnswerDto> answers;
-    private List<CommentDto> comments;
+    private List<QuestionCommentDto> comments;
 
     @Builder
-    public QuestionDto(Long questionId, String title, String body, int views, List<TagList> tags, String link, List<AnswerDto> answers, List<CommentDto> comments) {
+    public QuestionDto(Long questionId, String title, String body, int views, List<TagList> tags, String link, List<AnswerDto> answers, List<QuestionCommentDto> comments) {
         this.questionId = questionId;
         this.title = title;
         this.body = body;

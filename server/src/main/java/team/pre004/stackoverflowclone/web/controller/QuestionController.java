@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
+import team.pre004.stackoverflowclone.dto.post.QuestionCommentDto;
 import team.pre004.stackoverflowclone.dto.post.QuestionDto;
 
+import team.pre004.stackoverflowclone.service.QuestionCommentService;
 import team.pre004.stackoverflowclone.service.QuestionService;
 
 
@@ -25,6 +28,7 @@ public class QuestionController {
             .build();
 
     private final QuestionService questionService;
+    private final QuestionCommentService questionCommentService;
     private final UsersRepository usersRepository;
     @GetMapping("/add") // 게시글 작성 페이지
     public ResponseEntity getAddQuestionForm() {
@@ -93,10 +97,11 @@ public class QuestionController {
     }
 
     @PostMapping("/{id}/comments") //게시글 댓글 작성 요청
-    public ResponseEntity addQuestionComment(@PathVariable Long id) {
+    public ResponseEntity addQuestionComment(@PathVariable Long id, @RequestBody QuestionCommentDto questionCommentDto) {
 
 
-        return new ResponseEntity(HttpStatus.OK);
+
+        return new ResponseEntity(questionCommentService.save(id, questionCommentDto), HttpStatus.OK);
     }
 
     @PutMapping("/{id}/comments/{commentId}") //게시글 댓글 수정 요청

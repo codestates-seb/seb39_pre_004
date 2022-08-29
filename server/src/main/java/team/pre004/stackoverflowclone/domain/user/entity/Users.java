@@ -14,6 +14,7 @@ import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @NoArgsConstructor
@@ -50,13 +51,13 @@ public class Users {
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<AnswerLikeUp> likes = new ArrayList<>();
+    private Set<AnswerLikeUp> likes;
 
     @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<QuestionLikeUp> questionLikeUpList = new ArrayList<>();
+    private Set<QuestionLikeUp> questionLikeUpList;
 
     @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<QuestionLikeDown> questionLikeDownList = new ArrayList<>();
+    private Set<QuestionLikeDown> questionLikeDownList;
 
 
 

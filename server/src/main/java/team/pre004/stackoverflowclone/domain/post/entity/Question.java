@@ -1,7 +1,4 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,7 +8,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Set;
 
@@ -32,8 +29,8 @@ public class Question{
     @Column(nullable = false)
     private String body;
 
-    private int views = 0;
-    private int likes = 0;
+    private Integer views = 0;
+    private Integer likes = 0;
 
     @CreatedDate
     private LocalDateTime createDate;
@@ -48,16 +45,16 @@ public class Question{
     private Users owner;
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Answer> answers = new ArrayList<>();
+    private Set<Answer> answers;
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<QuestionComment> questionComment = new ArrayList<>();
+    private Set<QuestionComment> questionComment;
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<QuestionLikeUp> questionLikeUp;
+    private Set<QuestionLikeUp> questionLikeUp;
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<QuestionLikeDown> questionLikeDown;
+    private Set<QuestionLikeDown> questionLikeDown;
 
     @OneToMany
     private List<TagList> tags;
