@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import CommentContainer from './CommentContainer';
 
 export const TextButton = ({ text }) => {
@@ -49,8 +50,12 @@ const ViewContainer = ({ isAnswer }) => {
         <div>tags</div>
         <Div>
           <div className="controllButtons">
-            <TextButton text="Edit" />
-            <TextButton text="Delete" />
+            <Link to="/edit">
+              <TextButton text="Edit" />
+            </Link>
+            <Link to="/">
+              <TextButton text="Delete" />
+            </Link>
           </div>
           <div className="userInfoContainer">
             <div>asked {'23 minite ago'}</div>
