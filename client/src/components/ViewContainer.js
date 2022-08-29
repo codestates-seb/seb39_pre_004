@@ -50,12 +50,21 @@ const ViewContainer = ({ isAnswer }) => {
         <div>tags</div>
         <Div>
           <div className="controllButtons">
-            <Link to="/edit">
-              <TextButton text="Edit" />
-            </Link>
-            <Link to="/">
-              <TextButton text="Delete" />
-            </Link>
+            {!isAnswer ? (
+              <>
+                <Link to="/edit">
+                  <TextButton text="Edit" />
+                </Link>
+                <Link to="/">
+                  <TextButton text="Delete" />
+                </Link>
+              </>
+            ) : (
+              <>
+                <TextButton text="Edit" />
+                <TextButton text="Delete" />
+              </>
+            )}
           </div>
           <div className="userInfoContainer">
             <div>asked {'23 minite ago'}</div>
