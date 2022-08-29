@@ -5,7 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
-import team.pre004.stackoverflowclone.domain.post.entity.AnswerLikes;
+import team.pre004.stackoverflowclone.domain.post.entity.AnswerLikeUp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -48,7 +48,7 @@ public class Users {
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany
-    private List<AnswerLikes> likes = new ArrayList<>();
+    private List<AnswerLikeUp> likes = new ArrayList<>();
 
     @Builder
     public Users(String name, String email, String password, String bio, String link, String image) {

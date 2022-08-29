@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Entity
@@ -42,7 +43,7 @@ public class Question{
     private String link;
 
     @ManyToOne
-    private Users users;
+    private Users owner;
 
     @OneToMany
     private List<Answer> answers = new ArrayList<>();
@@ -51,16 +52,20 @@ public class Question{
     private List<QuestionComment> questionComments = new ArrayList<>();
 
     @OneToMany
-    private List<QuestionLikes> questionLikes = new ArrayList<>();
+    private Set<QuestionLikeUp> questionLikeUp;
 
     @OneToMany
-    private List<TagList> tagLists = new ArrayList<>();
+    private Set<QuestionLikeUp> questionLikeDown;
+
+    @OneToMany
+    private Set<TagList> tags;
 
     @Builder
-    public Question(String title, String body, String link, List<TagList> tagLists) {
+    public Question(String title, String body, String link, Set<TagList> tags, Users owner) {
         this.title = title;
         this.body = body;
         this.link = link;
-        this.tagLists = tagLists;
+        this.tags = tags;
+        this.owner = owner;
     }
 }

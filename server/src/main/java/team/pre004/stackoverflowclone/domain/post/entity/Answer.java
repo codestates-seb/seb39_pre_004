@@ -4,12 +4,12 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,12 +34,19 @@ public class Answer {
     private LocalDateTime modDate;
 
     @ManyToOne
-    private Users users;
+    private Users owner;
 
     @ManyToOne
     private Question question;
 
+    @OneToMany
+    private Set<AnswerLikeUp> answerLikeUp;
 
+    @OneToMany
+    private Set<AnswerLikeUp> answerLikeDown;
+
+    @OneToMany
+    private Set<TagList> tagLists;
 
     @Builder
     public Answer(String body) {

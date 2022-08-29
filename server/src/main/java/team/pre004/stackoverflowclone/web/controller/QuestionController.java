@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import team.pre004.stackoverflowclone.dto.post.QuestionPostDto;
 import team.pre004.stackoverflowclone.service.QuestionService;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -13,17 +14,16 @@ import team.pre004.stackoverflowclone.service.QuestionService;
 public class QuestionController {
 
     private final QuestionService questionService;
-
     @GetMapping("/add") // 게시글 작성 페이지
     public ResponseEntity getAddQuestionForm() {
-
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/add") //게시글 작성 요청
-    public ResponseEntity addQuestion() {
+    public ResponseEntity addQuestion(@RequestBody QuestionPostDto postDto) {
 
+        questionService.create(postDto);
 
         return new ResponseEntity(HttpStatus.OK);
     }

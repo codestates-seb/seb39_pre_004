@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class AnswerLikes {
+public class AnswerLikeUp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
