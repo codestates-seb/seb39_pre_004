@@ -9,6 +9,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -46,7 +47,7 @@ public class Answer {
     private Set<AnswerLikeUp> answerLikeDown;
 
     @OneToMany
-    private Set<TagList> tagLists;
+    private List<TagList> tags;
 
     @Builder
     public Answer(String body) {

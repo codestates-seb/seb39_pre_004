@@ -34,6 +34,7 @@ public class Question{
     private String body;
 
     private int views = 0;
+    private int likes = 0;
 
     @CreatedDate
     private LocalDateTime createDate;
@@ -41,6 +42,8 @@ public class Question{
     private LocalDateTime modDate;
 
     private String link;
+
+
 
     @ManyToOne
     private Users owner;
@@ -51,21 +54,44 @@ public class Question{
     @OneToMany
     private List<QuestionComment> questionComments = new ArrayList<>();
 
-    @OneToMany
-    private Set<QuestionLikeUp> questionLikeUp;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<QuestionLikeUp> questionLikeUp;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<QuestionLikeDown> questionLikeDown;
 
     @OneToMany
-    private Set<QuestionLikeUp> questionLikeDown;
-
-    @OneToMany
-    private Set<TagList> tags;
+    private List<TagList> tags;
 
     @Builder
-    public Question(String title, String body, String link, Set<TagList> tags, Users owner) {
+    public Question(String title, String body, String link, List<TagList> tags, Users owner) {
         this.title = title;
         this.body = body;
         this.link = link;
         this.tags = tags;
         this.owner = owner;
     }
+
+    public void mappingQuestionLikeUp(QuestionLikeUp questionLikeUp) {
+        this.questionLikeUp.add(questionLikeUp);
+    }
+
+    public void mappingQuestionLikeDown(QuestionLikeDown questionLikeDown) {
+        this.questionLikeDown.add(questionLikeDown);
+    }
+
+    public void updateLikeCount() {
+        this.likes = this.questionLikeUp.size() + this.questionLikeDown.size();
+    }
+
+    public void undoQuestionLikeUp(QuestionLikeUp questionLikeUp) {
+        this.questionLikeUp.remove(questionLikeUp);
+    }
+
+    public void undoQuestionLikeDown(QuestionLikeDown questionLikeDown) {
+        this.questionLikeDown.remove(questionLikeDown);
+    }
+
+
+
 }

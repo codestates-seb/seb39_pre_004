@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.pre004.stackoverflowclone.dto.post.QuestionPostDto;
+import team.pre004.stackoverflowclone.dto.post.QuestionDto;
+
 import team.pre004.stackoverflowclone.service.QuestionService;
 
 
@@ -21,9 +22,10 @@ public class QuestionController {
     }
 
     @PostMapping("/add") //게시글 작성 요청
-    public ResponseEntity addQuestion(@RequestBody QuestionPostDto postDto) {
+    public ResponseEntity addQuestion(@RequestBody QuestionDto questionDto) {
 
-        questionService.create(postDto);
+
+
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -54,7 +56,10 @@ public class QuestionController {
 
     @PostMapping("/{id}/likes-up") // 게시글 좋아요 요청
     public ResponseEntity upQuestionLike(@PathVariable Long id) {
+        Long userId = 1L;
 
+        questionService.selectLikeUp(userId,id);
+        
         return new ResponseEntity(HttpStatus.OK);
     }
 

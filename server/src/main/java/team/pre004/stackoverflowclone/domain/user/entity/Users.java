@@ -6,6 +6,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.AnswerLikeUp;
+import team.pre004.stackoverflowclone.domain.post.entity.QuestionLikeDown;
+import team.pre004.stackoverflowclone.domain.post.entity.QuestionLikeUp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -47,8 +49,17 @@ public class Users {
     @OneToMany
     private List<Answer> answers = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<AnswerLikeUp> likes = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<QuestionLikeUp> questionLikeUpList = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<QuestionLikeDown> questionLikeDownList = new ArrayList<>();
+
+
+
 
     @Builder
     public Users(String name, String email, String password, String bio, String link, String image) {
@@ -59,4 +70,13 @@ public class Users {
         this.link = link;
         this.image = image;
     }
+
+    public void mappingQuestionLikeUp(QuestionLikeUp questionLikeUp){
+        this.questionLikeUpList.add(questionLikeUp);
+    }
+
+    public void mappingQuestionLikeDown(QuestionLikeDown questionLikeDown){
+        this.questionLikeDownList.add(questionLikeDown);
+    }
+
 }
