@@ -1,25 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
 import CommonLayout from './components/CommonLayout';
-import GlobalStyle from './components/GlobalStyle';
+import GlobalStyle from './styles/GlobalStyle';
 import AskPage from './pages/AskPage';
 import Mypage from './pages/Mypage';
 import EditPage from './pages/EditPage';
 import Post from './pages/Post';
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    background: #ffffff;
-    padding-top: 70px;
-  }
-
-  * {
-    list-style: none;
-    text-decoration: none;
-    margin: 0;
-    padding: 0;
-  }
-`;
 
 const App = () => {
   return (
