@@ -26,6 +26,8 @@ public class Answer {
     @Column(nullable = false)
     private String body;
 
+    private Integer likes = 0;
+
     @Column(nullable = false)
     private boolean isAccepted;
 
@@ -40,11 +42,11 @@ public class Answer {
     @ManyToOne
     private Question question;
 
-    @OneToMany
+    @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeUp> answerLikeUp;
 
-    @OneToMany
-    private Set<AnswerLikeUp> answerLikeDown;
+    @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerLikeDown> answerLikeDown;
 
     @OneToMany
     private List<TagList> tags;
@@ -53,4 +55,26 @@ public class Answer {
     public Answer(String body) {
         this.body = body;
     }
+
+
+    public void mappingAnswerLikeUp(AnswerLikeUp answerLikeUp) {
+        this.answerLikeUp.add(answerLikeUp);
+    }
+
+    public void mappingAnswerLikeDown(AnswerLikeDown answerLikeDown) {
+        this.answerLikeDown.add(answerLikeDown);
+    }
+
+    public void updateLikeCount() {
+        this.likes = this.answerLikeUp.size() + this.answerLikeDown.size();
+    }
+
+    public void undoAnswerLikeUp(AnswerLikeUp answerLikeUp) {
+        this.answerLikeUp.remove(answerLikeUp);
+    }
+
+    public void undoAnswerLikeDown(AnswerLikeDown answerLikeDown) {
+        this.answerLikeDown.remove(answerLikeDown);
+    }
+
 }

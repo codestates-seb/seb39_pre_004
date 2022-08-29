@@ -16,6 +16,8 @@ import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.post.QuestionDto;
+import team.pre004.stackoverflowclone.handler.exception.CustomNullPointItemsExeption;
+import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
 import team.pre004.stackoverflowclone.service.QuestionService;
 
 import java.util.List;
@@ -53,7 +55,9 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public Optional<Question> findById(Long id) {
 
-        return questionRepository.findById(id);
+        return Optional.ofNullable(questionRepository.findById(id).orElseThrow(
+                () -> new CustomNullPointItemsExeption("해당되는 질문이 없습니다. id : " + id)
+        ));
     }
 
     @Override
@@ -70,11 +74,16 @@ public class QuestionServiceImpl implements QuestionService{
     //좋아요 버튼 관련 Service
 
     @Override
+    @Transactional
     public Integer selectLikeUp(Long userId, Long questionId) {
 
         //Todo: 좋아요 버튼 클릭 (좋아요가 없는 경우 좋아요 추가, 있는 경우 취소 / 싫어요가 눌려져 있는 경우 싫어요 취소)
-        Question question = questionRepository.findById(questionId).orElseThrow();
-        Users users = usersRepository.findById(questionId).orElseThrow();
+        Question question = questionRepository.findById(questionId).orElseThrow(
+                () -> new CustomNullPointItemsExeption("해당되는 질문이 없습니다. id : " + questionId)
+        );
+        Users users = usersRepository.findById(userId).orElseThrow(
+                () -> new CustomNullPointUsersException("해당되는 아이디가 없습니다. id : " + userId)
+        );
 
         Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
         Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);
@@ -88,37 +97,36 @@ public class QuestionServiceImpl implements QuestionService{
         );
 
 
-
-        //해당 질문에 좋아요 버튼이 눌려져 있는 경우
-        byQuestionAndUsersLikeUp.ifPresentOrElse(
+        byQuestionAndUsersLikeUp.ifPresentOrElse(//해당 질문에 좋아요 버튼이 눌려져 있는 경우
                 questionLikeUp -> { //좋아요 취소
                     questionLikeUpRepository.delete(questionLikeUp); //
                     question.undoQuestionLikeUp(questionLikeUp);
-                    question.updateLikeCount();
                 },
                 () -> { //좋아요 추가
                    QuestionLikeUp questionLikeUp = QuestionLikeUp.builder().build();
-
                     questionLikeUp.mappingQuestion(question);
                     questionLikeUp.mappingUsers(users);
-                    question.updateLikeCount();
-
                     questionLikeUpRepository.save(questionLikeUp);
 
                 }
 
         );
 
+        question.updateLikeCount();
         return question.getLikes();
     }
 
     @Override
+    @Transactional
     public Integer selectLikeDown(Long userId, Long questionId) {
 
         //Todo: 싫어요 버튼 클릭 (싫어요 가 없는 경우 싫어요  추가, 있는 경우 취소 / 좋아요가 눌려져 있는 경우 좋아요 취소)
-        Question question = questionRepository.getReferenceById(questionId);
-        Users users = usersRepository.getReferenceById(userId);
-
+        Question question = questionRepository.findById(questionId).orElseThrow(
+                () -> new CustomNullPointItemsExeption("해당되는 질문이 없습니다. id : " + questionId)
+        );
+        Users users = usersRepository.findById(userId).orElseThrow(
+                () -> new CustomNullPointUsersException("해당되는 아이디가 없습니다. id : " + userId)
+        );
         Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
         Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);
 
@@ -141,7 +149,7 @@ public class QuestionServiceImpl implements QuestionService{
 
                     questionLikeDown.mappingQuestion(question);
                     questionLikeDown.mappingUsers(users);
-                    question.updateLikeCount();
+
 
                     questionLikeDownRepository.save(questionLikeDown);
 
@@ -149,6 +157,7 @@ public class QuestionServiceImpl implements QuestionService{
 
         );
 
+        question.updateLikeCount();
         return question.getLikes();
     }
 

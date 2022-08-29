@@ -19,7 +19,7 @@ public class QuestionLikeUp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionLikeUpId;
+    private Long id;
 
     @ManyToOne
     @JsonIgnore

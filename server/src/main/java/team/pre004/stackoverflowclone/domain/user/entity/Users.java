@@ -4,10 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import team.pre004.stackoverflowclone.domain.post.entity.Answer;
-import team.pre004.stackoverflowclone.domain.post.entity.AnswerLikeUp;
-import team.pre004.stackoverflowclone.domain.post.entity.QuestionLikeDown;
-import team.pre004.stackoverflowclone.domain.post.entity.QuestionLikeUp;
+import team.pre004.stackoverflowclone.domain.post.entity.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -25,7 +22,7 @@ import java.util.Set;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long usersId;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String name;
@@ -47,19 +44,23 @@ public class Users {
     @LastModifiedDate
     private LocalDateTime modDate;
 
-    @OneToMany
-    private List<Answer> answers = new ArrayList<>();
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Answer> answers;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerLikeUp> likes;
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Question> questions;
+
+    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerLikeUp> answerLikeUpList;
+
+    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerLikeDown> answerLikeDownList;
 
     @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<QuestionLikeUp> questionLikeUpList;
 
     @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<QuestionLikeDown> questionLikeDownList;
-
-
 
 
     @Builder
@@ -78,6 +79,14 @@ public class Users {
 
     public void mappingQuestionLikeDown(QuestionLikeDown questionLikeDown){
         this.questionLikeDownList.add(questionLikeDown);
+    }
+
+    public void mappingAnswerLikeUp(AnswerLikeUp answerLikeUp){
+        this.answerLikeUpList.add(answerLikeUp);
+    }
+
+    public void mappingAnswerLikeDown(AnswerLikeDown answerLikeDown){
+        this.answerLikeDownList.add(answerLikeDown);
     }
 
 }

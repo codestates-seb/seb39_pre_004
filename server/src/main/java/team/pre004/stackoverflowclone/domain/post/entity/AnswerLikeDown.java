@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,10 +18,20 @@ public class AnswerLikeDown {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name ="usersId")
+    @JsonIgnore
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "answerId")
+    @JsonIgnore
     private Answer answer;
+
+    public void mappingUsers(Users users){
+        this.users = users;
+        users.mappingAnswerLikeDown(this);
+    }
+
+    public void mappingQuestion(Answer answer){
+        this.answer = answer;
+        answer.mappingAnswerLikeDown(this);
+    }
 }

@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +31,7 @@ public class AnswerComment {
     private LocalDateTime modDate;
 
     @ManyToOne
-    @JoinColumn(name = "answerId")
+    @JsonIgnore
     private Answer answer;
 
 
