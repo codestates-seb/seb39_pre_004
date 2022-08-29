@@ -1,23 +1,11 @@
-import styled from 'styled-components';
 import Subtitle from '../components/Subtitle';
 import Input from '../components/Input';
 import Textarea from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
-const Container = styled.div`
-  width: 60%;
-  margin: 0 auto;
-  p {
-    margin: 0;
-    color: #555;
-    font-size: 12px;
-    font-weight: normal;
-  }
-`;
-
 function Ask() {
   return (
-    <Container>
+    <>
       <Subtitle>Title</Subtitle>
       <Input
         type="text"
@@ -31,7 +19,7 @@ function Ask() {
         placeholder="e.g. &#40;ruby-on-rails.net sql-server)"
       />
       <BlueButton>Save edits</BlueButton>
-    </Container>
+    </>
   );
 }
 

@@ -7,13 +7,13 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     margin: 0;
     padding: 0;  
+    box-sizing: border-box;
   }
   
   body {
     background: #ffffff;
-    padding-top: 70px;
+    padding-top: 50px;
     font-family: 'Roboto', sans-serif;
-    box-sizing: border-box;
   }
 
   h1 {
@@ -29,6 +29,11 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     cursor: pointer;
+  }
+
+  main{
+    padding: 30px;
+    margin-left: 164px;
   }
 `;
 
