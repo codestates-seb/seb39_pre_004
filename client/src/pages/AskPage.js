@@ -4,7 +4,7 @@ import Input from '../components/Input';
 import Textarea from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
-function Ask() {
+const Ask = () => {
   return (
     <>
       <SubHeader>Ask a public question</SubHeader>
