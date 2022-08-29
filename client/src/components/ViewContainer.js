@@ -16,10 +16,10 @@ const Menu = styled.section`
 const QuestionBody = styled.section`
   flex: 1;
 `;
-const ControllContainer = styled.div`
+const Div = styled.div`
   display: flex;
   justify-content: space-between;
-  .contollSection {
+  .controllButtons {
     flex-grow: 1;
   }
   .userInfoContainer {
@@ -47,8 +47,8 @@ const ViewContainer = ({ isAnswer }) => {
       <QuestionBody>
         <div>{'question body'}</div>
         <div>tags</div>
-        <ControllContainer>
-          <div className="contollSection">
+        <Div>
+          <div className="controllButtons">
             <TextButton text="Edit" />
             <TextButton text="Delete" />
           </div>
@@ -67,7 +67,7 @@ const ViewContainer = ({ isAnswer }) => {
             </div>
             <div>New contributor</div>
           </div>
-        </ControllContainer>
+        </Div>
         <CommentContainer />
       </QuestionBody>
     </Container>
