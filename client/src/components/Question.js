@@ -13,7 +13,10 @@ const Question = () => {
   return (
     <>
       <header>
-        <h2>{'question title'}</h2>
+        <div className="titleContainer">
+          <h2>{'question title'}</h2>
+          <button>Ask Question</button>
+        </div>
         <div>
           <InfoPost keyword={'Asked'} value={'today'} />
           <InfoPost keyword={'Modified'} value={'todat'} />

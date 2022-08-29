@@ -6,7 +6,6 @@ const Post = () => {
     <main>
       <Question />
       <Answer />
-      <button>Ask Question</button>
     </main>
   );
 };
