@@ -34,7 +34,7 @@ function Ask() {
       <Subtitle>Tags</Subtitle>
       <Input
         type="text"
-        placeholder="e.g. &#40;ruby-on-rails.net sql-server)"
+        placeholder="e.g. &#40;ruby-on-rails.net sql-server&#40;"
       />
       <BlueButton>Post question</BlueButton>
     </Container>
