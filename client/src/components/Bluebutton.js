@@ -4,8 +4,8 @@ const BlueButton = styled.button`
   background-color: #0a95ff;
   color: #fff;
   border: 0;
-  border-radius: 5px;
-  padding: 12px 20px;
+  border-radius: 3px;
+  padding: 10px;
   text-decoration: none;
   font-size: 0.8rem;
 `;
