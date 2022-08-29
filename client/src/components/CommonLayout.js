@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
+import BlueButton from './Bluebutton';
 
 const HeaderBlock = styled.div`
   padding: 10px;
@@ -22,6 +23,8 @@ const FooterBlock = styled.div`
   flex-direction: row;
   background: #232629;
   color: #ffffff;
+  position: absolute;
+  width: 100vw;
   div {
     width: 100%;
   }
@@ -36,10 +39,13 @@ const FooterBlock = styled.div`
 
 const SideBarBlock = styled.div`
   padding: 10px;
-  background-color: aliceblue;
+  background-color: #ffffff;
   border: 1px solid;
   width: 164px;
   max-height: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 71px;
 `;
 
 const ContainerBlock = styled.div`
@@ -51,7 +57,7 @@ const ContainerBlock = styled.div`
 
 const MainBlock = styled.div`
   display: block;
-  margin-left: 50px;
+  margin-left: 230px;
   &:first-child {
     width: 100vw;
   }
@@ -59,7 +65,6 @@ const MainBlock = styled.div`
 
 const ButtonBlock = styled.div`
   button {
-    font-size: 20px;
     margin: 10px;
   }
 `;
@@ -74,9 +79,9 @@ const CommonLayout = () => {
           </a>
           <input type="search" />
           <ButtonBlock>
-            <button>profile</button>
-            <button>Log in</button>
-            <button>Sign up</button>
+            <BlueButton>profile</BlueButton>
+            <BlueButton>Log in</BlueButton>
+            <BlueButton>Sign up</BlueButton>
           </ButtonBlock>
         </HeaderBlock>
       </header>

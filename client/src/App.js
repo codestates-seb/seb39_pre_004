@@ -8,7 +8,6 @@ import Post from './pages/Post';
 const GlobalStyle = createGlobalStyle`
   body {
     background: #ffffff;
-    overflow-y: scroll;
     padding-top: 70px;
   }
 
