@@ -15,19 +15,21 @@ public class AnswerLikeDown {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long answerLikeDownId;
 
     @ManyToOne
     @JsonIgnore
-    private Users users;
+    @JoinColumn(name = "ownerId")
+    private Users owner;
 
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "answerId")
     private Answer answer;
 
-    public void mappingUsers(Users users){
-        this.users = users;
-        users.mappingAnswerLikeDown(this);
+    public void mappingUsers(Users owner){
+        this.owner = owner;
+        owner.mappingAnswerLikeDown(this);
     }
 
     public void mappingQuestion(Answer answer){

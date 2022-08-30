@@ -25,8 +25,6 @@ import team.pre004.stackoverflowclone.service.QuestionCommentService;
 import team.pre004.stackoverflowclone.service.QuestionService;
 import team.pre004.stackoverflowclone.web.config.auth.PrincipalDetails;
 
-import java.net.URI;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -78,7 +76,7 @@ public class QuestionController {
         );
 
         //Todo : 작성한 질문 아이디의 조회 페이지로 리다이렉션을 합니다.
-        return new ResponseEntity<>(commonService.redirect("/questions/" + question.getId()), HttpStatus.MOVED_PERMANENTLY);
+        return new ResponseEntity<>(commonService.redirect("/questions/" + question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
     }
 
     @GetMapping("/{id}") // 게시글 조회 페이지
@@ -124,13 +122,13 @@ public class QuestionController {
         if (questionService.findById(id).isEmpty()) //해당 게시물이 없을 때 에러메세지
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
 
-        if (principalDetails.getUsers().getId() != id) //접근 유저가 아닐경우
+        if (principalDetails.getUsers().getOwnerId() != id) //접근 유저가 아닐경우
             throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_QUESTION);
 
         Question question = questionService.update(id, questionMapper.questionDtoToQuestion(principalDetails.getUsers(), questionDto));
 
 
-        return new ResponseEntity<>(commonService.redirect("/questions/" + question.getId()), HttpStatus.MOVED_PERMANENTLY);
+        return new ResponseEntity<>(commonService.redirect("/questions/" + question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
     }
 
     @DeleteMapping("/{id}") // 게시글 삭제 요청

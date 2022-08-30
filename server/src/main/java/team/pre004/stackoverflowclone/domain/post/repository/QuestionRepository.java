@@ -10,6 +10,6 @@ import team.pre004.stackoverflowclone.domain.post.entity.Question;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Modifying
-    @Query(value = "update Question q set q.view = q.view + 1 where q.id = :id")
+    @Query(value = "update Question q set q.view = q.view + 1 where q.questionId = :id")
     int updateView(Long id);
 }

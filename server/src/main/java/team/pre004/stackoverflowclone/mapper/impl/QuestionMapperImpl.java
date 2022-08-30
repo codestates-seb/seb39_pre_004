@@ -71,7 +71,7 @@ public class QuestionMapperImpl implements QuestionMapper {
 
         return QuestionInfoDto.builder()
                 .owner(userInfo)
-                .questionId(question.getId())
+                .questionId(question.getQuestionId())
                 .title(question.getTitle())
                 .body(question.getBody())
                 .link(question.getLink())

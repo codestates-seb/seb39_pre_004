@@ -16,20 +16,22 @@ public class AnswerLikeUp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long answerLikeUpId;
 
     @ManyToOne
     @JsonIgnore
-    private Users users;
+    @JoinColumn(name = "ownerId")
+    private Users owner;
 
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "answerId")
     private Answer answer;
 
 
-    public void mappingUsers(Users users){
-        this.users = users;
-        users.mappingAnswerLikeUp(this);
+    public void mappingUsers(Users owner){
+        this.owner = owner;
+        owner.mappingAnswerLikeUp(this);
     }
 
     public void mappingQuestion(Answer answer){
