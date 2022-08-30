@@ -1,7 +1,7 @@
 import SubHeader from '../components/SubHeader';
 import Subtitle from '../components/Subtitle';
 import Input from '../components/Input';
-import Textarea from '../components/TextEditor';
+import TextEditor from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
 const Ask = () => {
@@ -24,7 +24,7 @@ const Ask = () => {
           Include all the information someone would need to answer your question
         </p>
       </Subtitle>
-      <Textarea placeholder="More info about your question. You can use markdown here" />
+      <TextEditor />
       <Subtitle>Tags</Subtitle>
       <Input
         type="text"

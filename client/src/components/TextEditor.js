@@ -1,24 +1,37 @@
+// Toast 에디터
+import { useRef } from 'react';
+import { Editor } from '@toast-ui/react-editor';
 import styled from 'styled-components';
+import '@toast-ui/editor/dist/toastui-editor.css';
 
-const Textarea = styled.textarea`
-  background: none;
-  border: 1px solid #777;
-  border-radius: 3px;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px;
-  min-height: 200px;
-  margin-bottom: 20px;
-  font-family: inherit;
+const Container = styled.div`
+  margin-bottom: 30px;
 `;
 
-function TextEditor() {
-  return (
-    <>
-      <Textarea />
-    </>
-  );
-}
+const ToastEditor = () => {
+  const editorRef = useRef();
 
-export default TextEditor;
+  const handleChangeInput = () => {
+    const mark_data = editorRef.current.getInstance().getMarkdown();
+    const html_data = editorRef.current.getInstance().getHTML();
+    console.log(mark_data);
+    console.log(html_data);
+  };
+
+  return (
+    <Container>
+      <Editor
+        placeholder="내용을 입력해주세요."
+        previewStyle="vertical"
+        initialValue={' '}
+        height="350px"
+        initialEditType="WYSIWYG"
+        ref={editorRef}
+        onChange={handleChangeInput}
+        useCommandShortcut={false}
+      ></Editor>
+    </Container>
+  );
+};
+
+export default ToastEditor;

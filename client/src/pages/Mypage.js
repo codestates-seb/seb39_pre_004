@@ -12,10 +12,6 @@ const Profile = styled.div`
 const UserInfo = styled.div`
   font-size: 2rem;
   margin-left: 20px;
-  p {
-    font-size: 1.2rem;
-    color: #555;
-  }
 `;
 
 const ProfileImage = styled.div`
@@ -64,5 +60,4 @@ const Users = () => {
     </>
   );
 };
-
 export default Users;
