@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import SubHeader from '../components/SubHeader';
 import Subtitle from '../components/Subtitle';
 import Input from '../components/Input';
-import Textarea from '../components/TextEditor';
+import TextEditor from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
 const Profile = styled.div`
@@ -54,7 +54,7 @@ const Users = () => {
           type="text"
           placeholder="e.g is threr an R function for finding the index if an element in a vector"
         />
-        <Textarea placeholder="More info about your question. You can use markdown here" />
+        <TextEditor />
       </ProfileEdit>
       <BlueButton>Save profile</BlueButton>
     </>
