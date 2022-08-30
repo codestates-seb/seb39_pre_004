@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,6 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Getter
+@Table(name = "Answer")
 @EntityListeners(AuditingEntityListener.class)
 public class Answer {
 
@@ -37,9 +39,13 @@ public class Answer {
     private LocalDateTime modDate;
 
     @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "ownerId")
     private Users owner;
 
     @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "questionId")
     private Question question;
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -48,7 +54,7 @@ public class Answer {
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeDown> answerLikeDown;
 
-    @OneToMany
+    @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TagList> tags;
 
     @Builder

@@ -16,7 +16,7 @@ public class UsersMapperImpl implements UsersMapper {
         }
 
         return UserInfoDto.builder()
-                .userId(users.getId())
+                .userId(users.getOwnerId())
                 .name(users.getName())
                 .email(users.getEmail())
                 .bio(users.getBio())

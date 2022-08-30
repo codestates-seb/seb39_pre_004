@@ -6,5 +6,5 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import java.util.Optional;
 
 public interface UsersRepository extends JpaRepository<Users, Long> {
-    Optional<Users> findById(Users users);
+    Optional<Users> findByOwnerId(Users users);
 }

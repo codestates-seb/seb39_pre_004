@@ -15,13 +15,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Getter
+@Table(name = "QuestionComment")
 @EntityListeners(AuditingEntityListener.class)
 public class QuestionComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-
+    private Long questionCommentId;
 
     @Column(nullable = false)
     private String body;
@@ -33,10 +32,12 @@ public class QuestionComment {
     private LocalDateTime modDate;
 
     @ManyToOne
+    @JoinColumn(name ="ownerId")
     @JsonIgnore
     private Users owner;
 
     @ManyToOne
+    @JoinColumn(name = "questionId")
     @JsonIgnore
     private Question question;
 

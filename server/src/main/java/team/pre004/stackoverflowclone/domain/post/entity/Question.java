@@ -18,12 +18,13 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Table(name = "Question")
 @EntityListeners(AuditingEntityListener.class)
 public class Question{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long questionId;
 
     @Column(nullable = false)
     private String title;
@@ -47,6 +48,7 @@ public class Question{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ownerId")
     @JsonIgnore
     private Users owner;
 
