@@ -1,18 +1,63 @@
 package team.pre004.stackoverflowclone.web.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import team.pre004.stackoverflowclone.domain.post.entity.Answer;
+import team.pre004.stackoverflowclone.domain.user.entity.Users;
+import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
+import team.pre004.stackoverflowclone.dto.common.CMRespDto;
+import team.pre004.stackoverflowclone.dto.post.request.AnswerDto;
+import team.pre004.stackoverflowclone.dto.post.response.AnswerInfoDto;
+import team.pre004.stackoverflowclone.handler.ResponseCode;
+import team.pre004.stackoverflowclone.mapper.AnswerMapper;
+import team.pre004.stackoverflowclone.mapper.CommentMapper;
+import team.pre004.stackoverflowclone.service.AnswerService;
+import team.pre004.stackoverflowclone.service.CommonService;
+import team.pre004.stackoverflowclone.web.config.auth.PrincipalDetails;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/answers")
 public class AnswerController {
 
+    private final AnswerService answerService;
+    private final AnswerMapper answerMapper;
+    private final CommentMapper commentMapper;
+    private final CommonService commonService;
+    private final UsersRepository usersRepository;
 
-    @PostMapping("/add") // 답글 작성 요청
-    public ResponseEntity addAnswer() {
+    Users users = Users.builder()
+            .password("4321")
+            .name("답글ward")
+            .email("ward@ward.net")
+            .bio("답글쓰는사람입니다.")
+            .build();
 
-        return new ResponseEntity(HttpStatus.OK);
+    @PostMapping("/{questionId}/add") // 답글 작성 요청
+    public ResponseEntity<?> addAnswer(@PathVariable Long questionId, @RequestBody AnswerDto answerDto) {
+
+        PrincipalDetails principalDetails = PrincipalDetails.builder().
+                users(usersRepository.save(users))
+                .build();
+
+        Answer answer = answerService.save(
+                answerMapper.answerDtoToAnswer(
+                        principalDetails.getUsers(), questionId, answerDto
+                )
+        );
+
+        AnswerInfoDto answerInfoDto = answerMapper.getAnswerInfo(answer);
+
+        CMRespDto<?> response = CMRespDto.builder()
+                .code(ResponseCode.SUCCESS)
+                .data(answerInfoDto)
+                .message("게시글 조회 페이지입니다.")
+                .build();
+
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

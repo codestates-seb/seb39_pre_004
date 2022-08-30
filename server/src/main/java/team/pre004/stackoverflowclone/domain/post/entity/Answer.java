@@ -63,8 +63,9 @@ public class Answer {
     private List<TagList> tags;
 
     @Builder
-    public Answer(Users owner, String body, List<TagList> tags) {
+    public Answer(Users owner, Question question, String body, List<TagList> tags) {
         this.owner = owner;
+        this.question = question;
         this.body = body;
         this.tags = tags;
     }

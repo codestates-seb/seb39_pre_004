@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.AnswerComment;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
+import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.dto.post.request.AnswerDto;
 import team.pre004.stackoverflowclone.dto.post.response.AnswerInfoDto;
@@ -24,6 +25,7 @@ public class AnswerMapperImpl implements AnswerMapper {
 
     private final UsersMapper usersMapper;
     private final CommentMapper commentMapper;
+    private final QuestionRepository questionRepository;
 
     @Override
     public Set<AnswerInfoDto> getAnswerInfos(Set<Answer> answers) {
@@ -40,7 +42,7 @@ public class AnswerMapperImpl implements AnswerMapper {
     }
 
     @Override
-    public Answer answerDtoToAnswer(Users owner, AnswerDto answerDto) {
+    public Answer answerDtoToAnswer(Users owner, Long questionId, AnswerDto answerDto) {
 
         if(answerDto == null)
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
@@ -51,6 +53,7 @@ public class AnswerMapperImpl implements AnswerMapper {
 
         return Answer.builder()
                 .owner(owner)
+                .question(questionRepository.findById(questionId).orElseThrow())
                 .body(answerDto.getBody())
                 .tags(answerDto.getTags())
                 .build();

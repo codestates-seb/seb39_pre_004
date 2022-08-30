@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface AnswerService {
 
-    Set<Question> findAll();
+    Set<Answer> findAll();
     Answer save(Answer answer);
     Answer update(Long id, Answer answer);
     Optional<Answer> findById(Long id);

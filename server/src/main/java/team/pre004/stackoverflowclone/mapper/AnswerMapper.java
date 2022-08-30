@@ -11,6 +11,6 @@ import java.util.Set;
 
 public interface AnswerMapper {
     Set<AnswerInfoDto> getAnswerInfos(Set<Answer> answers);
-    Answer answerDtoToAnswer(Users owner, AnswerDto answerDto);
+    Answer answerDtoToAnswer(Users owner, Long questionId, AnswerDto answerDto);
     AnswerInfoDto getAnswerInfo(Answer answer);
 }
