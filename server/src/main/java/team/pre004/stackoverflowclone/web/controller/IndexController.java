@@ -12,6 +12,7 @@ import team.pre004.stackoverflowclone.mapper.QuestionMapper;
 import team.pre004.stackoverflowclone.service.QuestionService;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,7 +24,7 @@ public class IndexController {
     @GetMapping("/") //메인 페이지 (게시글들 전체 조회)
     public ResponseEntity<?> index() {
 
-        List<QuestionInfoDto> questionInfoDto = questionMapper.getQuestionInfos(questionService.findAll());
+        Set<QuestionInfoDto> questionInfoDto = questionMapper.getQuestionInfos(questionService.findAll());
 
         CMRespDto<?> cmRespDto = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)

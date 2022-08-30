@@ -8,11 +8,12 @@ import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
 import team.pre004.stackoverflowclone.dto.post.response.QuestionInfoDto;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface QuestionMapper {
 
-    List<QuestionInfoDto> getQuestionInfos(List<Question> questions);
+    Set<QuestionInfoDto> getQuestionInfos(Set<Question> questions);
     Question questionDtoToQuestion(Users owner, QuestionDto questionDto);
     QuestionInfoDto getQuestionInfo(Question question);
 

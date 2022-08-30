@@ -51,6 +51,9 @@ public class Answer {
     private Question question;
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerComment> answerComments = new HashSet<>();
+
+    @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeUp> answerLikeUp = new HashSet<>();
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -60,8 +63,10 @@ public class Answer {
     private List<TagList> tags;
 
     @Builder
-    public Answer(String body) {
+    public Answer(Users owner, String body, List<TagList> tags) {
+        this.owner = owner;
         this.body = body;
+        this.tags = tags;
     }
 
 

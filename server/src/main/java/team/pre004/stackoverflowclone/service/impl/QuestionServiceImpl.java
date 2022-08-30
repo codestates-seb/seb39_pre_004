@@ -23,6 +23,7 @@ import team.pre004.stackoverflowclone.service.QuestionService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -43,8 +44,8 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Question> findAll() {
-        return questionRepository.findAll();
+    public Set<Question> findAll() {
+        return questionRepository.findAllBy();
     }
 
     @Override

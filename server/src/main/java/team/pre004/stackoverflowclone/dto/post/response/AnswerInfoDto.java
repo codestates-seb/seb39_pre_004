@@ -2,6 +2,7 @@ package team.pre004.stackoverflowclone.dto.post.response;
 
 import lombok.Builder;
 import lombok.Data;
+import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
@@ -24,5 +25,5 @@ public class AnswerInfoDto {
     private List<TagList> tags;
     private LocalDateTime createDate;
     private LocalDateTime modDate;
-    private Set<QuestionCommentInfoDto> comments;
+    private Set<AnswerCommentInfoDto> comments;
 }
