@@ -1,6 +1,8 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { commentActions } from '../slices/commentSlice';
 import styled from 'styled-components';
 import Bluebutton from './Bluebutton';
-import { TextButton } from './ViewContainer';
+// import { TextButton } from './ViewContainer';
 
 const CommentList = styled.ul`
   display: flex;
@@ -21,6 +23,12 @@ const CommentToggle = styled.section`
 `;
 
 const CommentContainer = () => {
+  const dispatch = useDispatch();
+  const isChecked = useSelector((state) => state.comment.checked);
+
+  const handleComment = () => {
+    dispatch(commentActions.setChecked());
+  };
   return (
     <>
       <CommentList>
@@ -32,14 +40,17 @@ const CommentContainer = () => {
           {/* 작성자라면 Edit버튼 노출 -> 코멘트 수정창 렌더링 */}
         </li>
       </CommentList>
-      <CommentToggle>
-        <div className="commentInputArea">
-          <textarea />
-          <div>{'Enter at least 15 charactors'}</div>
-        </div>
-        <Bluebutton>Add comment</Bluebutton>
-      </CommentToggle>
-      <TextButton text="Add a comment" />
+      {isChecked ? (
+        <CommentToggle>
+          <div className="commentInputArea">
+            <textarea />
+            <div>{'Enter at least 15 charactors'}</div>
+          </div>
+          <Bluebutton>Add comment</Bluebutton>
+        </CommentToggle>
+      ) : null}
+      <button onClick={handleComment}>Add a comment</button>
+      {/* <TextButton text="Add a comment" onClick={handleComment} /> */}
     </>
   );
 };
