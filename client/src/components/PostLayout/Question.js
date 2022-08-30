@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Bluebutton from './Bluebutton';
+import Bluebutton from '../Bluebutton';
 import ViewContainer from './ViewContainer';
 
 const Header = styled.header`

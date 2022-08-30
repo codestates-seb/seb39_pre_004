@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { commentActions } from '../slices/commentSlice';
+import { commentActions } from '../../slices/commentSlice';
 import styled from 'styled-components';
-import Bluebutton from './Bluebutton';
+import Bluebutton from '../Bluebutton';
 // import { TextButton } from './ViewContainer';
 
 const CommentList = styled.ul`

@@ -1,5 +1,5 @@
-import Question from '../components/Question';
-import Answer from '../components/Answer';
+import Question from '../components/PostLayout/Question';
+import Answer from '../components/PostLayout/Answer';
 
 const Post = () => {
   return (
