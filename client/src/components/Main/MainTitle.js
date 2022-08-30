@@ -9,7 +9,6 @@ const TitleContainer = styled.div`
 const TitleBlock = styled.h1`
   font-weight: normal;
   flex: 1;
-  font-weight: normal;
   text-overflow: ellipsis;
   overflow: hidden;
   word-break: break-word; // 두 줄 이상
