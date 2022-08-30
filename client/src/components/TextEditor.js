@@ -13,8 +13,6 @@ const TextEditor = () => {
   const handleChangeInput = () => {
     const mark_data = editorRef.current.getInstance().getMarkdown();
     const html_data = editorRef.current.getInstance().getHTML();
-    console.log(mark_data);
-    console.log(html_data);
   };
 
   return (
