@@ -59,15 +59,16 @@ public class Answer {
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeDown> answerLikeDown = new HashSet<>();
 
-    @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<TagList> tags;
 
     @Builder
-    public Answer(Users owner, Question question, String body, List<TagList> tags) {
+    public Answer(Users owner, Question question, String body) {
         this.owner = owner;
         this.question = question;
         this.body = body;
-        this.tags = tags;
+    }
+
+    public void update(String body) {
+        this.body = body;
     }
 
 

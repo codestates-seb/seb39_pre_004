@@ -22,7 +22,6 @@ public class AnswerInfoDto {
     private String body;
     private Integer likes;
     private boolean isAccepted;
-    private List<TagList> tags;
     private LocalDateTime createDate;
     private LocalDateTime modDate;
     private Set<AnswerCommentInfoDto> comments;

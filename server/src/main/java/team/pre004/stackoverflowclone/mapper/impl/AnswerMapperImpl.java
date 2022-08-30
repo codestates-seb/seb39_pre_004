@@ -55,7 +55,6 @@ public class AnswerMapperImpl implements AnswerMapper {
                 .owner(owner)
                 .question(questionRepository.findById(questionId).orElseThrow())
                 .body(answerDto.getBody())
-                .tags(answerDto.getTags())
                 .build();
 
     }

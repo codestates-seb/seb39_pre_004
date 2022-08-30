@@ -21,7 +21,6 @@ public class AnswerDto {
     private Users owner;
     private Long id;
     private String body;
-    private List<TagList> tags;
     private boolean isAccepted;
 
     private LocalDateTime createDate;

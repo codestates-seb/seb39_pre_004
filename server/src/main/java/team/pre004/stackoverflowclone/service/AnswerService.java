@@ -10,7 +10,7 @@ public interface AnswerService {
 
     Set<Answer> findAll();
     Answer save(Answer answer);
-    Answer update(Long id, Answer answer);
+    Answer update(Long answerId, Answer answer);
     Optional<Answer> findById(Long id);
     void deleteById(Long id);
     boolean acceptAnswer(Long userId, Long answerId);

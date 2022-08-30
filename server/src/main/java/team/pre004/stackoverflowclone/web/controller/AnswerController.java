@@ -10,7 +10,10 @@ import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
 import team.pre004.stackoverflowclone.dto.post.request.AnswerDto;
 import team.pre004.stackoverflowclone.dto.post.response.AnswerInfoDto;
+import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.AnswerMapper;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
 import team.pre004.stackoverflowclone.service.AnswerService;
@@ -53,7 +56,7 @@ public class AnswerController {
         CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .data(answerInfoDto)
-                .message("게시글 조회 페이지입니다.")
+                .message("답글을 추가하였습니다.")
                 .build();
 
 
@@ -61,10 +64,32 @@ public class AnswerController {
     }
 
 
-    @PutMapping("/{id}/edit") // 답글 수정 요청
-    public ResponseEntity editAnswer(@PathVariable Long id) {
+    @PutMapping("/{answerId}/edit") // 답글 수정 요청
+    public ResponseEntity<?> editAnswer(@PathVariable Long answerId, @RequestBody AnswerDto answerDto) {
 
-        return new ResponseEntity(HttpStatus.OK);
+        PrincipalDetails principalDetails = PrincipalDetails.builder().
+                users(usersRepository.save(users))
+                .build();
+
+        if (answerService.findById(answerId).isEmpty()) //해당 게시물이 없을 때 에러메세지
+            throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
+
+        if (principalDetails.getUsers().getOwnerId() != answerId) //접근 유저가 아닐경우
+            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER);
+
+        Answer answer = answerService.update(answerId, answerMapper.answerDtoToAnswer(
+                principalDetails.getUsers(), answerId, answerDto
+        ));
+
+        AnswerInfoDto answerInfoDto = answerMapper.getAnswerInfo(answer);
+
+        CMRespDto<?> response = CMRespDto.builder()
+                .code(ResponseCode.SUCCESS)
+                .data(answerInfoDto)
+                .message("답글을 변경하였습니다.")
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}") // 답글 삭제 요청
