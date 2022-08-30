@@ -7,7 +7,7 @@ const Container = styled.div`
   margin-bottom: 30px;
 `;
 
-const ToastEditor = () => {
+const TextEditor = () => {
   const editorRef = useRef();
 
   const handleChangeInput = () => {
@@ -33,4 +33,4 @@ const ToastEditor = () => {
   );
 };
 
-export default ToastEditor;
+export default TextEditor;
