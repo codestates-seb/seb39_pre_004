@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
+import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
@@ -245,15 +246,14 @@ public class QuestionController {
 
         //Todo : 댓글 게시자만 수정할 수 있습니다.
 
-
-        //Todo : 해당 질문의 댓글을 수정합니다.
-
         PrincipalDetails principalDetails = PrincipalDetails.builder().
                 users(usersRepository.save(users))
                 .build();
 
-        questionCommentService.update(
-                commentId, commentMapper.getQuestionComment(principalDetails.getUsers(), id, questionCommentDto));
+        //Todo : 해당 질문의 댓글을 수정합니다.
+
+
+        questionCommentService.update(id, commentId, questionCommentDto);
 
         CMRespDto<?> cmRespDto = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)

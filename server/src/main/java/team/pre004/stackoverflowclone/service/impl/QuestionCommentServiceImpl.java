@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.pre004.stackoverflowclone.domain.post.entity.Question;
 import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionCommentRepository;
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
@@ -54,15 +56,27 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 
     @Override
     @Transactional
-    public QuestionComment update(Long commentId, QuestionComment questionComment) {
+    public QuestionComment update(Long questionId, Long commentId,  QuestionCommentDto questionCommentDto) {
 
-        QuestionComment updateComment = questionCommentRepository.findById(commentId).orElseThrow(
-                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_COMMENT_ID)
-        );
+        boolean isQuestionCommentForQuestion = questionCommentRepository
+                .existsQuestionCommentsByQuestion(questionRepository.findById(questionId)
+                .orElseThrow(
+                        () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+                ));
 
-        updateComment.update(questionComment.getBody());
+        if(isQuestionCommentForQuestion){
+             questionCommentRepository.findById(commentId).ifPresentOrElse(
+                    comment -> comment.update(questionCommentDto.getBody()),
+                    () -> {
+                        throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_COMMENT_ID);
+                    }
+            );
+            return null;
+        }
+        else
+            throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_COMMENT_ID);
 
-        return updateComment;
+
     }
 
     @Override
