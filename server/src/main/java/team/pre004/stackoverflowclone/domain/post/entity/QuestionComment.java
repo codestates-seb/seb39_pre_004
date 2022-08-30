@@ -46,4 +46,9 @@ public class QuestionComment {
         this.question = question;
         this.owner = owner;
     }
+
+    public void update(String body){
+        this.body = body;
+    }
+
 }

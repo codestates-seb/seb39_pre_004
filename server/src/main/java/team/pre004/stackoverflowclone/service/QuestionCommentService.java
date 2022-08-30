@@ -13,6 +13,9 @@ public interface QuestionCommentService {
 
     List<QuestionComment> findAllByUsers(Long usersId);
     QuestionComment save(QuestionComment questionComment);
+
+    QuestionComment update(Long commentId, QuestionComment questionComment);
+
     Optional<QuestionComment> findById(Long id);
     void deleteById(Long Id);
 

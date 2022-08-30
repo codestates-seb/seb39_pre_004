@@ -50,7 +50,21 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
     }
 
     @Override
+    @Transactional
+    public QuestionComment update(Long commentId, QuestionComment questionComment) {
+
+        QuestionComment updateComment = questionCommentRepository.findById(commentId).orElseThrow(
+                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_COMMENT_ID)
+        );
+
+        updateComment.update(questionComment.getBody());
+
+        return updateComment;
+    }
+
+    @Override
     public Optional<QuestionComment> findById(Long id) {
+
         return Optional.empty();
     }
 

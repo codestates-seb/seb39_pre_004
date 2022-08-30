@@ -206,8 +206,6 @@ public class QuestionController {
                 users(usersRepository.save(users))
                 .build();
 
-
-
         QuestionComment comment =
                questionCommentService.save(
                        commentMapper.getQuestionComment(principalDetails.getUsers(), id, questionCommentDto)
@@ -222,9 +220,26 @@ public class QuestionController {
     }
 
     @PutMapping("/{id}/comments/{commentId}") //게시글 댓글 수정 요청
-    public ResponseEntity updateQuestionComment(@PathVariable Long id, @PathVariable Long commentId) {
+    public ResponseEntity<?> updateQuestionComment(
+            @PathVariable Long id, @PathVariable Long commentId,
+            @RequestBody QuestionCommentDto questionCommentDto) {
 
-        return new ResponseEntity(HttpStatus.OK);
+        PrincipalDetails principalDetails = PrincipalDetails.builder().
+                users(usersRepository.save(users))
+                .build();
+
+        QuestionComment comment =
+                questionCommentService.update(
+                        commentId, commentMapper.getQuestionComment(principalDetails.getUsers(), id, questionCommentDto)
+                );
+
+        CMRespDto<?> cmRespDto = CMRespDto.builder()
+                .code(ResponseCode.SUCCESS)
+                .data(commentMapper.getQuestionCommentInfo(comment))
+                .build();
+
+
+        return new ResponseEntity<>(cmRespDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/comments/{commentId}") //게시글 댓글 삭제 요청
