@@ -44,11 +44,9 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 
     @Override
     @Transactional
-    public QuestionComment save(Long questionId, QuestionComment questionComment) {
+    public QuestionComment save(QuestionComment questionComment) {
 
-        QuestionComment comment = questionComment;
-
-        return new QuestionComment();
+        return questionCommentRepository.save(questionComment);
     }
 
     @Override

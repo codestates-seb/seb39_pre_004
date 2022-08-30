@@ -12,7 +12,7 @@ public interface QuestionCommentService {
     List<QuestionComment> findAllByQuestion(Long questionId);
 
     List<QuestionComment> findAllByUsers(Long usersId);
-    QuestionComment save(Long questionId, QuestionComment questionComment);
+    QuestionComment save(QuestionComment questionComment);
     Optional<QuestionComment> findById(Long id);
     void deleteById(Long Id);
 

@@ -25,18 +25,18 @@ public class QuestionMapperImpl implements QuestionMapper {
     private final UsersMapper usersMapper;
     private final CommentMapper commentMapper;
     @Override
-    public Question questionDtoToQuestion(Users users, QuestionDto questionDto) {
+    public Question questionDtoToQuestion(Users owner, QuestionDto questionDto) {
 
         if(questionDto == null)
             throw new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
 
 
-        if(users == null)
+        if(owner == null)
             throw new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID);
 
 
         return Question.builder()
-                .owner(users)
+                .owner(owner)
                 .title(questionDto.getTitle())
                 .body(questionDto.getBody())
                 .tags(questionDto.getTags())

@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 @Builder
 public class QuestionCommentInfoDto {
 
+
     private UserInfoDto owner;
+    private Long questionCommentId;
     private String body;
     private LocalDateTime createDate;
     private LocalDateTime modDate;

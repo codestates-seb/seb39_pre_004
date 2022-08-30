@@ -51,6 +51,8 @@ public class Users {
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Question> questions;
 
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<QuestionComment> questionComments;
     @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeUp> answerLikeUpList;
 

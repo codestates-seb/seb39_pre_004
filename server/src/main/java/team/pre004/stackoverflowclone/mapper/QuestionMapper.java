@@ -8,8 +8,7 @@ import team.pre004.stackoverflowclone.dto.post.response.QuestionInfoDto;
 
 
 public interface QuestionMapper {
-    Question questionDtoToQuestion(Users users, QuestionDto questionDto);
-
+    Question questionDtoToQuestion(Users owner, QuestionDto questionDto);
     QuestionInfoDto getQuestionInfo(Question question);
 
 }
