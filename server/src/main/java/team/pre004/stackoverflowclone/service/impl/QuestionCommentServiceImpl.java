@@ -11,6 +11,7 @@ import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.exception.CustomLikesConflictException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 
@@ -99,7 +100,7 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
         try {
             questionCommentRepository.deleteById(commentId);
         } catch (CustomNotContentItemException ex) {
-            log.info("해당하는 댓글 아이디가 없습니다. id : " + commentId);
+            throw new CustomLikesConflictException(ExceptionMessage.NOT_CONTENT_QUESTION_COMMENT_ID);
         }
     }
 }

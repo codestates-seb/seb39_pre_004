@@ -2,6 +2,7 @@ package team.pre004.stackoverflowclone.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
@@ -11,6 +12,7 @@ import team.pre004.stackoverflowclone.domain.post.repository.AnswerLikeUpReposit
 import team.pre004.stackoverflowclone.domain.post.repository.AnswerRepository;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.exception.CustomLikesConflictException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.service.AnswerService;
 
@@ -57,7 +59,11 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public void deleteById(Long id) {
-
+        try {
+            answerRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new CustomLikesConflictException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
+        }
     }
 
     @Override

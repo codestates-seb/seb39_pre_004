@@ -59,6 +59,9 @@ public class Answer {
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeDown> answerLikeDown = new HashSet<>();
 
+    @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerAccept> answerAccept = new HashSet<>();
+
 
     @Builder
     public Answer(Users owner, Question question, String body) {
@@ -70,6 +73,17 @@ public class Answer {
     public void update(String body) {
         this.body = body;
     }
+
+
+    public void mappingAnswerAccept(AnswerAccept answerAccept) {
+        this.answerAccept.add(answerAccept);
+    }
+
+    public void undoAnswerAccept(AnswerAccept answerAccept) {
+        this.answerAccept.remove(answerAccept);
+    }
+
+
 
 
     public void mappingAnswerLikeUp(AnswerLikeUp answerLikeUp) {

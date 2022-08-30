@@ -88,7 +88,7 @@ public class QuestionServiceImpl implements QuestionService{
         try {
             questionRepository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
-            log.info("해당하는 게시물이 없습니다 id : " + id , ex);
+            throw new CustomLikesConflictException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
         }
     }
 
