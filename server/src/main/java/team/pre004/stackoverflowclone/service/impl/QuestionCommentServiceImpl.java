@@ -2,6 +2,7 @@ package team.pre004.stackoverflowclone.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
@@ -16,6 +17,7 @@ import team.pre004.stackoverflowclone.service.QuestionCommentService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Slf4j
@@ -29,6 +31,7 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<QuestionComment> findAllByQuestion(Long questionId) {
 
         return questionCommentRepository.findAllByQuestion(
@@ -38,8 +41,13 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<QuestionComment> findAllByUsers(Long usersId) {
-        return null;
+
+        return questionCommentRepository.findAllByOwner(
+                usersRepository.findById(usersId)
+                        .orElseThrow()
+        );
     }
 
     @Override
@@ -63,13 +71,21 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
     }
 
     @Override
-    public Optional<QuestionComment> findById(Long id) {
+    public QuestionComment findById(Long id) {
 
-        return Optional.empty();
+        return questionCommentRepository.findById(id).orElseThrow(
+                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_COMMENT_ID)
+        );
+
+
     }
 
     @Override
-    public void deleteById(Long Id) {
-
+    public void deleteById(Long id) {
+        try {
+            questionCommentRepository.deleteById(id);
+        } catch (CustomNullPointItemsExeption ex) {
+            log.info("해당하는 댓글 아이디가 없어 삭제할 수 없습니다 id : " + id);
+        }
     }
 }

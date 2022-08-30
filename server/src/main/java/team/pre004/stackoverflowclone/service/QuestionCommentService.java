@@ -5,6 +5,7 @@ import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface QuestionCommentService {
@@ -16,7 +17,7 @@ public interface QuestionCommentService {
 
     QuestionComment update(Long commentId, QuestionComment questionComment);
 
-    Optional<QuestionComment> findById(Long id);
-    void deleteById(Long Id);
+    QuestionComment findById(Long id);
+    void deleteById(Long id);
 
 }
