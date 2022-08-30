@@ -12,4 +12,6 @@ import java.util.List;
 public interface QuestionCommentRepository extends JpaRepository<QuestionComment, Long> {
     List<QuestionComment> findAllByQuestion(Question question);
     List<QuestionComment> findAllByOwner(Users users);
+
+
 }

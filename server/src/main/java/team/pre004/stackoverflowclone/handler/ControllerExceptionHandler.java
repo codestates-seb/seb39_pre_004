@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
-import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
-import team.pre004.stackoverflowclone.handler.exception.CustomNotContentByIdException;
-import team.pre004.stackoverflowclone.handler.exception.CustomNullPointItemsExeption;
-import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
+import team.pre004.stackoverflowclone.handler.exception.*;
 
 @ControllerAdvice
 @RestController
@@ -25,14 +22,19 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(CustomNullPointItemsExeption.class)
-    public ResponseEntity<?> nullPointUserItemsException(CustomNullPointItemsExeption e){
+    @ExceptionHandler(CustomNotContentItemException.class)
+    public ResponseEntity<?> nullPointUserItemsException(CustomNotContentItemException e){
         return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CustomNotAccessItemsException.class)
     public ResponseEntity<?> notAccessItemsException(CustomNotAccessItemsException e){
         return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(), null), HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(CustomLikesConflictException.class)
+    public ResponseEntity<?> likesConflictException(CustomLikesConflictException e){
+        return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(), null), HttpStatus.CONFLICT);
     }
 
 }

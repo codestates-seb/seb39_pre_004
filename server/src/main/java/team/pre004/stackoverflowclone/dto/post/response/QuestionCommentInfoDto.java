@@ -2,8 +2,7 @@ package team.pre004.stackoverflowclone.dto.post.response;
 
 import lombok.Builder;
 import lombok.Data;
-import team.pre004.stackoverflowclone.domain.post.entity.Question;
-import team.pre004.stackoverflowclone.domain.user.entity.Users;
+
 
 import java.time.LocalDateTime;
 

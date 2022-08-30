@@ -81,7 +81,7 @@ public class Question{
     }
 
     public void updateLikeCount() {
-        this.likes = this.questionLikeUp.size() + this.questionLikeDown.size();
+        this.likes = this.questionLikeUp.size() - this.questionLikeDown.size();
     }
 
     public void undoQuestionLikeUp(QuestionLikeUp questionLikeUp) {

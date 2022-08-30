@@ -9,7 +9,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 import team.pre004.stackoverflowclone.dto.post.response.QuestionCommentInfoDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
-import team.pre004.stackoverflowclone.handler.exception.CustomNullPointItemsExeption;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
 import team.pre004.stackoverflowclone.mapper.UsersMapper;
 
@@ -43,7 +43,7 @@ public class CommentMapperImpl implements CommentMapper {
             return null;
 
         Question question = questionRepository.findById(questionId).orElseThrow(
-                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         );
 
 

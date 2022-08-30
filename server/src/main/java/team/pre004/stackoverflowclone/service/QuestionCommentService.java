@@ -18,6 +18,6 @@ public interface QuestionCommentService {
     QuestionComment update(Long commentId, QuestionComment questionComment);
 
     QuestionComment findById(Long id);
-    void deleteById(Long id);
+    void deleteById(Long questionId, Long commentId);
 
 }

@@ -16,7 +16,9 @@ public interface QuestionService {
     Optional<Question> findById(Long id);
     void deleteById(Long id);
     Integer selectLikeUp(Long userId, Long questionId);
+    Integer selectLikeUpUndo(Long userId, Long questionId);
     Integer selectLikeDown(Long userId, Long questionId);
+    Integer selectLikeDownUndo(Long userId, Long questionId);
 
     int updateView(Long id);
 
