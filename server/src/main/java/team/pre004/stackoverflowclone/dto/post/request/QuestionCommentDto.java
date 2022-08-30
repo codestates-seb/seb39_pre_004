@@ -16,7 +16,6 @@ public class QuestionCommentDto {
     private String body;
     private Question question;
 
-
     @Builder
     public QuestionCommentDto(String body, Question question) {
         this.body = body;

@@ -14,4 +14,6 @@ public interface CommentMapper {
     Set<QuestionCommentInfoDto> getQuestionCommentInfo(Set<QuestionComment> questionComment);
     QuestionComment getQuestionComment(Users owner, Long questionId, QuestionCommentDto questionCommentDto);
     QuestionCommentInfoDto getQuestionCommentInfo(QuestionComment questionComment);
+
+
 }

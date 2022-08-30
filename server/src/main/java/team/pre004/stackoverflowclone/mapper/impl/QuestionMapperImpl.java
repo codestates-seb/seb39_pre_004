@@ -1,6 +1,7 @@
 package team.pre004.stackoverflowclone.mapper.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
@@ -25,6 +26,7 @@ public class QuestionMapperImpl implements QuestionMapper {
 
     private final UsersMapper usersMapper;
     private final CommentMapper commentMapper;
+
 
     @Override
     public List<QuestionInfoDto> getQuestionInfos(List<Question> questions) {

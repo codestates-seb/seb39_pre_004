@@ -31,17 +31,5 @@ public class QuestionDto {
     private Set<AnswerDto> answers;
     private Set<QuestionCommentDto> comments;
 
-    @Builder
-    public QuestionDto(Long id, String title, String body, int views, List<TagList> tags, String link, Set<AnswerDto> answers, Set<QuestionCommentDto> comments) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-        this.views = views;
-        this.tags = tags;
-        this.link = link;
-        this.answers = answers;
-        this.comments = comments;
-    }
-
 
 }

@@ -10,6 +10,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class Answer {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int likes = 0;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean isAccepted;
 
     @CreatedDate
@@ -50,10 +51,10 @@ public class Answer {
     private Question question;
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerLikeUp> answerLikeUp;
+    private Set<AnswerLikeUp> answerLikeUp = new HashSet<>();
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerLikeDown> answerLikeDown;
+    private Set<AnswerLikeDown> answerLikeDown = new HashSet<>();
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TagList> tags;

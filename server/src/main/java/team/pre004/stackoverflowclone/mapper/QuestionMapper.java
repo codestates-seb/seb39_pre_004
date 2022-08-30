@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.mapper;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
