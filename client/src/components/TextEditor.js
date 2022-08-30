@@ -1,4 +1,3 @@
-// Toast 에디터
 import { useRef } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import styled from 'styled-components';
