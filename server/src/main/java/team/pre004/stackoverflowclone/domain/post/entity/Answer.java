@@ -28,7 +28,8 @@ public class Answer {
     @Column(nullable = false)
     private String body;
 
-    private Integer likes = 0;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int likes = 0;
 
     @Column(nullable = false)
     private boolean isAccepted;
