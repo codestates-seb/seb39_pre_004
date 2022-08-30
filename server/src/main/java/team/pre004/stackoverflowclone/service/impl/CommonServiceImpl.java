@@ -15,7 +15,7 @@ public class CommonServiceImpl implements CommonService {
         HttpHeaders headers = new HttpHeaders();
 
         String port = "8081";
-        headers.setLocation(URI.create("http://localhost:8080" + port + uri));
+        headers.setLocation(URI.create("http://localhost:" + port + uri));
         return headers;
     }
 }
