@@ -14,24 +14,27 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Getter
+@Table(name = "QuestionLikeUp")
 @EntityListeners(AuditingEntityListener.class)
 public class QuestionLikeUp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long questionLikeUpId;
 
     @ManyToOne
+    @JoinColumn(name = "ownerId")
     @JsonIgnore
-    private Users users;
+    private Users owner;
 
     @ManyToOne
+    @JoinColumn(name = "questionId")
     @JsonIgnore
     private Question question;
 
-    public void mappingUsers(Users users){
-        this.users = users;
-        users.mappingQuestionLikeUp(this);
+    public void mappingUsers(Users owner){
+        this.owner = owner;
+        owner.mappingQuestionLikeUp(this);
     }
 
     public void mappingQuestion(Question question){
@@ -40,8 +43,8 @@ public class QuestionLikeUp {
     }
 
     @Builder
-    public QuestionLikeUp(Users users, Question question) {
-        this.users = users;
+    public QuestionLikeUp(Users owner, Question question) {
+        this.owner = owner;
         this.question = question;
     }
 }

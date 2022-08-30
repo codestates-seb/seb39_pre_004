@@ -11,5 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface QuestionLikeDownRepository extends JpaRepository<QuestionLikeDown, Long> {
-    Optional<QuestionLikeDown> findByQuestionAndUsers(Question question, Users users);
+    Optional<QuestionLikeDown> findByQuestionAndOwner(Question question, Users owner);
 }

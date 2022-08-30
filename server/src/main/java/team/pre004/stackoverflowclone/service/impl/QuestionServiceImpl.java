@@ -104,8 +104,8 @@ public class QuestionServiceImpl implements QuestionService{
         Users users = usersRepository.findById(userId).orElseThrow(
                 () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
         );
-        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
-        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);
+        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndOwner(question, users);
+        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndOwner(question, users);
 
         //해당 질문에 싫어요 버튼이 눌려져 있는 경우
         byQuestionAndUsersLikeDown.ifPresent(
@@ -141,7 +141,7 @@ public class QuestionServiceImpl implements QuestionService{
         Users users = usersRepository.findById(userId).orElseThrow(
                 () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
         );
-        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
+        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndOwner(question, users);
 
         byQuestionAndUsersLikeUp.ifPresentOrElse(//해당 질문에 좋아요 버튼이 눌려져 있는 경우
                 questionLikeUp -> { //좋아요 취소
@@ -167,8 +167,8 @@ public class QuestionServiceImpl implements QuestionService{
         Users users = usersRepository.findById(userId).orElseThrow(
                 () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
         );
-        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
-        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);
+        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndOwner(question, users);
+        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndOwner(question, users);
         //해당 질문에 좋아요 버튼이 눌려져 있는 경우
         byQuestionAndUsersLikeUp.ifPresent(
                 questionLikeUp -> { //좋아요 취소
@@ -204,7 +204,7 @@ public class QuestionServiceImpl implements QuestionService{
                 () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
         );
 
-        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);
+        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndOwner(question, users);
 
         //해당 싫어요 좋아요 버튼이 눌려져 있는 경우
         byQuestionAndUsersLikeDown.ifPresentOrElse(

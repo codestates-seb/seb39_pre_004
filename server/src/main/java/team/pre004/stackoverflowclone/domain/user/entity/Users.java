@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.Query;
 import team.pre004.stackoverflowclone.domain.post.entity.*;
 
 import javax.persistence.*;
@@ -18,11 +19,12 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Getter
+@Table(name = "Owner")
 @EntityListeners(AuditingEntityListener.class)
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long ownerId;
 
     @Column(unique = true, nullable = false)
     private String name;
@@ -53,16 +55,16 @@ public class Users {
 
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<QuestionComment> questionComments;
-    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeUp> answerLikeUpList;
 
-    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeDown> answerLikeDownList;
 
-    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<QuestionLikeUp> questionLikeUpList;
 
-    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<QuestionLikeDown> questionLikeDownList;
 
 

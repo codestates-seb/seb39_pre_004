@@ -60,7 +60,7 @@ public class CommentMapperImpl implements CommentMapper {
 
         return QuestionCommentInfoDto.builder()
                 .owner(usersMapper.getUserInfo(questionComment.getOwner()))
-                .questionCommentId(questionComment.getId())
+                .questionCommentId(questionComment.getQuestionCommentId())
                 .body(questionComment.getBody())
                 .createDate(questionComment.getCreateDate())
                 .modDate(questionComment.getModDate())
