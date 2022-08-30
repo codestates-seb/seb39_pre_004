@@ -56,6 +56,9 @@ public class Users {
 
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<QuestionComment> questionComments = new HashSet<>();
+
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerComment> answerComments = new HashSet<>();
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeUp> answerLikeUpList = new HashSet<>();
 

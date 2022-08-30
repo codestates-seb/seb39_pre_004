@@ -15,6 +15,8 @@ public enum ExceptionMessage {
     NOT_CONTENT_QUESTION_TITLE(51, "질문 제목이 존재하지 않습니다."),
     NOT_CONTENT_QUESTION_BODY(52, "질문 내용이 존재하지 않습니다."),
 
+    NOT_CONTENT_ANSWER_ID(54, "답변이 존재하지 않습니다."),
+    NOT_CONTENT_ANSWER_BODY(55, "답변 내용이 존재하지 않습니다."),
     NOT_CONTENT_QUESTION_COMMENT_ID(56, "댓글이 존재하지 않습니다."),
     NOT_CONTENT_QUESTION_COMMENT_BODY(57, "댓글 내용이 존재하지 않습니다."),
 

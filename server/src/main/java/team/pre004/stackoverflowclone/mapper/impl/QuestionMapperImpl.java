@@ -82,7 +82,7 @@ public class QuestionMapperImpl implements QuestionMapper {
                 .likes(question.getLikes())
                 .createDate(question.getCreateDate())
                 .modDate(question.getModDate())
-                .comments(commentMapper.getQuestionCommentInfo(question.getQuestionComment()))
+                .comments(commentMapper.getQuestionCommentInfos(question.getQuestionComment()))
                 .build();
 
     }
