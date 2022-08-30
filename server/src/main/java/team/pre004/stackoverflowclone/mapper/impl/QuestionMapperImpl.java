@@ -75,6 +75,7 @@ public class QuestionMapperImpl implements QuestionMapper {
                 .title(question.getTitle())
                 .body(question.getBody())
                 .link(question.getLink())
+                .isAccepted(question.isAccepted())
                 .views(question.getView())
                 .likes(question.getLikes())
                 .createDate(question.getCreateDate())
