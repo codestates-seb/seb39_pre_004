@@ -15,9 +15,15 @@ public enum ExceptionMessage {
     NOT_CONTENT_QUESTION_TITLE(51, "질문 제목이 존재하지 않습니다."),
     NOT_CONTENT_QUESTION_BODY(52, "질문 내용이 존재하지 않습니다."),
 
-    NOT_CONTENT_QUESTION_COMMENT_BODY(53, "댓글 내용이 존재하지 않습니다."),
+    NOT_CONTENT_QUESTION_COMMENT_ID(56, "댓글이 존재하지 않습니다."),
+    NOT_CONTENT_QUESTION_COMMENT_BODY(57, "댓글 내용이 존재하지 않습니다."),
 
-    NOT_ACCESS_EDIT_QUESTION(400, "질문을 변경할 수 있는 권한이 없습니다.");
+    NOT_ACCESS_EDIT_QUESTION(400, "질문을 변경할 수 있는 권한이 없습니다."),
+
+    CONFLICT_LIKE_UP(491, "이미 좋아요 버튼을 누르셨습니다."),
+    CONFLICT_LIKE_UP_UNDO(492, "좋아요 버튼이 눌려있지 않습니다."),
+    CONFLICT_LIKE_DOWN(493, "이미 싫어요 버튼을 누르셨습니다."),
+    CONFLICT_LIKE_DOWN_UNDO(494, "싫어요 버튼이 눌려있지 않습니다.");
 
     public String getMessage() {
         return message;

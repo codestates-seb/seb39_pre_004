@@ -34,7 +34,9 @@ public class Question{
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 
-    private Integer likes = 0;
+    private boolean isAccepted;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private Integer likes ;
 
     @CreatedDate
     private LocalDateTime createDate;
@@ -81,7 +83,7 @@ public class Question{
     }
 
     public void updateLikeCount() {
-        this.likes = this.questionLikeUp.size() + this.questionLikeDown.size();
+        this.likes = this.questionLikeUp.size() - this.questionLikeDown.size();
     }
 
     public void undoQuestionLikeUp(QuestionLikeUp questionLikeUp) {

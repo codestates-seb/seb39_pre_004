@@ -26,6 +26,7 @@ public class QuestionInfoDto {
     private String body;
     private Integer likes;
     private int views;
+    private boolean isAccepted;
     private List<TagList> tags;
     private String link;
     private LocalDateTime createDate;
