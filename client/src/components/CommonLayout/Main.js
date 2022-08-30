@@ -8,6 +8,8 @@ const ContainerBlock = styled.div`
 
 const MainBlock = styled.div`
   height: 100vh;
+  height: -webkit-fill-available;
+  height: fill-available;
 `;
 
 const Main = () => {
