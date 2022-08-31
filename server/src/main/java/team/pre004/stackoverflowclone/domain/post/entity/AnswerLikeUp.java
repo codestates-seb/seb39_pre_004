@@ -1,6 +1,7 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,5 +38,11 @@ public class AnswerLikeUp {
     public void mappingQuestion(Answer answer){
         this.answer = answer;
         answer.mappingAnswerLikeUp(this);
+    }
+
+    @Builder
+    public AnswerLikeUp(Users owner, Answer answer) {
+        this.owner = owner;
+        this.answer = answer;
     }
 }

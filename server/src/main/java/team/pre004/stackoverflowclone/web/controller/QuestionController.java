@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
+import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
@@ -245,24 +246,23 @@ public class QuestionController {
 
         //Todo : 댓글 게시자만 수정할 수 있습니다.
 
-
-        //Todo : 해당 질문의 댓글을 수정합니다.
-
         PrincipalDetails principalDetails = PrincipalDetails.builder().
                 users(usersRepository.save(users))
                 .build();
 
-        questionCommentService.update(
-                commentId, commentMapper.getQuestionComment(principalDetails.getUsers(), id, questionCommentDto));
+        //Todo : 해당 질문의 댓글을 수정합니다.
 
-        CMRespDto<?> cmRespDto = CMRespDto.builder()
+
+        questionCommentService.update(id, commentId, questionCommentDto);
+
+        CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .data(questionCommentService.findAllByQuestion(id))
                 .build();
 
         //Todo : ?
 
-        return new ResponseEntity<>(cmRespDto, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/comments/{commentId}") //게시글 댓글 삭제 요청
@@ -273,12 +273,12 @@ public class QuestionController {
         //Todo : 해당 질문의 댓글을 삭제합니다.
         questionCommentService.deleteById(id, commentId);
 
-        CMRespDto<?> cmRespDto = CMRespDto.builder()
+        CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .data(questionCommentService.findAllByQuestion(id))
                 .build();
 
-        return new ResponseEntity<>(cmRespDto, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

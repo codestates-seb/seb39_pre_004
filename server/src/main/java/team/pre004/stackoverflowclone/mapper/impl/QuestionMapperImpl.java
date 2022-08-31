@@ -1,6 +1,7 @@
 package team.pre004.stackoverflowclone.mapper.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
@@ -13,6 +14,7 @@ import team.pre004.stackoverflowclone.dto.post.response.UserInfoDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
+import team.pre004.stackoverflowclone.mapper.AnswerMapper;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
 import team.pre004.stackoverflowclone.mapper.QuestionMapper;
 import team.pre004.stackoverflowclone.mapper.UsersMapper;
@@ -25,13 +27,15 @@ public class QuestionMapperImpl implements QuestionMapper {
 
     private final UsersMapper usersMapper;
     private final CommentMapper commentMapper;
+    private final AnswerMapper answerMapper;
+
 
     @Override
-    public List<QuestionInfoDto> getQuestionInfos(List<Question> questions) {
+    public Set<QuestionInfoDto> getQuestionInfos(Set<Question> questions) {
         if (questions == null)
-            return Collections.emptyList();
+            return new LinkedHashSet<>();
 
-        List<QuestionInfoDto> questionInfos = new LinkedList<>();
+        Set<QuestionInfoDto> questionInfos = new LinkedHashSet<>();
         for(Question questionInfo : questions) {
             questionInfos.add(getQuestionInfo(questionInfo));
         }
@@ -80,7 +84,8 @@ public class QuestionMapperImpl implements QuestionMapper {
                 .likes(question.getLikes())
                 .createDate(question.getCreateDate())
                 .modDate(question.getModDate())
-                .comments(commentMapper.getQuestionCommentInfo(question.getQuestionComment()))
+                .answers(answerMapper.getAnswerInfos(answers))
+                .comments(commentMapper.getQuestionCommentInfos(comments))
                 .build();
 
     }
