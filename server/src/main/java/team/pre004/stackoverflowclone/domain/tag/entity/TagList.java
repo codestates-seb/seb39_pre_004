@@ -27,9 +27,5 @@ public class TagList {
     @JsonIgnore
     private Question question;
 
-    @ManyToOne
-    @JoinColumn(name = "answerId")
-    @JsonIgnore
-    private Answer answer;
 
 }

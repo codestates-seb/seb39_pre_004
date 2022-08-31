@@ -3,22 +3,20 @@ package team.pre004.stackoverflowclone.dto.post.request;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
-import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
-
 
 @NoArgsConstructor
 @Data
-public class QuestionCommentDto {
-
+public class AnswerCommentDto {
     private Users owner;
     private String body;
-    private Question question;
+    private Answer answer;
 
     @Builder
-    public QuestionCommentDto(String body, Question question) {
+    public AnswerCommentDto(String body, Answer answer) {
         this.body = body;
-        this.question = question;
+        this.answer = answer;
     }
 }

@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import team.pre004.stackoverflowclone.dto.post.PostType;
 
-@NoArgsConstructor
+
 @Data
+@NoArgsConstructor
 public class LikesDto {
     private Integer likes;
     private PostType postType;

@@ -9,6 +9,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
 import team.pre004.stackoverflowclone.dto.post.response.QuestionInfoDto;
+import team.pre004.stackoverflowclone.dto.post.response.QuestionPostDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 import team.pre004.stackoverflowclone.dto.post.response.LikesDto;
@@ -100,13 +101,17 @@ public class QuestionController {
     @GetMapping("/{id}/edit") // 게시글 수정 페이지
     public ResponseEntity<?> getEditQuestionForm(@PathVariable Long id) {
 
-        Question question = questionService.findById(id).orElseThrow();
+        Question question = questionService.findById(id).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
 
-        QuestionInfoDto questionInfo = questionMapper.getQuestionInfo(question);
+
+        QuestionPostDto questionPostDto = questionMapper.getQuestionPostDto(question);
+
         CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("게시글 수정 페이지 입니다.")
-                .data(questionInfo)
+                .data(questionPostDto)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -228,9 +233,10 @@ public class QuestionController {
         questionCommentService.save(
                 commentMapper.getQuestionComment(principalDetails.getUsers(), id, questionCommentDto));
 
+
         CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(questionCommentService.findAllByQuestion(id))
+                .data(commentMapper.getQuestionCommentInfos(questionCommentService.findAllByQuestion(id)))
                 .build();
 
         //Todo : ?
@@ -245,24 +251,23 @@ public class QuestionController {
 
         //Todo : 댓글 게시자만 수정할 수 있습니다.
 
-
-        //Todo : 해당 질문의 댓글을 수정합니다.
-
         PrincipalDetails principalDetails = PrincipalDetails.builder().
                 users(usersRepository.save(users))
                 .build();
 
-        questionCommentService.update(
-                commentId, commentMapper.getQuestionComment(principalDetails.getUsers(), id, questionCommentDto));
+        //Todo : 해당 질문의 댓글을 수정합니다.
 
-        CMRespDto<?> cmRespDto = CMRespDto.builder()
+
+        questionCommentService.update(id, commentId, questionCommentDto);
+
+        CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(questionCommentService.findAllByQuestion(id))
+                .data(commentMapper.getQuestionCommentInfos(questionCommentService.findAllByQuestion(id)))
                 .build();
 
         //Todo : ?
 
-        return new ResponseEntity<>(cmRespDto, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/comments/{commentId}") //게시글 댓글 삭제 요청
@@ -273,12 +278,12 @@ public class QuestionController {
         //Todo : 해당 질문의 댓글을 삭제합니다.
         questionCommentService.deleteById(id, commentId);
 
-        CMRespDto<?> cmRespDto = CMRespDto.builder()
+        CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .data(questionCommentService.findAllByQuestion(id))
                 .build();
 
-        return new ResponseEntity<>(cmRespDto, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

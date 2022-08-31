@@ -7,10 +7,11 @@ import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface QuestionService {
     Page<Question> findAll(Pageable pageable);
-    List<Question> findAll();
+    Set<Question> findAll();
     Question save(Question question);
     Question update(Long id, Question question);
     Optional<Question> findById(Long id);

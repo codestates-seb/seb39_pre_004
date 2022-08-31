@@ -23,10 +23,12 @@ import team.pre004.stackoverflowclone.service.QuestionService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+
+@Service
 @Slf4j
 @RequiredArgsConstructor
-@Service
 public class QuestionServiceImpl implements QuestionService{
 
     private final QuestionRepository questionRepository;
@@ -43,8 +45,8 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Question> findAll() {
-        return questionRepository.findAll();
+    public Set<Question> findAll() {
+        return questionRepository.findAllBy();
     }
 
     @Override
@@ -86,7 +88,7 @@ public class QuestionServiceImpl implements QuestionService{
         try {
             questionRepository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
-            log.info("해당하는 게시물이 없습니다 id : " + id , ex);
+            throw new CustomLikesConflictException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
         }
     }
 
