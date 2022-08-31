@@ -71,9 +71,6 @@ public class Users {
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<QuestionLikeDown> questionLikeDownList = new HashSet<>();
 
-    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerAccept> answerAccept = new HashSet<>();
-
 
     @Builder
     public Users(String name, String email, String password, String bio, String link, String image) {
@@ -85,14 +82,6 @@ public class Users {
         this.image = image;
     }
 
-
-    public void mappingAnswerAccept(AnswerAccept answerAccept) {
-        this.answerAccept.add(answerAccept);
-    }
-
-    public void undoAnswerAccept(AnswerAccept answerAccept) {
-        this.answerAccept.remove(answerAccept);
-    }
 
 
     public void mappingQuestionLikeUp(QuestionLikeUp questionLikeUp){

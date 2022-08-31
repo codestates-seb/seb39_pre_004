@@ -22,7 +22,8 @@ public enum ExceptionMessage {
 
     NOT_ACCESS_EDIT_QUESTION(400, "질문을 변경할 수 있는 권한이 없습니다."),
     NOT_ACCESS_EDIT_ANSWER(401, "답변을 변경할 수 있는 권한이 없습니다."),
-    NOT_ACCESS_EDIT_COMMENT(402, "댓글을 변경할 수 있는 권한이 없습니다."),
+    NOT_ACCESS_EDIT_ANSWER_ACCESS(402, "답변을 변경할 수 있는 권한이 없습니다."),
+    NOT_ACCESS_EDIT_COMMENT(403, "댓글을 변경할 수 있는 권한이 없습니다."),
     CONFLICT_LIKE_UP(491, "이미 좋아요 버튼을 누르셨습니다."),
     CONFLICT_LIKE_UP_UNDO(492, "좋아요 버튼이 눌려있지 않습니다."),
     CONFLICT_LIKE_DOWN(493, "이미 싫어요 버튼을 누르셨습니다."),

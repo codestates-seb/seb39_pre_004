@@ -10,9 +10,11 @@ import team.pre004.stackoverflowclone.domain.post.entity.Question;
 import team.pre004.stackoverflowclone.domain.post.repository.AnswerLikeDownRepository;
 import team.pre004.stackoverflowclone.domain.post.repository.AnswerLikeUpRepository;
 import team.pre004.stackoverflowclone.domain.post.repository.AnswerRepository;
+import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.exception.CustomLikesConflictException;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.service.AnswerService;
 
@@ -38,6 +40,9 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     @Transactional
     public Answer save(Answer answer) {
+
+
+
         return answerRepository.save(answer);
     }
 
@@ -67,17 +72,73 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    @Transactional
     public boolean acceptAnswer(Long userId, Long answerId) {
-        return false;
+
+        Users owner = usersRepository.findById(userId).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_USER_ID)
+        );
+
+        Answer answer = answerRepository.findById(answerId).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID)
+        );
+
+        if(owner != answer.getOwner())
+            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER_ACCESS);
+
+        Question question = answer.getQuestion();
+
+        try {
+            //다른 답글을 취소합니다.
+            for(Answer ans : question.getAnswers()) {
+                ans.accept(false);
+            }
+
+            answer.accept(true);
+            question.accept(true);
+
+            return answer.isAccepted();
+
+        } catch (Exception e) {
+            throw new CustomNotAccessItemsException("답글을 취소할 수 없습니다.");
+        }
+
     }
 
     @Override
+    @Transactional
     public boolean acceptAnswerUndo(Long userId, Long answerId) {
-        return false;
+        Users owner = usersRepository.findById(userId).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_USER_ID)
+        );
+
+        Answer answer = answerRepository.findById(answerId).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID)
+        );
+
+        if(owner != answer.getOwner())
+            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER_ACCESS);
+
+        Question question = answer.getQuestion();
+
+        try {
+
+            answer.accept(false);
+            question.accept(false);
+
+            return answer.isAccepted();
+
+        } catch (Exception e) {
+            throw new CustomNotAccessItemsException("취소를 실패하였습니다.");
+        }
     }
 
     @Override
     public Integer selectLikeUp(Long userId, Long answerId) {
+
+
+
+
         return null;
     }
 

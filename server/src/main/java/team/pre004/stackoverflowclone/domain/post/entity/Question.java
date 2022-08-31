@@ -78,6 +78,11 @@ public class Question{
         this.owner = owner;
     }
 
+    public void accept(boolean isAccepted) {
+        this.isAccepted = isAccepted;
+    }
+
+
     public void mappingQuestionLikeUp(QuestionLikeUp questionLikeUp) {
         this.questionLikeUp.add(questionLikeUp);
     }

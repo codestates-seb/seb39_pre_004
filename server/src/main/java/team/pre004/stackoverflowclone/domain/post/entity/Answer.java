@@ -32,8 +32,8 @@ public class Answer {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int likes = 0;
 
-    @Column(columnDefinition = "boolean default false", nullable = false)
-    private boolean isAccepted;
+    @Column(nullable = false)
+    private boolean isAccepted = false;
 
     @CreatedDate
     private LocalDateTime createDate;
@@ -54,13 +54,10 @@ public class Answer {
     private Set<AnswerComment> answerComments = new HashSet<>();
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerLikeUp> answerLikeUp = new HashSet<>();
+    private Set<AnswerLikeUp> answerLikeUp;
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeDown> answerLikeDown = new HashSet<>();
-
-    @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerAccept> answerAccept = new HashSet<>();
 
 
     @Builder
@@ -74,16 +71,9 @@ public class Answer {
         this.body = body;
     }
 
-
-    public void mappingAnswerAccept(AnswerAccept answerAccept) {
-        this.answerAccept.add(answerAccept);
+    public void accept(boolean isAccepted){
+        this.isAccepted = isAccepted;
     }
-
-    public void undoAnswerAccept(AnswerAccept answerAccept) {
-        this.answerAccept.remove(answerAccept);
-    }
-
-
 
 
     public void mappingAnswerLikeUp(AnswerLikeUp answerLikeUp) {

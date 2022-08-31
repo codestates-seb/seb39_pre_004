@@ -10,6 +10,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.dto.post.request.AnswerDto;
 import team.pre004.stackoverflowclone.dto.post.response.AnswerInfoDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
 import team.pre004.stackoverflowclone.mapper.AnswerMapper;
@@ -45,11 +46,16 @@ public class AnswerMapperImpl implements AnswerMapper {
     public Answer answerDtoToAnswer(Users owner, Long questionId, AnswerDto answerDto) {
 
         if(answerDto == null)
-            throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
-
+            throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
 
         if(owner == null)
             throw new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID);
+
+        questionRepository.findById(questionId).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
+
+
 
         return Answer.builder()
                 .owner(owner)

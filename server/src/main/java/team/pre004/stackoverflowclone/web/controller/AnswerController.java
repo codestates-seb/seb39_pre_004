@@ -92,6 +92,8 @@ public class AnswerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
+
     @DeleteMapping("/{id}") // 답글 삭제 요청
     public ResponseEntity deleteAnswer(@PathVariable Long id) {
 
@@ -141,15 +143,39 @@ public class AnswerController {
     }
 
     @PostMapping("/{id}/selected") // 답글 채택 요청
-    public ResponseEntity selectAnswer(@PathVariable Long id) {
+    public ResponseEntity<?> selectAnswer(@PathVariable Long id) {
 
-        return new ResponseEntity(HttpStatus.OK);
+        PrincipalDetails principalDetails = PrincipalDetails.builder().
+                users(usersRepository.save(users))
+                .build();
+
+        boolean isAccepted = answerService.acceptAnswer(principalDetails.getUsers().getOwnerId(), id);
+
+        CMRespDto<?> response = CMRespDto.builder()
+                .code(ResponseCode.SUCCESS)
+                .data(isAccepted)
+                .message("답글을 채택하였습니다.")
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/selected/undo") //답글 채택 취소 요청
-    public ResponseEntity undoSelectAnswer(@PathVariable Long id) {
+    public ResponseEntity<?> undoSelectAnswer(@PathVariable Long id) {
 
-        return new ResponseEntity(HttpStatus.OK);
+        PrincipalDetails principalDetails = PrincipalDetails.builder().
+                users(usersRepository.save(users))
+                .build();
+
+        boolean isAccepted = answerService.acceptAnswerUndo(principalDetails.getUsers().getOwnerId(), id);
+
+        CMRespDto<?> response = CMRespDto.builder()
+                .code(ResponseCode.SUCCESS)
+                .data(isAccepted)
+                .message("답글 채택을 취소하였습니다.")
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
