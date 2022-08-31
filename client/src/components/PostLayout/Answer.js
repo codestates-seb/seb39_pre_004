@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import BlueButton from './Bluebutton';
+import BlueButton from '../Bluebutton';
 import ViewContainer from './ViewContainer';
 
 const SortMenu = styled.div`
