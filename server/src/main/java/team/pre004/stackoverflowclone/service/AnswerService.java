@@ -9,9 +9,13 @@ import java.util.Set;
 public interface AnswerService {
 
     Set<Answer> findAll();
+    Set<Answer> findAllByQuestion(Question question);
+
     Answer save(Answer answer);
     Answer update(Long answerId, Answer answer);
     Optional<Answer> findById(Long id);
+
+
     void deleteById(Long id);
     boolean acceptAnswer(Long userId, Long answerId);
     boolean acceptAnswerUndo(Long userId, Long answerId);

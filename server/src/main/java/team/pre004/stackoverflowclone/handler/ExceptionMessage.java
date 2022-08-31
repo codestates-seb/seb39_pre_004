@@ -19,6 +19,8 @@ public enum ExceptionMessage {
     NOT_CONTENT_ANSWER_BODY(55, "답변 내용이 존재하지 않습니다."),
     NOT_CONTENT_QUESTION_COMMENT_ID(56, "댓글이 존재하지 않습니다."),
     NOT_CONTENT_QUESTION_COMMENT_BODY(57, "댓글 내용이 존재하지 않습니다."),
+    NOT_CONTENT_ANSWER_COMMENT_ID(56, "댓글이 존재하지 않습니다."),
+    NOT_CONTENT_ANSWER_COMMENT_BODY(57, "댓글 내용이 존재하지 않습니다."),
 
     NOT_ACCESS_EDIT_QUESTION(400, "질문을 변경할 수 있는 권한이 없습니다."),
     NOT_ACCESS_EDIT_ANSWER(401, "답변을 변경할 수 있는 권한이 없습니다."),

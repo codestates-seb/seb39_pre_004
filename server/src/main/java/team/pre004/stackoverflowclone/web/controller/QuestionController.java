@@ -255,14 +255,14 @@ public class QuestionController {
 
         questionCommentService.update(id, commentId, questionCommentDto);
 
-        CMRespDto<?> cmRespDto = CMRespDto.builder()
+        CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .data(questionCommentService.findAllByQuestion(id))
                 .build();
 
         //Todo : ?
 
-        return new ResponseEntity<>(cmRespDto, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/comments/{commentId}") //게시글 댓글 삭제 요청
@@ -273,12 +273,12 @@ public class QuestionController {
         //Todo : 해당 질문의 댓글을 삭제합니다.
         questionCommentService.deleteById(id, commentId);
 
-        CMRespDto<?> cmRespDto = CMRespDto.builder()
+        CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .data(questionCommentService.findAllByQuestion(id))
                 .build();
 
-        return new ResponseEntity<>(cmRespDto, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

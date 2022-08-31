@@ -40,6 +40,10 @@ public class AnswerComment {
     @JsonIgnore
     private Answer answer;
 
+    public void update(String body) {
+        this.body = body;
+    }
+
 
     @Builder
     public AnswerComment(Users owner, Answer answer, String body) {
