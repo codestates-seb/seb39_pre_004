@@ -1,10 +1,12 @@
 package team.pre004.stackoverflowclone.domain.user.entity;
 ;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.Query;
+import team.pre004.stackoverflowclone.domain.LocalDateEntity;
 import team.pre004.stackoverflowclone.domain.post.entity.*;
 
 import javax.persistence.*;
@@ -22,7 +24,7 @@ import java.util.Set;
 @Getter
 @Table(name = "Owner")
 @EntityListeners(AuditingEntityListener.class)
-public class Users {
+public class Users extends LocalDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ownerId;
@@ -43,10 +45,6 @@ public class Users {
 
     private String image;
 
-    @CreatedDate
-    private LocalDateTime createDate;
-    @LastModifiedDate
-    private LocalDateTime modDate;
 
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Answer> answers = new HashSet<>();

@@ -23,8 +23,8 @@ public class AnswerDto {
     private String body;
     private boolean isAccepted;
 
-    private LocalDateTime createDate;
-    private LocalDateTime modDate;
+    private String createDate;
+    private String modDate;
 
     private Set<QuestionCommentDto> comments;
 }

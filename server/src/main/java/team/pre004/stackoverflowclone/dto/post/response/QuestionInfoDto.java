@@ -29,8 +29,8 @@ public class QuestionInfoDto {
     private boolean isAccepted;
     private List<TagList> tags;
     private String link;
-    private LocalDateTime createDate;
-    private LocalDateTime modDate;
+    private String createDate;
+    private String modDate;
     private Set<AnswerInfoDto> answers;
     private Set<QuestionCommentInfoDto> comments;
 

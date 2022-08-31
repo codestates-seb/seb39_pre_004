@@ -12,6 +12,6 @@ public class AnswerCommentInfoDto {
     private UserInfoDto owner;
     private Long answerCommentId;
     private String body;
-    private LocalDateTime createDate;
-    private LocalDateTime modDate;
+    private String createDate;
+    private String modDate;
 }

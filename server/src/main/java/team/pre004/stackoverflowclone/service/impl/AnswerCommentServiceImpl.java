@@ -30,7 +30,7 @@ public class AnswerCommentServiceImpl implements AnswerCommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AnswerComment> findAllByAnswer(Long answerId) {
+    public Set<AnswerComment> findAllByAnswer(Long answerId) {
         return answerCommentRepository.findAllByAnswer(
                 answerRepository.findById(answerId)
                         .orElseThrow()
@@ -39,7 +39,7 @@ public class AnswerCommentServiceImpl implements AnswerCommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AnswerComment> findAllByUsers(Long usersId) {
+    public Set<AnswerComment> findAllByUsers(Long usersId) {
         return answerCommentRepository.findAllByOwner(
                 usersRepository.findById(usersId)
                         .orElseThrow()

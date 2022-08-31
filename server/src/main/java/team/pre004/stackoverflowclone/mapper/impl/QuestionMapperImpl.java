@@ -8,9 +8,7 @@ import team.pre004.stackoverflowclone.domain.post.entity.Question;
 import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
-import team.pre004.stackoverflowclone.dto.post.response.QuestionCommentInfoDto;
-import team.pre004.stackoverflowclone.dto.post.response.QuestionInfoDto;
-import team.pre004.stackoverflowclone.dto.post.response.UserInfoDto;
+import team.pre004.stackoverflowclone.dto.post.response.*;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
@@ -64,6 +62,45 @@ public class QuestionMapperImpl implements QuestionMapper {
     }
 
     @Override
+    public Set<QuestionIndexDto> getQuestionIndexs(Set<Question> questions) {
+        if (questions == null)
+            return new LinkedHashSet<>();
+
+        Set<QuestionIndexDto> questionIndexs = new LinkedHashSet<>();
+        for(Question questionIndex : questions) {
+            questionIndexs.add(getQuestionIndex(questionIndex));
+        }
+
+        return questionIndexs;
+    }
+
+    @Override
+    public QuestionIndexDto getQuestionIndex(Question question) {
+
+        if(question == null)
+            throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
+
+        UserInfoDto userInfo = usersMapper.getUserInfo(question.getOwner());
+        Set<Answer> answers = question.getAnswers();
+
+        return QuestionIndexDto.builder()
+                .owner(userInfo)
+                .questionId(question.getQuestionId())
+                .title(question.getTitle())
+                .body(question.getBody())
+                .link(question.getLink())
+                .isAccepted(question.isAccepted())
+                .views(question.getView())
+                .likes(question.getLikes())
+                .tags(question.getTags())
+                .createDate(question.getCreateDate())
+                .modDate(question.getModDate())
+                .answers(answerMapper.getAnswerInfos(answers).size())
+                .build();
+
+    }
+
+    @Override
     public QuestionInfoDto getQuestionInfo(Question question) {
         if(question == null)
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
@@ -88,5 +125,23 @@ public class QuestionMapperImpl implements QuestionMapper {
                 .comments(commentMapper.getQuestionCommentInfos(comments))
                 .build();
 
+    }
+
+    @Override
+    public QuestionPostDto getQuestionPostDto(Question question) {
+
+        if(question == null)
+            throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
+
+        UserInfoDto userInfo = usersMapper.getUserInfo(question.getOwner());
+
+        return QuestionPostDto.builder()
+                .owner(userInfo)
+                .questionId(question.getQuestionId())
+                .title(question.getTitle())
+                .body(question.getBody())
+                .tags(question.getTags())
+                .link(question.getLink())
+                .build();
     }
 }

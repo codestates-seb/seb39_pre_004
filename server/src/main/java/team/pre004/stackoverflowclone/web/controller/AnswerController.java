@@ -13,11 +13,13 @@ import team.pre004.stackoverflowclone.dto.post.PostType;
 import team.pre004.stackoverflowclone.dto.post.request.AnswerCommentDto;
 import team.pre004.stackoverflowclone.dto.post.request.AnswerDto;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
+import team.pre004.stackoverflowclone.dto.post.response.AnswerCommentInfoDto;
 import team.pre004.stackoverflowclone.dto.post.response.AnswerInfoDto;
 import team.pre004.stackoverflowclone.dto.post.response.LikesDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotContentByIdException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.AnswerMapper;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
@@ -210,7 +212,7 @@ public class AnswerController {
 
         CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(answerCommentService.findAllByAnswer(id))
+                .data(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(id)))
                 .build();
 
 
@@ -226,11 +228,12 @@ public class AnswerController {
                 users(usersRepository.save(users))
                 .build();
 
-        answerCommentService.update(id, commentId, answerCommentDto);
+         answerCommentService.update(id, commentId, answerCommentDto);
+
 
         CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(answerCommentService.findAllByAnswer(id))
+                .data(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(id)))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
