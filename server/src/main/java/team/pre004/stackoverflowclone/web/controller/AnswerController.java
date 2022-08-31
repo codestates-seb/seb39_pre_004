@@ -23,10 +23,10 @@ import team.pre004.stackoverflowclone.handler.exception.CustomNotContentByIdExce
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.AnswerMapper;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
+import team.pre004.stackoverflowclone.security.PrincipalDetails;
 import team.pre004.stackoverflowclone.service.AnswerCommentService;
 import team.pre004.stackoverflowclone.service.AnswerService;
 import team.pre004.stackoverflowclone.service.CommonService;
-import team.pre004.stackoverflowclone.web.config.auth.PrincipalDetails;
 
 import java.util.Set;
 

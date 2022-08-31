@@ -12,16 +12,14 @@ import team.pre004.stackoverflowclone.domain.post.entity.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Getter
+@Setter
 @Table(name = "Owner")
 @EntityListeners(AuditingEntityListener.class)
 public class Users extends LocalDateEntity {
@@ -39,11 +37,21 @@ public class Users extends LocalDateEntity {
 
     @Column(unique = true, nullable = false)
     private String password;
+
+    @Column
+    private String roles; //User, MANAGER, ADMIN
     private String bio;
 
     private String link;
 
     private String image;
+
+    public List<String> getRoleList(){
+        if(this.roles.length() > 0) {
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
 
 
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

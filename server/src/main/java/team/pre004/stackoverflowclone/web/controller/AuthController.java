@@ -3,13 +3,28 @@ package team.pre004.stackoverflowclone.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import team.pre004.stackoverflowclone.domain.user.entity.Users;
+import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class AuthController {
+
+    private final UsersRepository usersRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @PostMapping("/signup")
+    public String join(@RequestBody Users users){
+        users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
+        users.setRoles("ROLE_ADMIN");
+        usersRepository.save(users);
+        return "회원가입 완료";
+
+    }
 
 
 
@@ -20,12 +35,6 @@ public class AuthController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/signup") //회원 가입 요청
-    public ResponseEntity signUp(@RequestBody SignUpDto signUpDto) {
-
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
     @GetMapping("/signup/oauth2/authorization/google") //구글 회원 가입 페이지
     public ResponseEntity getGoogleSignUpForm() {

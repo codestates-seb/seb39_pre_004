@@ -21,10 +21,10 @@ import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsExce
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
 import team.pre004.stackoverflowclone.mapper.QuestionMapper;
+import team.pre004.stackoverflowclone.security.PrincipalDetails;
 import team.pre004.stackoverflowclone.service.CommonService;
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 import team.pre004.stackoverflowclone.service.QuestionService;
-import team.pre004.stackoverflowclone.web.config.auth.PrincipalDetails;
 
 
 @RequiredArgsConstructor
