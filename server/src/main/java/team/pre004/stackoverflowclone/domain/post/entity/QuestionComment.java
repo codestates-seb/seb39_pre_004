@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,11 +15,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Getter
+@Table(name = "QuestionComment")
 @EntityListeners(AuditingEntityListener.class)
 public class QuestionComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long questionCommentId;
 
     @Column(nullable = false)
     private String body;
@@ -30,12 +32,24 @@ public class QuestionComment {
     private LocalDateTime modDate;
 
     @ManyToOne
+    @JoinColumn(name ="ownerId")
+    @JsonIgnore
+    private Users owner;
+
+    @ManyToOne
+    @JoinColumn(name = "questionId")
     @JsonIgnore
     private Question question;
 
     @Builder
-    public QuestionComment(String body, Question question) {
+    public QuestionComment(String body, Question question, Users owner) {
         this.body = body;
         this.question = question;
+        this.owner = owner;
     }
+
+    public void update(String body){
+        this.body = body;
+    }
+
 }

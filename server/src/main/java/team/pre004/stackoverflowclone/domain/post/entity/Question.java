@@ -11,6 +11,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 @Slf4j
@@ -18,12 +19,13 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Table(name = "Question")
 @EntityListeners(AuditingEntityListener.class)
 public class Question{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long questionId;
 
     @Column(nullable = false)
     private String title;
@@ -34,7 +36,10 @@ public class Question{
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 
-    private Integer likes = 0;
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean isAccepted;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int likes ;
 
     @CreatedDate
     private LocalDateTime createDate;
@@ -45,20 +50,21 @@ public class Question{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ownerId")
     @JsonIgnore
     private Users owner;
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Answer> answers;
+    private Set<Answer> answers = new HashSet<>() ;
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<QuestionComment> questionComment;
+    private Set<QuestionComment> questionComment = new HashSet<>();
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<QuestionLikeUp> questionLikeUp;
+    private Set<QuestionLikeUp> questionLikeUp = new HashSet<>();
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<QuestionLikeDown> questionLikeDown;
+    private Set<QuestionLikeDown> questionLikeDown = new HashSet<>();
 
     @OneToMany(mappedBy ="question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TagList> tags;
@@ -72,6 +78,11 @@ public class Question{
         this.owner = owner;
     }
 
+    public void accept(boolean isAccepted) {
+        this.isAccepted = isAccepted;
+    }
+
+
     public void mappingQuestionLikeUp(QuestionLikeUp questionLikeUp) {
         this.questionLikeUp.add(questionLikeUp);
     }
@@ -81,7 +92,7 @@ public class Question{
     }
 
     public void updateLikeCount() {
-        this.likes = this.questionLikeUp.size() + this.questionLikeDown.size();
+        this.likes = this.questionLikeUp.size() - this.questionLikeDown.size();
     }
 
     public void undoQuestionLikeUp(QuestionLikeUp questionLikeUp) {

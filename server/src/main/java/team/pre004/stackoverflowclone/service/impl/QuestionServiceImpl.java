@@ -15,18 +15,20 @@ import team.pre004.stackoverflowclone.domain.post.repository.QuestionLikeUpRepos
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
-import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
-import team.pre004.stackoverflowclone.handler.exception.CustomNullPointItemsExeption;
+import team.pre004.stackoverflowclone.handler.exception.CustomLikesConflictException;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
 import team.pre004.stackoverflowclone.service.QuestionService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+
+@Service
 @Slf4j
 @RequiredArgsConstructor
-@Service
 public class QuestionServiceImpl implements QuestionService{
 
     private final QuestionRepository questionRepository;
@@ -43,8 +45,8 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Question> findAll() {
-        return questionRepository.findAll();
+    public Set<Question> findAll() {
+        return questionRepository.findAllBy();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class QuestionServiceImpl implements QuestionService{
     public Question update(Long id, Question question) {
 
         Question updateQuestion = questionRepository.findById(id).orElseThrow(
-                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         );
 
         updateQuestion.update(
@@ -76,7 +78,7 @@ public class QuestionServiceImpl implements QuestionService{
     public Optional<Question> findById(Long id) {
 
         return Optional.ofNullable(questionRepository.findById(id).orElseThrow(
-                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         ));
     }
 
@@ -86,7 +88,7 @@ public class QuestionServiceImpl implements QuestionService{
         try {
             questionRepository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
-            log.info("해당하는 게시물이 없습니다 id : " + id , ex);
+            throw new CustomLikesConflictException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
         }
     }
 
@@ -97,15 +99,15 @@ public class QuestionServiceImpl implements QuestionService{
     @Transactional
     public Integer selectLikeUp(Long userId, Long questionId) {
 
-        //Todo: 좋아요 버튼 클릭 (좋아요가 없는 경우 좋아요 추가, 있는 경우 취소 / 싫어요가 눌려져 있는 경우 싫어요 취소)
+        //Todo: 좋아요 버튼 클릭 (좋아요가 없는 경우 좋아요 추가, 싫어요가 눌려져 있는 경우 싫어요 취소 후 좋아요)
         Question question = questionRepository.findById(questionId).orElseThrow(
-                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         );
         Users users = usersRepository.findById(userId).orElseThrow(
                 () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
         );
-        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
-        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);
+        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndOwner(question, users);
+        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndOwner(question, users);
 
         //해당 질문에 싫어요 버튼이 눌려져 있는 경우
         byQuestionAndUsersLikeDown.ifPresent(
@@ -115,22 +117,43 @@ public class QuestionServiceImpl implements QuestionService{
                 }
         );
 
-
         byQuestionAndUsersLikeUp.ifPresentOrElse(//해당 질문에 좋아요 버튼이 눌려져 있는 경우
                 questionLikeUp -> { //좋아요 취소
-                    questionLikeUpRepository.delete(questionLikeUp); //
-                    question.undoQuestionLikeUp(questionLikeUp);
+                    throw new CustomLikesConflictException(ExceptionMessage.CONFLICT_LIKE_UP);
                 },
                 () -> { //좋아요 추가
                    QuestionLikeUp questionLikeUp = QuestionLikeUp.builder().build();
                     questionLikeUp.mappingQuestion(question);
                     questionLikeUp.mappingUsers(users);
                     questionLikeUpRepository.save(questionLikeUp);
-
                 }
-
         );
+        question.updateLikeCount();
+        return question.getLikes();
+    }
 
+    @Override
+    @Transactional
+    public Integer selectLikeUpUndo(Long userId, Long questionId) {
+
+        //Todo: 좋아요 버튼 클릭 (좋아요가 있는 경우 취소 )
+        Question question = questionRepository.findById(questionId).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
+        Users users = usersRepository.findById(userId).orElseThrow(
+                () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
+        );
+        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndOwner(question, users);
+
+        byQuestionAndUsersLikeUp.ifPresentOrElse(//해당 질문에 좋아요 버튼이 눌려져 있는 경우
+                questionLikeUp -> { //좋아요 취소
+                    questionLikeUpRepository.delete(questionLikeUp); //
+                    question.undoQuestionLikeUp(questionLikeUp);
+                },
+                () -> {
+                    throw new CustomLikesConflictException(ExceptionMessage.CONFLICT_LIKE_UP_UNDO);
+                }
+        );
         question.updateLikeCount();
         return question.getLikes();
     }
@@ -141,14 +164,13 @@ public class QuestionServiceImpl implements QuestionService{
 
         //Todo: 싫어요 버튼 클릭 (싫어요 가 없는 경우 싫어요  추가, 있는 경우 취소 / 좋아요가 눌려져 있는 경우 좋아요 취소)
         Question question = questionRepository.findById(questionId).orElseThrow(
-                () -> new CustomNullPointItemsExeption(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         );
         Users users = usersRepository.findById(userId).orElseThrow(
                 () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
         );
-        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndUsers(question, users);
-        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndUsers(question, users);
-
+        Optional<QuestionLikeUp> byQuestionAndUsersLikeUp = questionLikeUpRepository.findByQuestionAndOwner(question, users);
+        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndOwner(question, users);
         //해당 질문에 좋아요 버튼이 눌려져 있는 경우
         byQuestionAndUsersLikeUp.ifPresent(
                 questionLikeUp -> { //좋아요 취소
@@ -156,6 +178,35 @@ public class QuestionServiceImpl implements QuestionService{
                     question.undoQuestionLikeUp(questionLikeUp);
                 }
         );
+        //해당 싫어요 좋아요 버튼이 눌려져 있는 경우
+        byQuestionAndUsersLikeDown.ifPresentOrElse(
+                questionLikeDown -> { //싫어요 취소
+                    throw new CustomLikesConflictException(ExceptionMessage.CONFLICT_LIKE_DOWN);
+                },
+                () -> { //싫어요 추가
+                    QuestionLikeDown questionLikeDown = QuestionLikeDown.builder().build();
+                    questionLikeDown.mappingQuestion(question);
+                    questionLikeDown.mappingUsers(users);
+                    questionLikeDownRepository.save(questionLikeDown);
+                }
+        );
+        question.updateLikeCount();
+        return question.getLikes();
+    }
+
+
+    @Override
+    @Transactional
+    public Integer selectLikeDownUndo(Long userId, Long questionId) {
+        //Todo: 싫어요 버튼 클릭 (싫어요 가 없는 경우 싫어요  추가, 있는 경우 취소 / 좋아요가 눌려져 있는 경우 좋아요 취소)
+        Question question = questionRepository.findById(questionId).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
+        Users users = usersRepository.findById(userId).orElseThrow(
+                () -> new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID)
+        );
+
+        Optional<QuestionLikeDown> byQuestionAndUsersLikeDown = questionLikeDownRepository.findByQuestionAndOwner(question, users);
 
         //해당 싫어요 좋아요 버튼이 눌려져 있는 경우
         byQuestionAndUsersLikeDown.ifPresentOrElse(
@@ -164,16 +215,8 @@ public class QuestionServiceImpl implements QuestionService{
                     question.undoQuestionLikeDown(questionLikeDown);
                 },
                 () -> { //싫어요 추가
-                    QuestionLikeDown questionLikeDown = QuestionLikeDown.builder().build();
-
-                    questionLikeDown.mappingQuestion(question);
-                    questionLikeDown.mappingUsers(users);
-
-
-                    questionLikeDownRepository.save(questionLikeDown);
-
+                    throw new CustomLikesConflictException(ExceptionMessage.CONFLICT_LIKE_DOWN_UNDO);
                 }
-
         );
 
         question.updateLikeCount();

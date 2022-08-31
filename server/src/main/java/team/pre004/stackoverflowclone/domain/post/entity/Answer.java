@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.domain.post.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -9,6 +10,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Getter
+@Table(name = "Answer")
 @EntityListeners(AuditingEntityListener.class)
 public class Answer {
 
@@ -26,10 +29,11 @@ public class Answer {
     @Column(nullable = false)
     private String body;
 
-    private Integer likes = 0;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int likes = 0;
 
     @Column(nullable = false)
-    private boolean isAccepted;
+    private boolean isAccepted = false;
 
     @CreatedDate
     private LocalDateTime createDate;
@@ -37,23 +41,38 @@ public class Answer {
     private LocalDateTime modDate;
 
     @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "ownerId")
     private Users owner;
 
     @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "questionId")
     private Question question;
+
+    @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerComment> answerComments = new HashSet<>();
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<AnswerLikeUp> answerLikeUp;
 
     @OneToMany(mappedBy ="answer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerLikeDown> answerLikeDown;
+    private Set<AnswerLikeDown> answerLikeDown = new HashSet<>();
 
-    @OneToMany
-    private List<TagList> tags;
 
     @Builder
-    public Answer(String body) {
+    public Answer(Users owner, Question question, String body) {
+        this.owner = owner;
+        this.question = question;
         this.body = body;
+    }
+
+    public void update(String body) {
+        this.body = body;
+    }
+
+    public void accept(boolean isAccepted){
+        this.isAccepted = isAccepted;
     }
 
 

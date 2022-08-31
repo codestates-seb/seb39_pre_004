@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import SubHeader from '../components/SubHeader';
 import Subtitle from '../components/Subtitle';
 import Input from '../components/Input';
-import Textarea from '../components/TextEditor';
+import TextEditor from '../components/TextEditor';
 import BlueButton from '../components/Bluebutton';
 
 const Profile = styled.div`
@@ -12,10 +12,6 @@ const Profile = styled.div`
 const UserInfo = styled.div`
   font-size: 2rem;
   margin-left: 20px;
-  p {
-    font-size: 1.2rem;
-    color: #555;
-  }
 `;
 
 const ProfileImage = styled.div`
@@ -58,11 +54,10 @@ const Users = () => {
           type="text"
           placeholder="e.g is threr an R function for finding the index if an element in a vector"
         />
-        <Textarea placeholder="More info about your question. You can use markdown here" />
+        <TextEditor />
       </ProfileEdit>
       <BlueButton>Save profile</BlueButton>
     </>
   );
 };
-
 export default Users;

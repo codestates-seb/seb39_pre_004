@@ -8,4 +8,9 @@ public class CustomNotAccessItemsException extends RuntimeException{
     public CustomNotAccessItemsException(ExceptionMessage exceptionMessage) {
         super(exceptionMessage.getMessage());
     }
+
+    public CustomNotAccessItemsException(String message) {
+        super(message);
+    }
+
 }

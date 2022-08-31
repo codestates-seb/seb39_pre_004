@@ -4,12 +4,14 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.Query;
 import team.pre004.stackoverflowclone.domain.post.entity.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,11 +20,12 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Getter
+@Table(name = "Owner")
 @EntityListeners(AuditingEntityListener.class)
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long ownerId;
 
     @Column(unique = true, nullable = false)
     private String name;
@@ -46,22 +49,27 @@ public class Users {
     private LocalDateTime modDate;
 
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Answer> answers;
+    private Set<Answer> answers = new HashSet<>();
 
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Question> questions;
+    private Set<Question> questions = new HashSet<>();
 
-    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerLikeUp> answerLikeUpList;
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<QuestionComment> questionComments = new HashSet<>();
 
-    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<AnswerLikeDown> answerLikeDownList;
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerComment> answerComments = new HashSet<>();
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerLikeUp> answerLikeUpList = new HashSet<>();
 
-    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<QuestionLikeUp> questionLikeUpList;
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<AnswerLikeDown> answerLikeDownList = new HashSet<>();
 
-    @OneToMany(mappedBy ="users", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<QuestionLikeDown> questionLikeDownList;
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<QuestionLikeUp> questionLikeUpList = new HashSet<>();
+
+    @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<QuestionLikeDown> questionLikeDownList = new HashSet<>();
 
 
     @Builder
@@ -73,6 +81,8 @@ public class Users {
         this.link = link;
         this.image = image;
     }
+
+
 
     public void mappingQuestionLikeUp(QuestionLikeUp questionLikeUp){
         this.questionLikeUpList.add(questionLikeUp);

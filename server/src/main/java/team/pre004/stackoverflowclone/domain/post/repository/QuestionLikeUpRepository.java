@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface QuestionLikeUpRepository extends JpaRepository<QuestionLikeUp, Long> {
-    Optional<QuestionLikeUp> findByQuestionAndUsers(Question question, Users users);
+    Optional<QuestionLikeUp> findByQuestionAndOwner(Question question, Users owner);
 
 }
