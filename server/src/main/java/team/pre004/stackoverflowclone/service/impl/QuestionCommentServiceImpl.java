@@ -16,6 +16,7 @@ import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemExce
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Slf4j
@@ -30,7 +31,7 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<QuestionComment> findAllByQuestion(Long questionId) {
+    public Set<QuestionComment> findAllByQuestion(Long questionId) {
 
         return questionCommentRepository.findAllByQuestion(
                 questionRepository.findById(questionId)
@@ -40,7 +41,7 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<QuestionComment> findAllByUsers(Long usersId) {
+    public Set<QuestionComment> findAllByUsers(Long usersId) {
 
         return questionCommentRepository.findAllByOwner(
                 usersRepository.findById(usersId)

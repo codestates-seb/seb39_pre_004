@@ -5,11 +5,12 @@ import team.pre004.stackoverflowclone.dto.post.request.AnswerCommentDto;
 
 
 import java.util.List;
+import java.util.Set;
 
 public interface AnswerCommentService {
 
-    List<AnswerComment> findAllByAnswer(Long answerId);
-    List<AnswerComment> findAllByUsers(Long usersId);
+    Set<AnswerComment> findAllByAnswer(Long answerId);
+    Set<AnswerComment> findAllByUsers(Long usersId);
     AnswerComment save(AnswerComment answerComment);
     AnswerComment update(Long answerId, Long commentId, AnswerCommentDto answerCommentDto);
     AnswerComment findById(Long id);

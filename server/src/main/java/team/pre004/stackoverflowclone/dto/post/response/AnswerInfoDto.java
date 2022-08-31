@@ -22,7 +22,7 @@ public class AnswerInfoDto {
     private String body;
     private Integer likes;
     private boolean isAccepted;
-    private LocalDateTime createDate;
-    private LocalDateTime modDate;
+    private String createDate;
+    private String modDate;
     private Set<AnswerCommentInfoDto> comments;
 }

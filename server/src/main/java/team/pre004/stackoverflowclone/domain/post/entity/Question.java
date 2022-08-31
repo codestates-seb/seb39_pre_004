@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.pre004.stackoverflowclone.domain.LocalDateEntity;
 import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
@@ -21,7 +22,7 @@ import java.util.Set;
 @Setter
 @Table(name = "Question")
 @EntityListeners(AuditingEntityListener.class)
-public class Question{
+public class Question extends LocalDateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,11 +41,6 @@ public class Question{
     private boolean isAccepted;
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int likes ;
-
-    @CreatedDate
-    private LocalDateTime createDate;
-    @LastModifiedDate
-    private LocalDateTime modDate;
 
     private String link;
 

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.pre004.stackoverflowclone.domain.LocalDateEntity;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import javax.persistence.*;
@@ -18,18 +19,13 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class AnswerComment {
+public class AnswerComment extends LocalDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerCommentId;
 
     @Column(nullable = false)
     private String body;
-
-    @CreatedDate
-    private LocalDateTime createDate;
-    @LastModifiedDate
-    private LocalDateTime modDate;
 
     @ManyToOne
     @JoinColumn(name ="ownerId")

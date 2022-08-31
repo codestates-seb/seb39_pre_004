@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.pre004.stackoverflowclone.domain.LocalDateEntity;
 import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
@@ -20,7 +21,7 @@ import java.util.Set;
 @Getter
 @Table(name = "Answer")
 @EntityListeners(AuditingEntityListener.class)
-public class Answer {
+public class Answer extends LocalDateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +35,6 @@ public class Answer {
 
     @Column(nullable = false)
     private boolean isAccepted = false;
-
-    @CreatedDate
-    private LocalDateTime createDate;
-    @LastModifiedDate
-    private LocalDateTime modDate;
 
     @ManyToOne
     @JsonIgnore

@@ -25,8 +25,8 @@ public class QuestionDto {
     private List<TagList> tags;
     private String link;
 
-    private LocalDateTime createDate;
-    private LocalDateTime modDate;
+    private String createDate;
+    private String modDate;
 
     private Set<AnswerDto> answers;
     private Set<QuestionCommentDto> comments;

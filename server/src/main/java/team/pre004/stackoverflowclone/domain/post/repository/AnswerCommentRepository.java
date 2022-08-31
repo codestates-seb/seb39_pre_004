@@ -9,12 +9,13 @@ import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface AnswerCommentRepository extends JpaRepository<AnswerComment, Long> {
 
-    List<AnswerComment> findAllByAnswer(Answer answer);
-    List<AnswerComment> findAllByOwner(Users owner);
+    Set<AnswerComment> findAllByAnswer(Answer answer);
+    Set<AnswerComment> findAllByOwner(Users owner);
 
     boolean existsAnswerCommentsByAnswer(Answer answer);
 

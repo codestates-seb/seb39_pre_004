@@ -5,11 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
-import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
 import team.pre004.stackoverflowclone.dto.post.response.QuestionInfoDto;
+import team.pre004.stackoverflowclone.dto.post.response.QuestionPostDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 import team.pre004.stackoverflowclone.dto.post.response.LikesDto;
@@ -101,13 +101,17 @@ public class QuestionController {
     @GetMapping("/{id}/edit") // 게시글 수정 페이지
     public ResponseEntity<?> getEditQuestionForm(@PathVariable Long id) {
 
-        Question question = questionService.findById(id).orElseThrow();
+        Question question = questionService.findById(id).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
 
-        QuestionInfoDto questionInfo = questionMapper.getQuestionInfo(question);
+
+        QuestionPostDto questionPostDto = questionMapper.getQuestionPostDto(question);
+
         CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("게시글 수정 페이지 입니다.")
-                .data(questionInfo)
+                .data(questionPostDto)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -229,9 +233,10 @@ public class QuestionController {
         questionCommentService.save(
                 commentMapper.getQuestionComment(principalDetails.getUsers(), id, questionCommentDto));
 
+
         CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(questionCommentService.findAllByQuestion(id))
+                .data(commentMapper.getQuestionCommentInfos(questionCommentService.findAllByQuestion(id)))
                 .build();
 
         //Todo : ?
@@ -257,7 +262,7 @@ public class QuestionController {
 
         CMRespDto<?> response = CMRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(questionCommentService.findAllByQuestion(id))
+                .data(commentMapper.getQuestionCommentInfos(questionCommentService.findAllByQuestion(id)))
                 .build();
 
         //Todo : ?
