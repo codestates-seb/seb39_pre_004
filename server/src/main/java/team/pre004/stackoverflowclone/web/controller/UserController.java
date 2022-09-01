@@ -27,7 +27,6 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
     @GetMapping("/{id}/edit") // 내 정보 수정 페이지
     public ResponseEntity getEditAccountForm(@PathVariable Long id){
 

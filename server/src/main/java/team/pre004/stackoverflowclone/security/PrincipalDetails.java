@@ -1,47 +1,46 @@
 package team.pre004.stackoverflowclone.security;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
-@Setter(AccessLevel.NONE)
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails{
 
-    private static final long seralVersionUID = 1L;
-    private Users users;
+    private static final long serialVersionUID = 1L;
+    private Users owner;
 
     @Builder
     public PrincipalDetails(Users users) {
-
-        this.users = users;
+        this.owner = users;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        users.getRoleList().forEach(n -> {
-            authorities.add(() -> n);
-        });
+        authorities.add(() -> owner.getRoles().getKey());
+//        owner.getRoleList().forEach(n -> {
+//            authorities.add(() -> n);
+//        });
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return users.getPassword();
+        return owner.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return users.getName();
+        return owner.getName();
     }
 
     @Override

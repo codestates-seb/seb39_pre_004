@@ -26,7 +26,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         //http.addFilterBefore(new FirstFilter(), BasicAuthenticationFilter.class);
-        http.csrf().disable();
+        http.csrf()
+                .ignoringAntMatchers("/h2-console/**")
+                .disable();
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -34,7 +36,10 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .apply(new CustomDsl())
                 .and()
-                .authorizeRequests()
+
+
+                .authorizeRequests()    // 권한요청 처리 설정 메서드
+                .antMatchers("/h2-console/**").permitAll()  // 누구나 h2-console 접속 허용
                 .antMatchers("/questions")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/api/v1/manager/**")

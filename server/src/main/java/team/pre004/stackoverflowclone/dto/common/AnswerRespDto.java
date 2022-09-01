@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class AnswerRespDto<T>{
 
