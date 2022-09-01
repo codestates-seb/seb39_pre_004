@@ -1,6 +1,7 @@
 package team.pre004.stackoverflowclone.web.config.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,8 @@ import team.pre004.stackoverflowclone.security.JwtAuthorizationFilter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
     private final CorsFilter corsFilter;
     private final UsersRepository usersRepository;
 
@@ -41,7 +44,11 @@ public class SecurityConfig {
                 .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/questions/id")
                 .access("hasRole('ROLE_ADMIN')")
-                .anyRequest().permitAll();
+                .anyRequest().permitAll()
+                .oauth2Login()
+                .loginPage("/login");
+
+
         return http.build();
     }
 

@@ -46,6 +46,10 @@ public class Users extends LocalDateEntity {
 
     private String image;
 
+    private String provider;
+
+    private String providerId;
+
     public List<String> getRoleList(){
         if(this.roles.length() > 0) {
             return Arrays.asList(this.roles.split(","));
@@ -79,13 +83,15 @@ public class Users extends LocalDateEntity {
 
 
     @Builder
-    public Users(String name, String email, String password, String bio, String link, String image) {
+    public Users(String name, String email, String password, String bio, String link, String image, String provider, String providerId) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.bio = bio;
         this.link = link;
         this.image = image;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
 

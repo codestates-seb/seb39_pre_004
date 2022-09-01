@@ -3,11 +3,13 @@ package team.pre004.stackoverflowclone.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
+import team.pre004.stackoverflowclone.security.PrincipalDetails;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,6 +26,12 @@ public class AuthController {
         usersRepository.save(users);
         return "회원가입 완료";
 
+    }
+
+    @GetMapping("/users/oauth")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println(principalDetails.getUsers());
+        return "users";
     }
 
 

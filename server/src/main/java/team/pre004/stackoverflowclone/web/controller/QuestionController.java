@@ -1,6 +1,8 @@
 package team.pre004.stackoverflowclone.web.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,8 @@ import team.pre004.stackoverflowclone.security.PrincipalDetails;
 import team.pre004.stackoverflowclone.service.CommonService;
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 import team.pre004.stackoverflowclone.service.QuestionService;
+
+import java.net.URI;
 
 
 @RequiredArgsConstructor
@@ -61,6 +65,7 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @PostMapping("/add") //게시글 작성 요청
     public ResponseEntity<?> addQuestion(@RequestBody QuestionPostDto questionPostDto) {
 
@@ -76,6 +81,8 @@ public class QuestionController {
                 questionMapper.questionPostDtoToQuestion(
                         principalDetails.getUsers(), questionPostDto)
         );
+
+
         //Todo : 작성한 질문 아이디의 조회 페이지로 리다이렉션을 합니다.
         return new ResponseEntity<>(commonService.redirect("/questions/" + question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
     }

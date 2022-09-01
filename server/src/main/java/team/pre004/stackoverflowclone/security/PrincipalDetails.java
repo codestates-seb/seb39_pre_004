@@ -11,6 +11,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Data
 @Setter(AccessLevel.NONE)
@@ -19,12 +20,24 @@ public class PrincipalDetails implements UserDetails {
     private static final long seralVersionUID = 1L;
     private Users users;
 
+
+    private Map<String, Object> attributes;
     @Builder
     public PrincipalDetails(Users users) {
 
         this.users = users;
     }
 
+    public PrincipalDetails(Users users, Map<String, Object> attributes) {
+        this.users = users;
+        this.attributes = attributes;
+
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes; // 수정
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
