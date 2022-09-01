@@ -15,7 +15,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)

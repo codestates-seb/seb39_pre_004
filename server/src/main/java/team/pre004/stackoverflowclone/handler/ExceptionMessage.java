@@ -29,7 +29,10 @@ public enum ExceptionMessage {
     CONFLICT_LIKE_UP(491, "이미 좋아요 버튼을 누르셨습니다."),
     CONFLICT_LIKE_UP_UNDO(492, "좋아요 버튼이 눌려있지 않습니다."),
     CONFLICT_LIKE_DOWN(493, "이미 싫어요 버튼을 누르셨습니다."),
-    CONFLICT_LIKE_DOWN_UNDO(494, "싫어요 버튼이 눌려있지 않습니다.");
+    CONFLICT_LIKE_DOWN_UNDO(494, "싫어요 버튼이 눌려있지 않습니다."),
+    CONFLICT_USER_NAME(500, "이미 존재하는 회원 아이디입니다."),
+    CONFLICT_USER_EMAIL(501, "이미 존재하는 회원 이메일입니다.");
+
 
     public String getMessage() {
         return message;

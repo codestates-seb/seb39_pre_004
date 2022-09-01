@@ -2,7 +2,8 @@ package team.pre004.stackoverflowclone.dto.post.response;
 
 import lombok.*;
 
-@Data
+@Getter
+@NoArgsConstructor
 @Setter(AccessLevel.NONE)
 public class UserAccountDto {
 

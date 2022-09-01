@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class LikeRespDto<T> {
 

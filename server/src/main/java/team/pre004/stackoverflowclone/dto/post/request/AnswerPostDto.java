@@ -1,15 +1,12 @@
 package team.pre004.stackoverflowclone.dto.post.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.pre004.stackoverflowclone.dto.post.response.UserInfoDto;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
 public class AnswerPostDto {
     UserInfoDto owner;
     private Long answerId;

@@ -55,7 +55,7 @@ public class AnswerController {
 
         Answer answer = answerService.save(
                 answerMapper.answerPostDtoToAnswer(
-                        principalDetails.getUsers(), questionId, answerPostDto
+                        principalDetails.getOwner(), questionId, answerPostDto
                 )
         );
 
@@ -82,11 +82,11 @@ public class AnswerController {
         if (answerService.findById(answerId).isEmpty()) //해당 게시물이 없을 때 에러메세지
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
 
-        if (principalDetails.getUsers().getOwnerId() != answerId) //접근 유저가 아닐경우
+        if (principalDetails.getOwner().getOwnerId() != answerId) //접근 유저가 아닐경우
             throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER);
 
         Answer answer = answerService.update(answerId, answerMapper.answerPostDtoToAnswer(
-                principalDetails.getUsers(), answerId, answerPostDto
+                principalDetails.getOwner(), answerId, answerPostDto
         ));
 
         AnswerInfoDto answerInfoDto = answerMapper.getAnswerInfo(answer);
@@ -205,7 +205,7 @@ public class AnswerController {
                 .build();
 
         answerCommentService.save(
-                commentMapper.getAnswerComment(principalDetails.getUsers(), id, answerCommentDto));
+                commentMapper.getAnswerComment(principalDetails.getOwner(), id, answerCommentDto));
 
         CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
@@ -256,7 +256,7 @@ public class AnswerController {
                 users(usersRepository.save(users))
                 .build();
 
-        boolean isAccepted = answerService.acceptAnswer(principalDetails.getUsers().getOwnerId(), id);
+        boolean isAccepted = answerService.acceptAnswer(principalDetails.getOwner().getOwnerId(), id);
 
         AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
@@ -276,7 +276,7 @@ public class AnswerController {
                 users(usersRepository.save(users))
                 .build();
 
-        boolean isAccepted = answerService.acceptAnswerUndo(principalDetails.getUsers().getOwnerId(), id);
+        boolean isAccepted = answerService.acceptAnswerUndo(principalDetails.getOwner().getOwnerId(), id);
 
         AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)

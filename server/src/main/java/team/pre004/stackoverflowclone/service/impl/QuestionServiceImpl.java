@@ -73,6 +73,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Question> findById(Long id) {
 
         return Optional.ofNullable(questionRepository.findById(id).orElseThrow(
@@ -81,6 +82,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         //Todo: 해당 게시판을 삭제합니다.
         try {

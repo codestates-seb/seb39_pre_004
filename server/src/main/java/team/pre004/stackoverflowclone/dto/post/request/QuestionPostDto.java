@@ -1,9 +1,6 @@
 package team.pre004.stackoverflowclone.dto.post.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.dto.post.response.UserInfoDto;
 
@@ -13,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
 public class QuestionPostDto {
     UserInfoDto owner;
     private Long questionId;

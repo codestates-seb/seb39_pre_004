@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
+import team.pre004.stackoverflowclone.web.config.auth.Jwt;
 
 
 import javax.servlet.FilterChain;
@@ -37,7 +38,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
             return authentication;
         } catch (IOException e) {
-            e.printStackTrace();;
+            e.printStackTrace();
         }
         return null;
     }
@@ -49,11 +50,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
         String jwtToken = JWT.create()
-                .withSubject("cos jwt token")
+                .withSubject("pre004")
                 .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 10)))
-                .withClaim("ownerid", principalDetails.getUsers().getOwnerId())
-                .withClaim("name", principalDetails.getUsers().getName())
-                .sign(Algorithm.HMAC512("cos_jwt_token"));
+                .withClaim("ownerId", principalDetails.getOwner().getOwnerId())
+                .withClaim("name", principalDetails.getOwner().getName())
+                .sign(Algorithm.HMAC512(Jwt.SECRET_CODE.getValue()));
         response.addHeader("Authorization", "Bearer " + jwtToken);
     }
 }

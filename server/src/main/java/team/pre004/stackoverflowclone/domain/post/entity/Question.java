@@ -19,7 +19,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Getter
-@Setter
 @Table(name = "Question")
 @EntityListeners(AuditingEntityListener.class)
 public class Question extends LocalDateEntity {
