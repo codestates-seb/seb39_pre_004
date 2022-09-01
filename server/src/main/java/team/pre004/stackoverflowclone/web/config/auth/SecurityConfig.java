@@ -40,6 +40,11 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
 
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .and()
+
 
                 .authorizeRequests()    // 권한요청 처리 설정 메서드
                 .antMatchers("/h2-console/**").permitAll()  // 누구나 h2-console 접속 허용

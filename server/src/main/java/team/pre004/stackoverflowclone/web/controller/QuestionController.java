@@ -25,11 +25,13 @@ import team.pre004.stackoverflowclone.dto.post.PostType;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 
 import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotContentByIdException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
 import team.pre004.stackoverflowclone.mapper.QuestionMapper;
 import team.pre004.stackoverflowclone.mapper.UsersMapper;
 import team.pre004.stackoverflowclone.security.PrincipalDetails;
+import team.pre004.stackoverflowclone.service.AuthService;
 import team.pre004.stackoverflowclone.service.CommonService;
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 import team.pre004.stackoverflowclone.service.QuestionService;
@@ -45,6 +47,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final QuestionCommentService questionCommentService;
+    private final AuthService authService;
     private final QuestionMapper questionMapper;
     private final UsersRepository usersRepository;
     private final CommentMapper commentMapper;
@@ -52,7 +55,6 @@ public class QuestionController {
     private final CommonService commonService;
 
     @GetMapping("/add") // 게시글 작성 페이지
-    @Transactional(readOnly = true)
     public ResponseEntity<?> getAddQuestionForm() {
 
         CMRespDto<?> response = CMRespDto.builder()
@@ -65,10 +67,8 @@ public class QuestionController {
 
 
     @PostMapping("/add") //게시글 작성 요청
-    @Transactional
     public ResponseEntity<?> addQuestion(
                                         @AuthenticationPrincipal PrincipalDetails principalDetails
-                                        ,@RequestHeader("Authorization") HttpHeaders headers
                                         ,@RequestBody QuestionPostDto questionPostDto
     ) {
         //Todo : 로그인한 유저만 작성 요청을 할 수 있습니다.
@@ -78,18 +78,15 @@ public class QuestionController {
                 questionMapper.questionPostDtoToQuestion(principalDetails.getOwner(), questionPostDto)
         );
 
-        StringBuilder sb = new StringBuilder("/questions/" + question.getQuestionId());
-
         //Todo : 작성한 질문 아이디의 조회 페이지로 리다이렉션을 합니다.
-        return new ResponseEntity<>(commonService.redirect(sb.toString()), HttpStatus.MOVED_PERMANENTLY);
+        return new ResponseEntity<>(commonService.redirect("/questions/" + question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
     }
 
-    @GetMapping("/{id}") // 게시글 조회 페이지
-    @Transactional(readOnly = true)
-    public ResponseEntity<?> getQuestion(@PathVariable Long id) {
+    @GetMapping("/{questionId}") // 게시글 조회 페이지
+    public ResponseEntity<?> getQuestion(@PathVariable Long questionId) {
 
-        questionService.updateView(id); //
-        Question question = questionService.findById(id).orElseThrow();
+        questionService.updateView(questionId); //
+        Question question = questionService.findById(questionId).orElseThrow();
 
         QuestionInfoDto questionInfo = questionMapper.getQuestionInfo(question);
 
@@ -102,38 +99,40 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/edit") // 게시글 수정 페이지
-    @Transactional(readOnly = true)
-    public ResponseEntity<?> getEditQuestionForm(@PathVariable Long id) {
+    @GetMapping("/{questionId}/edit") // 게시글 수정 페이지
+    public ResponseEntity<?> getEditQuestionForm(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                 @PathVariable Long questionId) {
 
-        Question question = questionService.findById(id).orElseThrow(
-                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        Long userId = principalDetails.getOwner().getOwnerId();
+        Question question = questionService.findById(questionId).orElseThrow(
+                () -> new CustomNotContentByIdException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         );
 
-        QuestionPostDto questionPostDto = questionMapper.getQuestionPostDto(question);
+        authService.isAuthenticatedUser(userId, question.getOwner().getOwnerId());
 
         QuestionRespDto<?> response = QuestionRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("게시글 수정 페이지 입니다.")
-                .question(questionPostDto)
+                .question(questionMapper.getQuestionPostDto(question))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/edit") // 게시글 수정 요청
+    @PutMapping("/{questionId}/edit") // 게시글 수정 요청
     @Transactional
-    public ResponseEntity<?> updateQuestion(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id, @RequestBody QuestionPostDto questionPostDto) {
+    public ResponseEntity<?> updateQuestion(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                            @PathVariable Long questionId,
+                                            @RequestBody QuestionPostDto questionPostDto) {
 
+        Long userId = principalDetails.getOwner().getOwnerId();
+        Question question = questionService.findById(questionId).orElseThrow(
+                () -> new CustomNotContentByIdException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
 
-        if (questionService.findById(id).isEmpty()) //해당 게시물이 없을 때 에러메세지
-            throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
+        authService.isAuthenticatedUser(userId, question.getOwner().getOwnerId());
 
-        if (principalDetails.getOwner().getOwnerId() != id) //접근 유저가 아닐경우
-            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_QUESTION);
-
-        Question question = questionService.update(id, questionMapper.questionPostDtoToQuestion(
-                principalDetails.getOwner(), questionPostDto));
+        questionService.update(questionId, questionPostDto);
 
         return new ResponseEntity<>(commonService.redirect("/questions/" + question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
     }
