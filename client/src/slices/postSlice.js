@@ -17,7 +17,7 @@ const initialPostState = {
 };
 
 export const fetchPost = createAsyncThunk(
-  'postSlice/asyncGetFetch',
+  'postSlice/fetchPost',
   async (url) => {
     const resposeData = await axios.get(url);
     try {
