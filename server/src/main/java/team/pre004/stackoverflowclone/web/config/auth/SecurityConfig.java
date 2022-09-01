@@ -50,9 +50,10 @@ public class SecurityConfig {
                 .antMatchers("/questions/id")
                 .access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
-                .and()
-                .oauth2Login()
-                .loginPage("/login");
+//                .and()
+//                .oauth2Login()
+//                .loginPage("/login")
+        ;
 
 
         return http.build();
