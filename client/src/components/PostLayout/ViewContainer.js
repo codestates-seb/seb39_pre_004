@@ -32,10 +32,9 @@ const Div = styled.div`
   }
 `;
 
-const ViewContainer = ({ key, data, isAnswer }) => {
-  // console.log('answer', answer);
-  console.log(key);
+const ViewContainer = ({ data, isAnswer }) => {
   console.log(data);
+  // eslint 오류로 남겼습니다
 
   return (
     <Container>
