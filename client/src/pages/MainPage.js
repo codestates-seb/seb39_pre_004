@@ -1,7 +1,8 @@
 import MainTitle from '../components/Main/MainTitle';
 import QuestionList from '../components/Main/QuestionList';
-// import SortButton from '../components/Main/SortButton';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const MainContainer = styled.div`
   display: flex;
@@ -9,11 +10,21 @@ const MainContainer = styled.div`
 `;
 
 const MainPage = () => {
+  const [mainData, setMainData] = useState(null);
+
+  const getMainData = async () => {
+    const { data } = await axios.get('/main');
+    setMainData(data.question);
+  };
+
+  useEffect(() => {
+    getMainData();
+  }, []);
+
   return (
     <MainContainer>
       <MainTitle />
-      {/* <SortButton /> */}
-      <QuestionList />
+      {mainData && <QuestionList mainData={mainData} />}
     </MainContainer>
   );
 };
