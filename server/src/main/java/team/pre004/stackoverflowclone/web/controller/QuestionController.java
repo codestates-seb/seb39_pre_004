@@ -1,8 +1,9 @@
 package team.pre004.stackoverflowclone.web.controller;
 
-import io.swagger.annotations.Authorization;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,16 +11,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
-import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
-import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
 import team.pre004.stackoverflowclone.dto.common.CommentRespDto;
 import team.pre004.stackoverflowclone.dto.common.LikeRespDto;
 import team.pre004.stackoverflowclone.dto.common.QuestionRespDto;
 import team.pre004.stackoverflowclone.dto.post.response.QuestionInfoDto;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionPostDto;
-import team.pre004.stackoverflowclone.dto.post.response.UserInfoDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 import team.pre004.stackoverflowclone.dto.post.response.LikesDto;
@@ -35,8 +33,6 @@ import team.pre004.stackoverflowclone.security.PrincipalDetails;
 import team.pre004.stackoverflowclone.service.CommonService;
 import team.pre004.stackoverflowclone.service.QuestionCommentService;
 import team.pre004.stackoverflowclone.service.QuestionService;
-
-import java.util.Collection;
 
 
 @Slf4j
@@ -67,6 +63,7 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @PostMapping("/add") //게시글 작성 요청
     @Transactional
     public ResponseEntity<?> addQuestion(
@@ -82,6 +79,7 @@ public class QuestionController {
         );
 
         StringBuilder sb = new StringBuilder("/questions/" + question.getQuestionId());
+
         //Todo : 작성한 질문 아이디의 조회 페이지로 리다이렉션을 합니다.
         return new ResponseEntity<>(commonService.redirect(sb.toString()), HttpStatus.MOVED_PERMANENTLY);
     }

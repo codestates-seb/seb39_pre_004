@@ -11,6 +11,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Data
 public class PrincipalDetails implements UserDetails{
@@ -18,18 +19,28 @@ public class PrincipalDetails implements UserDetails{
     private static final long serialVersionUID = 1L;
     private Users owner;
 
+
+    private Map<String, Object> attributes;
     @Builder
-    public PrincipalDetails(Users users) {
-        this.owner = users;
+    public PrincipalDetails(Users owner) {
+        this.owner = owner;
+    }
+
+    public PrincipalDetails(Users owner, Map<String, Object> attributes) {
+        this.owner = owner;
+        this.attributes = attributes;
+
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes; // 수정
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(() -> owner.getRoles().getKey());
-//        owner.getRoleList().forEach(n -> {
-//            authorities.add(() -> n);
-//        });
+
         return authorities;
     }
 

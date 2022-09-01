@@ -3,6 +3,7 @@ package team.pre004.stackoverflowclone.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
@@ -39,19 +40,10 @@ public class AnswerController {
     private final AnswerCommentService answerCommentService;
     private final UsersRepository usersRepository;
 
-    Users users = Users.builder()
-            .password("4321")
-            .name("답글ward")
-            .email("ward@ward.net")
-            .bio("답글쓰는사람입니다.")
-            .build();
 
     @PostMapping("/{questionId}/add") // 답글 작성 요청
-    public ResponseEntity<?> addAnswer(@PathVariable Long questionId, @RequestBody AnswerPostDto answerPostDto) {
+    public ResponseEntity<?> addAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long questionId, @RequestBody AnswerPostDto answerPostDto) {
 
-        PrincipalDetails principalDetails = PrincipalDetails.builder().
-                users(usersRepository.save(users))
-                .build();
 
         Answer answer = answerService.save(
                 answerMapper.answerPostDtoToAnswer(
@@ -73,11 +65,8 @@ public class AnswerController {
 
 
     @PutMapping("/{answerId}/edit") // 답글 수정 요청
-    public ResponseEntity<?> editAnswer(@PathVariable Long answerId, @RequestBody AnswerPostDto answerPostDto) {
+    public ResponseEntity<?> editAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long answerId, @RequestBody AnswerPostDto answerPostDto) {
 
-        PrincipalDetails principalDetails = PrincipalDetails.builder().
-                users(usersRepository.save(users))
-                .build();
 
         if (answerService.findById(answerId).isEmpty()) //해당 게시물이 없을 때 에러메세지
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
@@ -198,11 +187,8 @@ public class AnswerController {
     }
 
     @PostMapping("/{id}/comments") //답글 댓글 작성 요청
-    public ResponseEntity<?> addAnswerComment(@PathVariable Long id, @RequestBody AnswerCommentDto answerCommentDto) {
+    public ResponseEntity<?> addAnswerComment(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long id, @RequestBody AnswerCommentDto answerCommentDto) {
 
-        PrincipalDetails principalDetails = PrincipalDetails.builder().
-                users(usersRepository.save(users))
-                .build();
 
         answerCommentService.save(
                 commentMapper.getAnswerComment(principalDetails.getOwner(), id, answerCommentDto));
@@ -221,9 +207,6 @@ public class AnswerController {
             @PathVariable Long id, @PathVariable Long commentId,
             @RequestBody AnswerCommentDto answerCommentDto) {
 
-        PrincipalDetails principalDetails = PrincipalDetails.builder().
-                users(usersRepository.save(users))
-                .build();
 
          answerCommentService.update(id, commentId, answerCommentDto);
 
@@ -250,11 +233,8 @@ public class AnswerController {
     }
 
     @PostMapping("/{id}/selected") // 답글 채택 요청
-    public ResponseEntity<?> selectAnswer(@PathVariable Long id) {
+    public ResponseEntity<?> selectAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
 
-        PrincipalDetails principalDetails = PrincipalDetails.builder().
-                users(usersRepository.save(users))
-                .build();
 
         boolean isAccepted = answerService.acceptAnswer(principalDetails.getOwner().getOwnerId(), id);
 
@@ -270,11 +250,8 @@ public class AnswerController {
     }
 
     @PostMapping("/{id}/selected/undo") //답글 채택 취소 요청
-    public ResponseEntity<?> undoSelectAnswer(@PathVariable Long id) {
+    public ResponseEntity<?> undoSelectAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id) {
 
-        PrincipalDetails principalDetails = PrincipalDetails.builder().
-                users(usersRepository.save(users))
-                .build();
 
         boolean isAccepted = answerService.acceptAnswerUndo(principalDetails.getOwner().getOwnerId(), id);
 
