@@ -27,7 +27,7 @@ const InfoPost = ({ keyword, value }) => {
 
 const Question = () => {
   const store = useSelector((state) => state.singlePost);
-  const { questionID, title, createDate, modiDate, views } = store;
+  const { questionId, title, createDate, modiDate, views } = store;
   return (
     <>
       <Header>
@@ -43,7 +43,7 @@ const Question = () => {
           <InfoPost keyword="Views" value={`${views} times`} />
         </div>
       </Header>
-      <ViewContainer key={questionID} data={store} isAnswer={false} />
+      <ViewContainer key={questionId} data={store} isAnswer={false} />
     </>
   );
 };

@@ -33,9 +33,6 @@ const Div = styled.div`
 `;
 
 const ViewContainer = ({ data, isAnswer }) => {
-  console.log(data);
-  // eslint 오류로 남겼습니다
-
   return (
     <Container>
       <Menu>
