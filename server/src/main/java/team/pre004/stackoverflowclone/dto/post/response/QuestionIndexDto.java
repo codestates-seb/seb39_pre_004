@@ -1,9 +1,6 @@
 package team.pre004.stackoverflowclone.dto.post.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 
 import java.util.List;
@@ -12,7 +9,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
 public class QuestionIndexDto {
 
     UserInfoDto owner;

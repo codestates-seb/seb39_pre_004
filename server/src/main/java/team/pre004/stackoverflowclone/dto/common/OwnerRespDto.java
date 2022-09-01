@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 
-@Data
+@Getter
 @NoArgsConstructor
-public class OwnerResDto<T> {
+public class OwnerRespDto<T> {
     private ResponseCode code;
     private String message;
     private T owner;
 
     @Builder
-    public OwnerResDto(ResponseCode code, String message, T owner) {
+    public OwnerRespDto(ResponseCode code, String message, T owner) {
         this.code = code;
         this.message = message;
         this.owner = owner;

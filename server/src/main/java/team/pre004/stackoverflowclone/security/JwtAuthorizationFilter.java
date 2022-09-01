@@ -2,6 +2,7 @@ package team.pre004.stackoverflowclone.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
+import team.pre004.stackoverflowclone.web.config.auth.Jwt;
 
 
 import javax.servlet.FilterChain;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UsersRepository usersRepository;
@@ -38,10 +41,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         String jwtToken = jwtHeader.replace("Bearer ", "");
 
-        String name = JWT.require(Algorithm.HMAC512("cos_jwt_token")).build().verify(jwtToken).getClaim("name").asString();
+        String name = JWT.require(Algorithm.HMAC512(Jwt.SECRET_CODE.getValue())).build().verify(jwtToken).getClaim("name").asString();
 
         if (name != null) {
-            Users userEntity = usersRepository.findByName(name);
+            Users userEntity = usersRepository.findByName(name).orElseThrow();
 
             PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
@@ -49,7 +52,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
             chain.doFilter(request, response);
         }
-        super.doFilterInternal(request, response, chain);
+        else
+            super.doFilterInternal(request, response, chain);
     }
 
 

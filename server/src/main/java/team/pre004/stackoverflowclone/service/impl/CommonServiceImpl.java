@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import team.pre004.stackoverflowclone.service.CommonService;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class CommonServiceImpl implements CommonService {
@@ -14,7 +17,17 @@ public class CommonServiceImpl implements CommonService {
 
         HttpHeaders headers = new HttpHeaders();
 
-        String port = "8081";
+        String port = "8082";
+        headers.setLocation(URI.create("http://localhost:" + port + uri));
+        return headers;
+    }
+
+    @Override
+    public HttpHeaders redirect(String uri, String auth) {
+        HttpHeaders headers = new HttpHeaders();
+        String port = "8083";
+
+        headers.setBearerAuth(auth);
         headers.setLocation(URI.create("http://localhost:" + port + uri));
         return headers;
     }

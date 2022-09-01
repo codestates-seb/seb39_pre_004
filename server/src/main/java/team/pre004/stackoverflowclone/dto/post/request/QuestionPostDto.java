@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
 public class QuestionPostDto {
     UserInfoDto owner;
     private Long questionId;

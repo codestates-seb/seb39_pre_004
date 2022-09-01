@@ -2,8 +2,11 @@ package team.pre004.stackoverflowclone.dto.post.response;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class UserInfoDto {
 
     private Long userId;

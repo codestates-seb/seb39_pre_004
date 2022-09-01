@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Getter
 @Table(name = "Answer")
