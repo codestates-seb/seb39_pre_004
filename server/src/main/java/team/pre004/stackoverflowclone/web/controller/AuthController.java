@@ -5,13 +5,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
+import team.pre004.stackoverflowclone.dto.common.OwnerRespDto;
+import team.pre004.stackoverflowclone.handler.ResponseCode;
+import team.pre004.stackoverflowclone.service.AuthService;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class AuthController {
 
+    private final AuthService authService;
 
+    @PostMapping("/signup")
+    public ResponseEntity<?> join(@RequestBody SignUpDto signUpDto){
+
+        authService.signUp(signUpDto);
+
+        OwnerRespDto<?> respDto = OwnerRespDto.builder()
+                .code(ResponseCode.SUCCESS)
+                .message("회원가입을 성공하였습니다.")
+                .build();
+
+        return new ResponseEntity<>(respDto,HttpStatus.ACCEPTED);
+
+    }
 
 
     @GetMapping("/signup") //회원 가입 페이지
@@ -20,12 +37,6 @@ public class AuthController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/signup") //회원 가입 요청
-    public ResponseEntity signUp(@RequestBody SignUpDto signUpDto) {
-
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
     @GetMapping("/signup/oauth2/authorization/google") //구글 회원 가입 페이지
     public ResponseEntity getGoogleSignUpForm() {

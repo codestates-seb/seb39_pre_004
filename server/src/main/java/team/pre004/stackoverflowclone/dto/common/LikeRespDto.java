@@ -4,19 +4,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 
 @Getter
 @NoArgsConstructor
-public class CMRespDto<T>{
+public class LikeRespDto<T> {
+
     private ResponseCode code;
     private String message;
-    private T data;
+    private T like;
 
     @Builder
-    public CMRespDto(ResponseCode code, String message, T data) {
+    public LikeRespDto(ResponseCode code, String message, T like) {
         this.code = code;
         this.message = message;
-        this.data = data;
+        this.like = like;
     }
 }

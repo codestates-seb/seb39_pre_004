@@ -2,11 +2,12 @@ package team.pre004.stackoverflowclone.dto.post.response;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.pre004.stackoverflowclone.dto.post.PostType;
 
 
-@Data
+@Getter
 @NoArgsConstructor
 public class LikesDto {
     private Integer likes;

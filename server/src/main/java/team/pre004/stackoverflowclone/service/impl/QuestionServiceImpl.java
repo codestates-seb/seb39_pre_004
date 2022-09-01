@@ -39,7 +39,6 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     @Transactional(readOnly = true)
     public Page<Question> findAll(Pageable pageable) {
-
         return questionRepository.findAll(pageable);
     }
 
@@ -52,7 +51,6 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     @Transactional
     public Question save(Question question) {
-
         return questionRepository.save(question);
     }
 
@@ -75,6 +73,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Question> findById(Long id) {
 
         return Optional.ofNullable(questionRepository.findById(id).orElseThrow(
@@ -83,6 +82,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         //Todo: 해당 게시판을 삭제합니다.
         try {

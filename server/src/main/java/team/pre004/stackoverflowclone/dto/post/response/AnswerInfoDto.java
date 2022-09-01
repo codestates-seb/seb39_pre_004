@@ -2,6 +2,7 @@ package team.pre004.stackoverflowclone.dto.post.response;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.tag.entity.TagList;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
 @Builder
 public class AnswerInfoDto {
 

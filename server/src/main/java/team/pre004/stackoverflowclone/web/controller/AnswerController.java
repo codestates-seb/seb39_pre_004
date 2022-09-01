@@ -8,25 +8,22 @@ import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
-import team.pre004.stackoverflowclone.dto.common.CMRespDto;
+import team.pre004.stackoverflowclone.dto.common.*;
 import team.pre004.stackoverflowclone.dto.post.PostType;
 import team.pre004.stackoverflowclone.dto.post.request.AnswerCommentDto;
-import team.pre004.stackoverflowclone.dto.post.request.AnswerDto;
-import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
-import team.pre004.stackoverflowclone.dto.post.response.AnswerCommentInfoDto;
 import team.pre004.stackoverflowclone.dto.post.response.AnswerInfoDto;
+import team.pre004.stackoverflowclone.dto.post.request.AnswerPostDto;
 import team.pre004.stackoverflowclone.dto.post.response.LikesDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
-import team.pre004.stackoverflowclone.handler.exception.CustomNotContentByIdException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.AnswerMapper;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
+import team.pre004.stackoverflowclone.security.PrincipalDetails;
 import team.pre004.stackoverflowclone.service.AnswerCommentService;
 import team.pre004.stackoverflowclone.service.AnswerService;
 import team.pre004.stackoverflowclone.service.CommonService;
-import team.pre004.stackoverflowclone.web.config.auth.PrincipalDetails;
 
 import java.util.Set;
 
@@ -50,23 +47,23 @@ public class AnswerController {
             .build();
 
     @PostMapping("/{questionId}/add") // 답글 작성 요청
-    public ResponseEntity<?> addAnswer(@PathVariable Long questionId, @RequestBody AnswerDto answerDto) {
+    public ResponseEntity<?> addAnswer(@PathVariable Long questionId, @RequestBody AnswerPostDto answerPostDto) {
 
         PrincipalDetails principalDetails = PrincipalDetails.builder().
                 users(usersRepository.save(users))
                 .build();
 
         Answer answer = answerService.save(
-                answerMapper.answerDtoToAnswer(
-                        principalDetails.getUsers(), questionId, answerDto
+                answerMapper.answerPostDtoToAnswer(
+                        principalDetails.getOwner(), questionId, answerPostDto
                 )
         );
 
         AnswerInfoDto answerInfoDto = answerMapper.getAnswerInfo(answer);
 
-        CMRespDto<?> response = CMRespDto.builder()
+        AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(answerInfoDto)
+                .answer(answerInfoDto)
                 .message("답글을 추가하였습니다.")
                 .build();
 
@@ -76,7 +73,7 @@ public class AnswerController {
 
 
     @PutMapping("/{answerId}/edit") // 답글 수정 요청
-    public ResponseEntity<?> editAnswer(@PathVariable Long answerId, @RequestBody AnswerDto answerDto) {
+    public ResponseEntity<?> editAnswer(@PathVariable Long answerId, @RequestBody AnswerPostDto answerPostDto) {
 
         PrincipalDetails principalDetails = PrincipalDetails.builder().
                 users(usersRepository.save(users))
@@ -85,18 +82,18 @@ public class AnswerController {
         if (answerService.findById(answerId).isEmpty()) //해당 게시물이 없을 때 에러메세지
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
 
-        if (principalDetails.getUsers().getOwnerId() != answerId) //접근 유저가 아닐경우
+        if (principalDetails.getOwner().getOwnerId() != answerId) //접근 유저가 아닐경우
             throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER);
 
-        Answer answer = answerService.update(answerId, answerMapper.answerDtoToAnswer(
-                principalDetails.getUsers(), answerId, answerDto
+        Answer answer = answerService.update(answerId, answerMapper.answerPostDtoToAnswer(
+                principalDetails.getOwner(), answerId, answerPostDto
         ));
 
         AnswerInfoDto answerInfoDto = answerMapper.getAnswerInfo(answer);
 
-        CMRespDto<?> response = CMRespDto.builder()
+        AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(answerInfoDto)
+                .answer(answerInfoDto)
                 .message("답글을 변경하였습니다.")
                 .build();
 
@@ -115,10 +112,10 @@ public class AnswerController {
         answerService.deleteById(answerId);
         Set<Answer> answers = answerService.findAllByQuestion(question);
 
-        CMRespDto<?> response = CMRespDto.builder()
+        AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("답글이 정상적으로 삭제되었습니다.")
-                .data(answers)
+                .answer(answers)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -134,10 +131,10 @@ public class AnswerController {
                 .postType(PostType.ANSWER)
                 .build();
 
-        CMRespDto<?> response = CMRespDto.builder()
+        LikeRespDto<?> response = LikeRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("답글 좋아요 요청입니다.")
-                .data(likes)
+                .like(likes)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -153,10 +150,10 @@ public class AnswerController {
                 .postType(PostType.ANSWER)
                 .build();
 
-        CMRespDto<?> response = CMRespDto.builder()
+        LikeRespDto<?> response = LikeRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("답글 싫어요 요청입니다.")
-                .data(likes)
+                .like(likes)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -173,10 +170,10 @@ public class AnswerController {
                 .postType(PostType.ANSWER)
                 .build();
 
-        CMRespDto<?> response = CMRespDto.builder()
+        LikeRespDto<?> response = LikeRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("답글 좋아요 취소 요청입니다.")
-                .data(likes)
+                .like(likes)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -192,10 +189,10 @@ public class AnswerController {
                 .postType(PostType.ANSWER)
                 .build();
 
-        CMRespDto<?> response = CMRespDto.builder()
+        LikeRespDto<?> response = LikeRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("답글 싫어요 요청 취소입니다.")
-                .data(likes)
+                .like(likes)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -208,11 +205,11 @@ public class AnswerController {
                 .build();
 
         answerCommentService.save(
-                commentMapper.getAnswerComment(principalDetails.getUsers(), id, answerCommentDto));
+                commentMapper.getAnswerComment(principalDetails.getOwner(), id, answerCommentDto));
 
-        CMRespDto<?> response = CMRespDto.builder()
+        CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(id)))
+                .comment(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(id)))
                 .build();
 
 
@@ -231,9 +228,9 @@ public class AnswerController {
          answerCommentService.update(id, commentId, answerCommentDto);
 
 
-        CMRespDto<?> response = CMRespDto.builder()
+        CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(id)))
+                .comment(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(id)))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -244,9 +241,9 @@ public class AnswerController {
 
         answerCommentService.deleteById(id, commentId);
 
-        CMRespDto<?> response = CMRespDto.builder()
+        CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(answerCommentService.findAllByAnswer(id))
+                .comment(answerCommentService.findAllByAnswer(id))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -259,11 +256,13 @@ public class AnswerController {
                 users(usersRepository.save(users))
                 .build();
 
-        boolean isAccepted = answerService.acceptAnswer(principalDetails.getUsers().getOwnerId(), id);
+        boolean isAccepted = answerService.acceptAnswer(principalDetails.getOwner().getOwnerId(), id);
 
-        CMRespDto<?> response = CMRespDto.builder()
+        AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(isAccepted)
+                .answer(answerMapper.getAnswerInfo(answerService.findById(id).orElseThrow(
+                        () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID))
+                ))
                 .message("답글을 채택하였습니다.")
                 .build();
 
@@ -277,21 +276,17 @@ public class AnswerController {
                 users(usersRepository.save(users))
                 .build();
 
-        boolean isAccepted = answerService.acceptAnswerUndo(principalDetails.getUsers().getOwnerId(), id);
+        boolean isAccepted = answerService.acceptAnswerUndo(principalDetails.getOwner().getOwnerId(), id);
 
-        CMRespDto<?> response = CMRespDto.builder()
+        AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .data(isAccepted)
+                .answer(answerMapper.getAnswerInfo(answerService.findById(id).orElseThrow(
+                        () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID))
+                ))
                 .message("답글 채택을 취소하였습니다.")
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-
-
-
-
-
 
 }

@@ -8,15 +8,18 @@ import team.pre004.stackoverflowclone.handler.ResponseCode;
 
 @Getter
 @NoArgsConstructor
-public class CMRespDto<T>{
+public class AnswerRespDto<T>{
+
+
     private ResponseCode code;
     private String message;
-    private T data;
+
+    private T answer;
 
     @Builder
-    public CMRespDto(ResponseCode code, String message, T data) {
+    public AnswerRespDto(ResponseCode code, String message, T answer) {
         this.code = code;
         this.message = message;
-        this.data = data;
+        this.answer = answer;
     }
 }
