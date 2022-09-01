@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import Bluebutton from '../Bluebutton';
 import ViewContainer from './ViewContainer';
 
@@ -25,22 +26,24 @@ const InfoPost = ({ keyword, value }) => {
 };
 
 const Question = () => {
+  const store = useSelector((state) => state.singlePost);
+  const { questionId, title, createDate, modiDate, views } = store;
   return (
     <>
       <Header>
         <TitleContainer>
-          <H1>{'question title'}</H1>
+          <H1>{title}</H1>
           <Link to="/ask">
             <Bluebutton>Ask Question</Bluebutton>
           </Link>
         </TitleContainer>
         <div>
-          <InfoPost keyword={'Asked'} value={'today'} />
-          <InfoPost keyword={'Modified'} value={'todat'} />
-          <InfoPost keyword={'Views'} value={`${5} times`} />
+          <InfoPost keyword="Asked" value={createDate} />
+          <InfoPost keyword="Modified" value={modiDate} />
+          <InfoPost keyword="Views" value={`${views} times`} />
         </div>
       </Header>
-      <ViewContainer isAnswer={false} />
+      <ViewContainer key={questionId} data={store} />
     </>
   );
 };

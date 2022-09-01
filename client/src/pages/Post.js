@@ -1,7 +1,20 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchPost } from '../slices/postSlice';
+
 import Question from '../components/PostLayout/Question';
 import Answer from '../components/PostLayout/Answer';
 
-const Post = () => {
+const Post = ({ key }) => {
+  const dispatch = useDispatch();
+
+  key = 6;
+  const url = `/questions/${key}`;
+
+  useEffect(() => {
+    dispatch(fetchPost(url));
+  }, [dispatch]);
+
   return (
     <>
       <Question />
