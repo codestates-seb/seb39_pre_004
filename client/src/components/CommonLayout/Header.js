@@ -67,8 +67,12 @@ const Header = () => {
           <Link to="/users">
             <BlueButton>profile</BlueButton>
           </Link>
-          <BlueButton>Log in</BlueButton>
-          <BlueButton>Sign up</BlueButton>
+          <Link to="/login">
+            <BlueButton>Log in</BlueButton>
+          </Link>
+          <Link to="/signup">
+            <BlueButton>Sign up</BlueButton>
+          </Link>
         </ButtonBlock>
       </HeaderBlock>
     </header>
