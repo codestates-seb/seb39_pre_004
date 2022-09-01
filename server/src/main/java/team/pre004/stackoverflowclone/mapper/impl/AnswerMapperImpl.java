@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.AnswerComment;
-import team.pre004.stackoverflowclone.domain.post.entity.Question;
+
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
-import team.pre004.stackoverflowclone.dto.post.request.AnswerDto;
+
 import team.pre004.stackoverflowclone.dto.post.response.AnswerInfoDto;
+import team.pre004.stackoverflowclone.dto.post.request.AnswerPostDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
-import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
+
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNullPointUsersException;
 import team.pre004.stackoverflowclone.mapper.AnswerMapper;
@@ -43,9 +44,9 @@ public class AnswerMapperImpl implements AnswerMapper {
     }
 
     @Override
-    public Answer answerDtoToAnswer(Users owner, Long questionId, AnswerDto answerDto) {
+    public Answer answerPostDtoToAnswer(Users owner, Long questionId, AnswerPostDto answerPostDto) {
 
-        if(answerDto == null)
+        if(answerPostDto == null)
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
 
         if(owner == null)
@@ -60,7 +61,7 @@ public class AnswerMapperImpl implements AnswerMapper {
         return Answer.builder()
                 .owner(owner)
                 .question(questionRepository.findById(questionId).orElseThrow())
-                .body(answerDto.getBody())
+                .body(answerPostDto.getBody())
                 .build();
 
     }

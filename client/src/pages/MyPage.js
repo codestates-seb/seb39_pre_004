@@ -54,6 +54,7 @@ const Users = () => {
           type="text"
           placeholder="e.g is threr an R function for finding the index if an element in a vector"
         />
+        <Subtitle>About me</Subtitle>
         <TextEditor />
       </ProfileEdit>
       <BlueButton>Save profile</BlueButton>
