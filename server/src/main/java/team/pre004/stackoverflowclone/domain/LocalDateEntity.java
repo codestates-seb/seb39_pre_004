@@ -15,10 +15,8 @@ import java.time.format.DateTimeFormatter;
 public abstract class LocalDateEntity {
 
     @Column(name = "createDate")
-    @LastModifiedDate
     private String createDate;
     @Column(name = "modDate")
-    @LastModifiedDate
     private String modDate;
 
     @PrePersist

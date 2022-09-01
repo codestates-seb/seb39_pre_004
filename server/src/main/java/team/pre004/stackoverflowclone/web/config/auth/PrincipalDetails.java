@@ -8,7 +8,7 @@ import team.pre004.stackoverflowclone.domain.user.entity.Users;
 
 @Data
 @Setter(AccessLevel.NONE)
-public class PrincipalDetails {
+public class PrincipalDetails{
 
     private static final long seralVersionUID = 1L;
 

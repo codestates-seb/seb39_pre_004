@@ -1,13 +1,12 @@
 package team.pre004.stackoverflowclone.mapper.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import team.pre004.stackoverflowclone.domain.post.entity.Answer;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
 import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
-import team.pre004.stackoverflowclone.dto.post.request.QuestionDto;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionPostDto;
 import team.pre004.stackoverflowclone.dto.post.response.*;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
@@ -34,30 +33,26 @@ public class QuestionMapperImpl implements QuestionMapper {
             return new LinkedHashSet<>();
 
         Set<QuestionInfoDto> questionInfos = new LinkedHashSet<>();
-        for(Question questionInfo : questions) {
+        for (Question questionInfo : questions) {
             questionInfos.add(getQuestionInfo(questionInfo));
         }
 
         return questionInfos;
     }
 
-
     @Override
-    public Question questionDtoToQuestion(Users owner, QuestionDto questionDto) {
-
-        if(questionDto == null)
+    public Question questionPostDtoToQuestion(Users owner, QuestionPostDto questionPostDto) {
+        if (questionPostDto == null)
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
 
-
-        if(owner == null)
+        if (owner == null)
             throw new CustomNullPointUsersException(ExceptionMessage.NOT_CONTENT_USER_ID);
-
 
         return Question.builder()
                 .owner(owner)
-                .title(questionDto.getTitle())
-                .body(questionDto.getBody())
-                .tags(questionDto.getTags())
+                .title(questionPostDto.getTitle())
+                .body(questionPostDto.getBody())
+                .tags(questionPostDto.getTags())
                 .build();
     }
 
@@ -67,7 +62,7 @@ public class QuestionMapperImpl implements QuestionMapper {
             return new LinkedHashSet<>();
 
         Set<QuestionIndexDto> questionIndexs = new LinkedHashSet<>();
-        for(Question questionIndex : questions) {
+        for (Question questionIndex : questions) {
             questionIndexs.add(getQuestionIndex(questionIndex));
         }
 
@@ -77,7 +72,7 @@ public class QuestionMapperImpl implements QuestionMapper {
     @Override
     public QuestionIndexDto getQuestionIndex(Question question) {
 
-        if(question == null)
+        if (question == null)
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
 
         UserInfoDto userInfo = usersMapper.getUserInfo(question.getOwner());
@@ -102,13 +97,13 @@ public class QuestionMapperImpl implements QuestionMapper {
 
     @Override
     public QuestionInfoDto getQuestionInfo(Question question) {
-        if(question == null)
+        if (question == null)
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
 
 
         UserInfoDto userInfo = usersMapper.getUserInfo(question.getOwner());
         Set<Answer> answers = question.getAnswers();
-        Set<QuestionComment> comments =question.getQuestionComment();
+        Set<QuestionComment> comments = question.getQuestionComment();
 
         return QuestionInfoDto.builder()
                 .owner(userInfo)
@@ -130,7 +125,7 @@ public class QuestionMapperImpl implements QuestionMapper {
     @Override
     public QuestionPostDto getQuestionPostDto(Question question) {
 
-        if(question == null)
+        if (question == null)
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID);
 
         UserInfoDto userInfo = usersMapper.getUserInfo(question.getOwner());

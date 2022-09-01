@@ -39,7 +39,6 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     @Transactional(readOnly = true)
     public Page<Question> findAll(Pageable pageable) {
-
         return questionRepository.findAll(pageable);
     }
 
@@ -52,7 +51,6 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     @Transactional
     public Question save(Question question) {
-
         return questionRepository.save(question);
     }
 
