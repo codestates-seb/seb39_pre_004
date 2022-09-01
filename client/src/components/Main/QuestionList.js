@@ -1,16 +1,16 @@
 import QuestionRow from './QuestionRow';
 
-const QuestionList = () => {
+const QuestionList = ({ questions }) => {
   return (
-    <>
-      <QuestionRow />
-      <QuestionRow />
-      <QuestionRow />
-      <QuestionRow />
-      <QuestionRow />
-      <QuestionRow />
-      <QuestionRow />
-    </>
+    <div>
+      {questions.question.map((question) => (
+        <QuestionRow
+          key={question.questionId}
+          id={question.questionId}
+          question={question}
+        />
+      ))}
+    </div>
   );
 };
 

@@ -1,6 +1,5 @@
 import MainTitle from '../components/Main/MainTitle';
 import QuestionList from '../components/Main/QuestionList';
-// import SortButton from '../components/Main/SortButton';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -8,12 +7,11 @@ const MainContainer = styled.div`
   flex-direction: column;
 `;
 
-const MainPage = () => {
+const MainPage = ({ questions }) => {
   return (
     <MainContainer>
       <MainTitle />
-      {/* <SortButton /> */}
-      <QuestionList />
+      {questions && <QuestionList questions={questions} />}
     </MainContainer>
   );
 };

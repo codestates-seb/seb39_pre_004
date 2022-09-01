@@ -3,28 +3,6 @@ import styled from 'styled-components';
 import Logo from '../../assets/images/logo.svg';
 import BlueButton from '../Bluebutton';
 
-const HeaderBlock = styled.div`
-  padding: 10px;
-  height: 50px;
-  border-top: 3px solid var(--orange);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background: var(--light-gray);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  box-shadow: 0px 1px 2px var(--gray);
-  z-index: 1;
-`;
-
-const ButtonBlock = styled.div`
-  button {
-    margin: 10px;
-  }
-`;
-
 const SearchBar = styled.div`
   margin: 0px 30px;
   width: 300px;
@@ -43,6 +21,34 @@ const SearchBar = styled.div`
   }
 
   svg {
+    margin: 10px;
+  }
+`;
+
+const HeaderBlock = styled.div`
+  padding: 10px;
+  height: 50px;
+  border-top: 3px solid var(--orange);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--light-gray);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0px 1px 2px var(--gray);
+  z-index: 1;
+
+  @media screen and (max-width: 768px) {
+    ${SearchBar} {
+      display: none;
+    }
+  }
+`;
+
+const ButtonBlock = styled.div`
+  button {
     margin: 10px;
   }
 `;

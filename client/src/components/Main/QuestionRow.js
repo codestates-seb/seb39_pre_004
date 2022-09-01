@@ -16,6 +16,7 @@ const QuestionStatus = styled.div`
 `;
 
 const QuestionContent = styled.div`
+  width: 100vw;
   padding: 0 30px;
   h3 {
     font-weight: normal;
@@ -46,33 +47,30 @@ const AuthorInfoBlock = styled.div`
   font-size: 13px;
 `;
 
-const QuestionRow = () => {
+const QuestionRow = ({ id, question }) => {
   return (
     <RowContainer>
       <QuestionStatus>
-        <span>0 votes</span>
-        <span>1 answers</span>
-        <span>6 views</span>
+        <span>{question.likes} likes</span>
+        <span>{question.answers} answers</span>
+        <span>{question.views} views</span>
       </QuestionStatus>
       <QuestionContent>
-        <Link to="/questions">
-          <h3>IN memory Graph DB with specific requirements</h3>
+        <Link to={`/questions/${id}`}>
+          <h3>{question.title}</h3>
         </Link>
-        <div>
-          We are looking for some in memory graph data kind of solution . Where
-          we can store the graph data like the below
-        </div>
+        <div>{question.body}</div>
         <AuthorInfoBlock>
-          <Link to="/users">
+          <Link to={`/users/`}>
             <img
               src="https://www.gravatar.com/avatar/6ac74e9b9526ea2907458a196ef26d15?s=32&amp;d=identicon&amp;r=PG&amp;f=1"
               alt="user avatar"
               width="16"
               height="16"
             />
-            <span>StringMain</span>
+            <span>{question.owner.name}</span>
           </Link>
-          <span>2022-08-30</span>
+          <span>{question.createDate}</span>
         </AuthorInfoBlock>
       </QuestionContent>
     </RowContainer>
