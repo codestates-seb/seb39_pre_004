@@ -7,5 +7,5 @@ import lombok.Setter;
 @Data
 @Setter(AccessLevel.NONE)
 public class CMRequestDto <T>{
-    private T requestData;
+    private T data;
 }
