@@ -11,6 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
+import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
+import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
 import team.pre004.stackoverflowclone.dto.common.CommentRespDto;
@@ -68,8 +70,8 @@ public class QuestionController {
 
     @PostMapping("/add") //게시글 작성 요청
     public ResponseEntity<?> addQuestion(
-                                        @AuthenticationPrincipal PrincipalDetails principalDetails
-                                        ,@RequestBody QuestionPostDto questionPostDto
+            @AuthenticationPrincipal PrincipalDetails principalDetails
+            , @RequestBody QuestionPostDto questionPostDto
     ) {
         //Todo : 로그인한 유저만 작성 요청을 할 수 있습니다.
         //Todo : 작성한 title, body, tags를 DB에 저장합니다.
@@ -137,23 +139,33 @@ public class QuestionController {
         return new ResponseEntity<>(commonService.redirect("/questions/" + question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
     }
 
-    @DeleteMapping("/{id}") // 게시글 삭제 요청
+    @DeleteMapping("/{questionId}") // 게시글 삭제 요청
     @Transactional
-    public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
+    public ResponseEntity<?> deleteQuestion(@PathVariable Long questionId,
+                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        questionService.deleteById(id);
+        Long userId = principalDetails.getOwner().getOwnerId();
+        Question question = questionService.findById(questionId).orElseThrow(
+                () -> new CustomNotContentByIdException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
 
-        return new ResponseEntity<>(commonService.redirect("/"), HttpStatus.MOVED_PERMANENTLY);
+        authService.isAuthenticatedUser(userId, question.getOwner().getOwnerId());
+
+        questionService.deleteById(questionId);
+
+        return new ResponseEntity<>(commonService.redirect("/main"), HttpStatus.MOVED_PERMANENTLY);
     }
 
-    @PostMapping("/{id}/likes-up") // 게시글 좋아요 요청
+    @PostMapping("/{questionId}/likes-up") // 게시글 좋아요 요청
     @Transactional
-    public ResponseEntity<?> upQuestionLike(@PathVariable Long id) {
-        Long userId = 1L;
+    public ResponseEntity<?> upQuestionLike(@PathVariable Long questionId,
+                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        Long userId = principalDetails.getOwner().getOwnerId();
 
         LikesDto likes = LikesDto.builder()
-                .likes(questionService.selectLikeUp(userId, id))
-                .postId(id)
+                .likes(questionService.selectLikeUp(userId, questionId))
+                .postId(questionId)
                 .postType(PostType.QUESTION)
                 .build();
 
@@ -164,35 +176,16 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/likes-down") // 게시글 싫어요 요청
+    @PostMapping("/{questionId}/likes-down") // 게시글 싫어요 요청
     @Transactional
-    public ResponseEntity<?> downQuestionLike(@PathVariable Long id) {
+    public ResponseEntity<?> downQuestionLike(@PathVariable Long questionId,
+                                              @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Long userId = 1L;
+        Long userId = principalDetails.getOwner().getOwnerId();
 
         LikesDto likes = LikesDto.builder()
-                .likes(questionService.selectLikeDown(userId, id))
-                .postId(id)
-                .postType(PostType.QUESTION)
-                .build();
-
-        LikeRespDto<?> response = LikeRespDto.builder()
-                .code(ResponseCode.SUCCESS)
-                .like(likes)
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PostMapping("/{id}/likes-up/undo") // 게시글 좋아요 요청 취소
-    @Transactional
-    public ResponseEntity<?> upUndoQuestionLike(@PathVariable Long id) {
-
-        Long userId = 1L;
-
-        LikesDto likes = LikesDto.builder()
-                .likes(questionService.selectLikeUpUndo(userId, id))
-                .postId(id)
+                .likes(questionService.selectLikeDown(userId, questionId))
+                .postId(questionId)
                 .postType(PostType.QUESTION)
                 .build();
 
@@ -204,15 +197,16 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/likes-down/undo") // 게시글 싫어요 요청 취소
+    @PostMapping("/{questionId}/likes-up/undo") // 게시글 좋아요 요청 취소
     @Transactional
-    public ResponseEntity<?> downUndoQuestionLike(@PathVariable Long id) {
+    public ResponseEntity<?> upUndoQuestionLike(@PathVariable Long questionId,
+                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Long userId = 1L;
+        Long userId = principalDetails.getOwner().getOwnerId();
 
         LikesDto likes = LikesDto.builder()
-                .likes(questionService.selectLikeDownUndo(userId, id))
-                .postId(id)
+                .likes(questionService.selectLikeUpUndo(userId, questionId))
+                .postId(questionId)
                 .postType(PostType.QUESTION)
                 .build();
 
@@ -224,43 +218,75 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/comments")//게시글 댓글 작성 요청
+    @PostMapping("/{questionId}/likes-down/undo") // 게시글 싫어요 요청 취소
     @Transactional
-    public ResponseEntity<?> addQuestionComment(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long id, @RequestBody QuestionCommentDto questionCommentDto) {
+    public ResponseEntity<?> downUndoQuestionLike(@PathVariable Long questionId,
+                                                  @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
+        Long userId = principalDetails.getOwner().getOwnerId();
 
+        LikesDto likes = LikesDto.builder()
+                .likes(questionService.selectLikeDownUndo(userId, questionId))
+                .postId(questionId)
+                .postType(PostType.QUESTION)
+                .build();
+
+        LikeRespDto<?> response = LikeRespDto.builder()
+                .code(ResponseCode.SUCCESS)
+                .like(likes)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/{questionId}/comments")//게시글 댓글 작성 요청
+    @Transactional
+    public ResponseEntity<?> addQuestionComment(@PathVariable Long questionId,
+                                                @AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                @RequestBody QuestionCommentDto questionCommentDto) {
         //Todo : 로그인한 회원만 댓글을 작성 할 수 있습니다.
-
         //Todo : 작성한 댓글을 DB에 저장합니다.
 
+        Users user = principalDetails.getOwner();
+        questionService.findById(questionId).orElseThrow(
+                () -> new CustomNotContentByIdException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
+
         questionCommentService.save(
-                commentMapper.getQuestionComment(principalDetails.getOwner(), id, questionCommentDto));
+                commentMapper.getQuestionComment(user, questionId, questionCommentDto));
 
         CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .comment(commentMapper.getQuestionCommentInfos(questionCommentService.findAllByQuestion(id)))
+                .comment(commentMapper.getQuestionCommentInfos(questionCommentService.findAllByQuestion(questionId)))
                 .build();
-        //Todo : ?
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/comments/{commentId}") //게시글 댓글 수정 요청
+    @PutMapping("/{questionId}/comments/{commentId}") //게시글 댓글 수정 요청
     @Transactional
     public ResponseEntity<?> updateQuestionComment(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
-            @PathVariable Long id, @PathVariable Long commentId,
+            @PathVariable Long questionId,
+            @PathVariable Long commentId,
             @RequestBody QuestionCommentDto questionCommentDto) {
 
         //Todo : 댓글 게시자만 수정할 수 있습니다.
 
         //Todo : 해당 질문의 댓글을 수정합니다.
 
-        questionCommentService.update(id, commentId, questionCommentDto);
+        Users user = principalDetails.getOwner();
+        questionService.findById(questionId).orElseThrow(
+                () -> new CustomNotContentByIdException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
+
+        authService.isAuthenticatedUser(user.getOwnerId(), commentId);
+
+        questionCommentService.update(questionId, commentId, questionCommentDto);
 
         CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .comment(commentMapper.getQuestionCommentInfos(questionCommentService.findAllByQuestion(id)))
+                .comment(commentMapper.getQuestionCommentInfos(questionCommentService.findAllByQuestion(questionId)))
                 .build();
 
         //Todo : ?
@@ -268,18 +294,26 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}/comments/{commentId}") //게시글 댓글 삭제 요청
+    @DeleteMapping("/{questionId}/comments/{commentId}") //게시글 댓글 삭제 요청
     @Transactional
-    public ResponseEntity<?> deleteQuestionComment(@PathVariable Long id, @PathVariable Long commentId) {
+    public ResponseEntity<?> deleteQuestionComment(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @PathVariable Long questionId,
+            @PathVariable Long commentId) {
 
         //Todo : 댓글 게시자만 삭제할 수 있습니다.
 
         //Todo : 해당 질문의 댓글을 삭제합니다.
-        questionCommentService.deleteById(id, commentId);
+        Users user = principalDetails.getOwner();
+        questionService.findById(questionId).orElseThrow(
+                () -> new CustomNotContentByIdException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
+        );
+        authService.isAuthenticatedUser(user.getOwnerId(), commentId);
+        questionCommentService.deleteById(questionId, commentId);
 
         CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .comment(questionCommentService.findAllByQuestion(id))
+                .comment(questionCommentService.findAllByQuestion(questionId))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
