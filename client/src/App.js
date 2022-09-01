@@ -6,18 +6,18 @@ import Mypage from './pages/MyPage';
 import EditPage from './pages/EditPage';
 import Post from './pages/Post';
 import MainPage from './pages/MainPage';
-import useAxios from './hooks/useAxios';
+import LoginPage from './pages/LoginPage';
+import JoinPage from './pages/JoinPage';
 
 const App = () => {
-  const { data: questions } = useAxios('/main');
-
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<CommonLayout />}>
-          <Route path="/" element={<MainPage questions={questions} />}></Route>
-          <Route path="/login" element={<div>login</div>}></Route>
+          <Route path="/" element={<MainPage />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/signup" element={<JoinPage />}></Route>
           <Route path="/ask" element={<AskPage />}></Route>
           <Route path="/users" element={<Mypage />}></Route>
           <Route path="/edit" element={<EditPage />}></Route>
