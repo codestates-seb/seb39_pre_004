@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import BlueButton from '../Bluebutton';
 import ViewContainer from './ViewContainer';
+import TextEditer from '../TextEditor';
 
 const SortMenu = styled.div`
   display: flex;
@@ -19,11 +21,13 @@ const SeletContainer = styled.div`
 `;
 
 const Answer = () => {
+  const store = useSelector((state) => state.singlePost);
+  const { answers } = store;
   return (
     <>
       <section className="viewAnswer">
         <SortMenu>
-          <div>{2} Answers</div>
+          <div>{answers.length} Answers</div>
           <SeletContainer>
             <div>
               <label htmlFor="answerSort">Sorted by:</label>
@@ -43,14 +47,16 @@ const Answer = () => {
           </SeletContainer>
         </SortMenu>
         <section className="answersList">
-          {/* AnswerList data에 map 적용 예정 */}
-          <ViewContainer isAnswer={true} />
+          {answers
+            ? answers.map((answer) => (
+                <ViewContainer key={answer.answerId} data={answer} />
+              ))
+            : null}
         </section>
       </section>
       <section className="addAnswer">
         <h3>Your Answer</h3>
-        {/* text editor 컴포넌트 적용 */}
-        <div>text editer space</div>
+        <TextEditer></TextEditer>
         <BlueButton>Post Your Answer</BlueButton>
       </section>
     </>
