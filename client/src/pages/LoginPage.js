@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Subtitle from '../components/Subtitle';
 import BlueButton from '../components/Bluebutton';
 import LoginSocial from '../components/SocialButton/LoginSocial';
+import Input from '../components/Input';
 
 const Container = styled.div`
   width: 100%;
@@ -25,22 +26,6 @@ const LoginBlock = styled.div`
   padding: 20px;
 `;
 
-const LoginInput = styled.input`
-  background: none;
-  border: 1px solid var(--gray);
-  border-radius: 3px;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 7px;
-  margin-bottom: 20px;
-  &:focus {
-    outline: none;
-    border: 1px solid var(--blue);
-    box-shadow: 0px 0px 2px var(--blue);
-  }
-`;
-
 const LoginPage = () => {
   return (
     <>
@@ -49,11 +34,11 @@ const LoginPage = () => {
         <LoginBlock>
           <div>
             <Subtitle>Email</Subtitle>
-            <LoginInput />
+            <Input />
           </div>
           <div>
             <Subtitle>Password </Subtitle>
-            <LoginInput />
+            <Input />
           </div>
           <BlueButton>Log in</BlueButton>
         </LoginBlock>
