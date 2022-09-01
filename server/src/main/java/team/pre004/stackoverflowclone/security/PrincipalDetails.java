@@ -22,27 +22,25 @@ public class PrincipalDetails implements UserDetails{
 
     private Map<String, Object> attributes;
     @Builder
-    public PrincipalDetails(Users users) {
-        this.owner = users;
+    public PrincipalDetails(Users owner) {
+        this.owner = owner;
     }
 
-    public PrincipalDetails(Users users, Map<String, Object> attributes) {
-        this.users = users;
+    public PrincipalDetails(Users owner, Map<String, Object> attributes) {
+        this.owner = owner;
         this.attributes = attributes;
 
     }
 
-    @Override
     public Map<String, Object> getAttributes() {
         return attributes; // 수정
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(() -> owner.getRoles().getKey());
-//        owner.getRoleList().forEach(n -> {
-//            authorities.add(() -> n);
-//        });
+
         return authorities;
     }
 

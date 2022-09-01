@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //http.addFilterBefore(new FirstFilter(), BasicAuthenticationFilter.class);
+
         http.csrf()
                 .ignoringAntMatchers("/h2-console/**")
                 .disable();
@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .antMatchers("/questions/id")
                 .access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
+                .and()
                 .oauth2Login()
                 .loginPage("/login");
 

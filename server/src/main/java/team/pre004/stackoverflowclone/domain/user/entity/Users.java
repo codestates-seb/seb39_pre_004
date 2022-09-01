@@ -49,12 +49,9 @@ public class Users extends LocalDateEntity {
 
     private String image;
 
-//    public List<String> getRoleList(){
-//        if(this.roles.length() > 0) {
-//            return Arrays.asList(this.roles.split(","));
-//        }
-//        return new ArrayList<>();
-//    }
+    private String provider;
+    private String providerId;
+
 
     @JsonIgnore
     @OneToMany(mappedBy ="owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -90,6 +87,7 @@ public class Users extends LocalDateEntity {
 
     @Builder
     public Users(String name, String email, String password, Role roles, String bio, String link, String image) {
+
         this.name = name;
         this.email = email;
         this.password = password;
@@ -97,6 +95,8 @@ public class Users extends LocalDateEntity {
         this.bio = bio;
         this.link = link;
         this.image = image;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
 
