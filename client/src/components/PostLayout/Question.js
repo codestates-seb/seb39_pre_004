@@ -43,7 +43,7 @@ const Question = () => {
           <InfoPost keyword="Views" value={`${views} times`} />
         </div>
       </Header>
-      <ViewContainer key={questionId} data={store} isAnswer={false} />
+      <ViewContainer key={questionId} data={store} />
     </>
   );
 };

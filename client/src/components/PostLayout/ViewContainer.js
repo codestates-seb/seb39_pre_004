@@ -32,14 +32,14 @@ const Div = styled.div`
   }
 `;
 
-const ViewContainer = ({ data, isAnswer }) => {
+const ViewContainer = ({ data }) => {
   return (
     <Container>
       <Menu>
         <i className="fa-solid fa-angle-up"></i>
         {data.likes}
         <i className="fa-solid fa-chevron-down"></i>
-        {!isAnswer ? (
+        {data.answers ? (
           <i className="fa-solid fa-bookmark"></i>
         ) : (
           <i className="fa-solid fa-check"></i>
@@ -57,7 +57,7 @@ const ViewContainer = ({ data, isAnswer }) => {
         </div>
         <Div>
           <div className="controllButtons">
-            {!isAnswer ? (
+            {data.answers ? (
               <>
                 <Link to="/edit">
                   <TextButton text="Edit" />
@@ -77,7 +77,6 @@ const ViewContainer = ({ data, isAnswer }) => {
             <div>asked {data.modDate}</div>
             <div className="userInfo">
               <img src={data.image} alt="userImage" />
-              {/* userImage */}
               <div>
                 <div>{data.owner.name}</div>
                 <div>{1}</div>

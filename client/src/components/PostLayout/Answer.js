@@ -49,11 +49,7 @@ const Answer = () => {
         <section className="answersList">
           {answers
             ? answers.map((answer) => (
-                <ViewContainer
-                  key={answer.answerId}
-                  data={answer}
-                  isAnswer={true}
-                />
+                <ViewContainer key={answer.answerId} data={answer} />
               ))
             : null}
         </section>
