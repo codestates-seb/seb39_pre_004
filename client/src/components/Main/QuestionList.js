@@ -1,9 +1,9 @@
 import QuestionRow from './QuestionRow';
 
-const QuestionList = ({ questions }) => {
+const QuestionList = ({ mainData }) => {
   return (
     <div>
-      {questions.question.map((question) => (
+      {mainData.map((question) => (
         <QuestionRow
           key={question.questionId}
           id={question.questionId}
