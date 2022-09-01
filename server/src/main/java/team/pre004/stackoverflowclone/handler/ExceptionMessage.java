@@ -6,7 +6,7 @@ public enum ExceptionMessage {
 
     //유저 에러 메세지
 
-    NOT_CONTENT_USER_ID(40, "유저 아이디가 존재하지 않습니다."),
+    NOT_CONTENT_USER_ID(40, "유저 아d이디가 존재하지 않습니다."),
     NOT_CONTENT_USER_NAME(41, "유저 닉네임이 존재하지 않습니다."),
     NOT_CONTENT_USER_EMAIL(42, "유저 이메일이 존재하지 않습니다."),
     NOT_CONTENT_USER_PASSWORD(43, "유저 비밀번호가 존재하지 않습니다."),

@@ -3,14 +3,18 @@ package team.pre004.stackoverflowclone.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
 import team.pre004.stackoverflowclone.dto.common.OwnerRespDto;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
-import team.pre004.stackoverflowclone.service.AuthService;
 import team.pre004.stackoverflowclone.security.PrincipalDetails;
+import team.pre004.stackoverflowclone.service.AuthService;
+
+import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,17 +37,37 @@ public class AuthController {
 
     }
 
-    @GetMapping("/users/oauth")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        return "users";
+    @GetMapping("/loginTest")
+    public @ResponseBody String loginTest(Authentication authentication) {
+        System.out.println("============/loginTest===========");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("authentication : " + principalDetails.getOwner());
+        return "세션 정보 확인";
     }
 
+    @GetMapping("/loginTest3")
+    public @ResponseBody String loginOAuthTest(
+            Authentication authentication,
+            @AuthenticationPrincipal OAuth2User oauth) {
+        System.out.println("============/loginOAuthTest===========");
+        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        System.out.println("authenticaion : " + oauth2User.getAttributes());
+        System.out.println("oauth2User : " + oauth.getAttributes());
+        return "세션 정보 확인3";
+    }
+
+    @GetMapping("/user1")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println(principalDetails.getOwner());
+        return "owner";
+    }
 
     @GetMapping("/signup") //회원 가입 페이지
     public ResponseEntity getSignUpForm() {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
 
 
     @GetMapping("/signup/oauth2/authorization/google") //구글 회원 가입 페이지

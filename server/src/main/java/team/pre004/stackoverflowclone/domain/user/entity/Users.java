@@ -86,7 +86,7 @@ public class Users extends LocalDateEntity {
 
 
     @Builder
-    public Users(String name, String email, String password, Role roles, String bio, String link, String image) {
+    public Users(String name, String email, String password, Role roles, String bio, String link, String image, String provider, String providerId) {
 
         this.name = name;
         this.email = email;
