@@ -1,8 +1,7 @@
 // import { useSelector, useDispatch } from 'react-redux';
 import { useDispatch } from 'react-redux';
-// import { useRef } from 'react';
-import { deleteQuestion } from '../../slices/postSlice';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { deleteSomething } from '../../slices/postSlice';
 import styled from 'styled-components';
 import CommentContainer from './CommentContainer';
 
@@ -39,10 +38,25 @@ const Div = styled.div`
 
 const ViewContainer = ({ data }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const dataForDelete = {
+    target: '',
+    url: '',
+  };
   const handelDeleteQestion = () => {
-    // dispatch(deleteQuestion(`questions/${data.questionId}/`));
-    dispatch(deleteQuestion(`${data.questionId}/`));
+    dataForDelete.target = 'question';
+    dataForDelete.url = `${data.questionId}/`;
+    // dispatch(deleteSomething(`questions/${data.questionId}/`));
+    // dispatch(deleteSomething(`${data.questionId}/`));
+    dispatch(deleteSomething(dataForDelete));
+
+    navigate('/');
+  };
+  const handelDeleteAnswer = () => {
+    dataForDelete.target = 'answer';
+    dataForDelete.url = `${data.answerId}/`;
+    dispatch(deleteSomething(dataForDelete));
   };
   return (
     <Container>
@@ -79,7 +93,7 @@ const ViewContainer = ({ data }) => {
             ) : (
               <>
                 <TextButton>Edit</TextButton>
-                <TextButton>Delete</TextButton>
+                <TextButton onClick={handelDeleteAnswer}>Delete</TextButton>
               </>
             )}
           </div>

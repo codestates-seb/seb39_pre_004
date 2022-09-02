@@ -28,12 +28,14 @@ export const fetchPost = createAsyncThunk(
   }
 );
 
-export const deleteQuestion = createAsyncThunk(
-  'postSlice/deleteQuestion',
-  async (url) => {
-    await axios.delete(url);
+export const deleteSomething = createAsyncThunk(
+  'postSlice/deleteSomething',
+  async (data) => {
+    await axios.delete(data.url);
+    return data.target;
   }
 );
+
 export const addAnswer = createAsyncThunk(
   'postSlice/addAnswer',
   async (data) => {
@@ -74,8 +76,12 @@ const postSlice = createSlice({
       .addCase(addAnswer.fulfilled, (state, action) => {
         state.answers.push(action.payload);
       })
-      .addCase(deleteQuestion.fulfilled, () => {
-        return initialPostState;
+      .addCase(deleteSomething.fulfilled, (state, action) => {
+        console.log('action.payload', action.payload);
+        if (action.payload === 'question') {
+          return initialPostState;
+        }
+        // return state.answers.filter();/* url 문제로 보류했습니다 */
       });
   },
 });
