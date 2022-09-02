@@ -27,6 +27,13 @@ export const fetchPost = createAsyncThunk(
     }
   }
 );
+
+export const deleteQuestion = createAsyncThunk(
+  'postSlice/deleteQuestion',
+  async (url) => {
+    await axios.delete(url);
+  }
+);
 export const addAnswer = createAsyncThunk(
   'postSlice/addAnswer',
   async (data) => {
@@ -58,7 +65,6 @@ const postSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPost.pending, (/*state, action*/) => {})
       .addCase(fetchPost.fulfilled, (state, action) => {
         return (state = action.payload);
       })
@@ -67,6 +73,9 @@ const postSlice = createSlice({
       })
       .addCase(addAnswer.fulfilled, (state, action) => {
         state.answers.push(action.payload);
+      })
+      .addCase(deleteQuestion.fulfilled, () => {
+        return initialPostState;
       });
   },
 });

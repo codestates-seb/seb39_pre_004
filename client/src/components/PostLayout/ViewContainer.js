@@ -1,10 +1,15 @@
-import styled from 'styled-components';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+// import { useRef } from 'react';
+import { deleteQuestion } from '../../slices/postSlice';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import CommentContainer from './CommentContainer';
 
-export const TextButton = ({ text }) => {
-  return <button>{text}</button>;
-};
+export const TextButton = styled.button`
+  color: gray;
+  background-color: transparent;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -33,6 +38,12 @@ const Div = styled.div`
 `;
 
 const ViewContainer = ({ data }) => {
+  const dispatch = useDispatch();
+
+  const handelDeleteQestion = () => {
+    // dispatch(deleteQuestion(`questions/${data.questionId}/`));
+    dispatch(deleteQuestion(`${data.questionId}/`));
+  };
   return (
     <Container>
       <Menu>
@@ -60,16 +71,15 @@ const ViewContainer = ({ data }) => {
             {data.answers ? (
               <>
                 <Link to="/edit">
-                  <TextButton text="Edit" />
+                  <TextButton>Edit</TextButton>
                 </Link>
-                <Link to="/">
-                  <TextButton text="Delete" />
-                </Link>
+
+                <TextButton onClick={handelDeleteQestion}>Delete</TextButton>
               </>
             ) : (
               <>
-                <TextButton text="Edit" />
-                <TextButton text="Delete" />
+                <TextButton>Edit</TextButton>
+                <TextButton>Delete</TextButton>
               </>
             )}
           </div>
