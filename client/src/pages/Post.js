@@ -8,7 +8,7 @@ import Answer from '../components/PostLayout/Answer';
 const Post = ({ key }) => {
   const dispatch = useDispatch();
 
-  key = 6;
+  key = 1;
   const url = `/questions/${key}`;
 
   useEffect(() => {

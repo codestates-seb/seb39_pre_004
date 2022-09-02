@@ -27,6 +27,20 @@ export const fetchPost = createAsyncThunk(
     }
   }
 );
+export const addAnswer = createAsyncThunk(
+  'postSlice/addAnswer',
+  async (data) => {
+    const responseData = await axios.post(data.url, {
+      body: JSON.stringify(data.requestbody),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    try {
+      return responseData.data.answer;
+    } catch (error) {
+      throw new Error('답변추가 에러');
+    }
+  }
+);
 
 const postSlice = createSlice({
   name: 'post',
@@ -50,6 +64,10 @@ const postSlice = createSlice({
       })
       .addCase(fetchPost.rejected, (state, action) => {
         console.log(action.error.message);
+      })
+      .addCase(addAnswer.fulfilled, (state, action) => {
+        console.log('action', action.payload.body);
+        // return state.answers.push(action.payload.body);
       });
   },
 });

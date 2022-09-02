@@ -1,4 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addAnswer } from '../../slices/postSlice';
 import styled from 'styled-components';
 import BlueButton from '../Bluebutton';
 import ViewContainer from './ViewContainer';
@@ -21,8 +23,20 @@ const SeletContainer = styled.div`
 `;
 
 const Answer = () => {
+  const dispatch = useDispatch();
+  const [answerBody, setAnswerBody] = useState('텍스트 에디터 value값');
   const store = useSelector((state) => state.singlePost);
-  const { answers } = store;
+  const { answers, questionId } = store;
+
+  const handleSubmit = () => {
+    setAnswerBody('린트에러떄문에 넣은 것');
+    const dataForThunk = {
+      url: `/answers/${questionId}/add` /* url변경 필요 */,
+      requestbody: answerBody,
+    };
+
+    dispatch(addAnswer(dataForThunk));
+  };
   return (
     <>
       <section className="viewAnswer">
@@ -54,10 +68,10 @@ const Answer = () => {
             : null}
         </section>
       </section>
-      <section className="addAnswer">
+      <section className="addAnswerContainer">
         <h3>Your Answer</h3>
-        <TextEditer></TextEditer>
-        <BlueButton>Post Your Answer</BlueButton>
+        <TextEditer></TextEditer> {/* 인풋값 추출 필요 */}
+        <BlueButton onClick={handleSubmit}>Post Your Answer</BlueButton>
       </section>
     </>
   );
