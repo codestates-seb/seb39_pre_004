@@ -1,10 +1,14 @@
+// import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import { deleteSomething } from '../../slices/postSlice';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import CommentContainer from './CommentContainer';
 
-export const TextButton = ({ text }) => {
-  return <button>{text}</button>;
-};
+export const TextButton = styled.button`
+  color: gray;
+  background-color: transparent;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -33,6 +37,27 @@ const Div = styled.div`
 `;
 
 const ViewContainer = ({ data }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const dataForDelete = {
+    target: '',
+    url: '',
+  };
+  const handelDeleteQestion = () => {
+    dataForDelete.target = 'question';
+    dataForDelete.url = `${data.questionId}/`;
+    // dispatch(deleteSomething(`questions/${data.questionId}/`));
+    // dispatch(deleteSomething(`${data.questionId}/`));
+    dispatch(deleteSomething(dataForDelete));
+
+    navigate('/');
+  };
+  const handelDeleteAnswer = () => {
+    dataForDelete.target = 'answer';
+    dataForDelete.url = `${data.answerId}/`;
+    dispatch(deleteSomething(dataForDelete));
+  };
   return (
     <Container>
       <Menu>
@@ -60,16 +85,15 @@ const ViewContainer = ({ data }) => {
             {data.answers ? (
               <>
                 <Link to="/edit">
-                  <TextButton text="Edit" />
+                  <TextButton>Edit</TextButton>
                 </Link>
-                <Link to="/">
-                  <TextButton text="Delete" />
-                </Link>
+
+                <TextButton onClick={handelDeleteQestion}>Delete</TextButton>
               </>
             ) : (
               <>
-                <TextButton text="Edit" />
-                <TextButton text="Delete" />
+                <TextButton>Edit</TextButton>
+                <TextButton onClick={handelDeleteAnswer}>Delete</TextButton>
               </>
             )}
           </div>
