@@ -66,8 +66,7 @@ const postSlice = createSlice({
         console.log(action.error.message);
       })
       .addCase(addAnswer.fulfilled, (state, action) => {
-        console.log('action', action.payload.body);
-        // return state.answers.push(action.payload.body);
+        state.answers.push(action.payload);
       });
   },
 });
