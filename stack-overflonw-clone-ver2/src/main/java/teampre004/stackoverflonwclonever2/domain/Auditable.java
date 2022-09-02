@@ -1,4 +1,4 @@
-package teampre004.stackoverflonwclonever2.audit;
+package teampre004.stackoverflonwclonever2.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -12,13 +12,8 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class Auditable<U> {
+public abstract class Auditable{
 
-    @ManyToOne
-    @JsonIgnore
-    @CreatedBy
-    @JoinColumn(name = "createBy")
-    protected U createBy;
     @Column(name = "createDate")
     protected String createDate;
     @Column(name = "modDate")

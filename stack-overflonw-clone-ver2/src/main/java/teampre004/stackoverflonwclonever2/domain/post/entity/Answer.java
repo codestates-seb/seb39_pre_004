@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import teampre004.stackoverflonwclonever2.domain.Auditable;
 import teampre004.stackoverflonwclonever2.domain.account.entity.Account;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Answer {
+public class Answer extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import teampre004.stackoverflonwclonever2.domain.Auditable;
 import teampre004.stackoverflonwclonever2.domain.account.entity.Account;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import javax.validation.constraints.Size;
 @Table(name = "Tag")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Tag{
+public class Tag extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

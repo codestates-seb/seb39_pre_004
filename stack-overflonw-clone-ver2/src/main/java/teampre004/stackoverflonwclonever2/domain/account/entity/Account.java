@@ -3,6 +3,7 @@ package teampre004.stackoverflonwclonever2.domain.account.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import teampre004.stackoverflonwclonever2.domain.Auditable;
 import teampre004.stackoverflonwclonever2.domain.account.Provider;
 import teampre004.stackoverflonwclonever2.domain.account.Role;
 import teampre004.stackoverflonwclonever2.domain.post.entity.*;
@@ -19,7 +20,7 @@ import java.util.Set;
 @Table(name = "account")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+public class Account extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

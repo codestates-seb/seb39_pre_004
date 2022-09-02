@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import teampre004.stackoverflonwclonever2.domain.Auditable;
 import teampre004.stackoverflonwclonever2.domain.account.entity.Account;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "Bookmark")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Bookmark {
+public class Bookmark extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

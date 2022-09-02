@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import teampre004.stackoverflonwclonever2.domain.Auditable;
 import teampre004.stackoverflonwclonever2.domain.account.entity.Account;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Table(name = "Question")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Question {
+public class Question extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
