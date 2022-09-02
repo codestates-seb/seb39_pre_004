@@ -1,6 +1,7 @@
 package team.pre004.stackoverflowclone.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,16 +19,19 @@ import team.pre004.stackoverflowclone.dto.post.response.LikesDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotContentByIdException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.AnswerMapper;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
 import team.pre004.stackoverflowclone.security.PrincipalDetails;
 import team.pre004.stackoverflowclone.service.AnswerCommentService;
 import team.pre004.stackoverflowclone.service.AnswerService;
+import team.pre004.stackoverflowclone.service.AuthService;
 import team.pre004.stackoverflowclone.service.CommonService;
 
 import java.util.Set;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/answers")
@@ -39,15 +43,24 @@ public class AnswerController {
     private final CommonService commonService;
     private final AnswerCommentService answerCommentService;
     private final UsersRepository usersRepository;
+    private final AuthService authService;
 
 
-    @PostMapping("/{questionId}/add") // 답글 작성 요청
-    public ResponseEntity<?> addAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long questionId, @RequestBody AnswerPostDto answerPostDto) {
+    @PostMapping("/{answerId}/add") // 답글 작성 요청
+    public ResponseEntity<?> addAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                       @PathVariable Long answerId,
+                                       @RequestBody AnswerPostDto answerPostDto) {
 
+        Users user = principalDetails.getOwner();
+        answerService.findById(answerId).orElseThrow(
+                () -> new CustomNotContentByIdException(ExceptionMessage.NOT_CONTENT_ANSWER_ID)
+        );
+
+        authService.isAuthenticatedUser(user.getOwnerId(), answerId);
 
         Answer answer = answerService.save(
                 answerMapper.answerPostDtoToAnswer(
-                        principalDetails.getOwner(), questionId, answerPostDto
+                        principalDetails.getOwner(), answerId, answerPostDto
                 )
         );
 
@@ -65,26 +78,39 @@ public class AnswerController {
 
 
     @PutMapping("/{answerId}/edit") // 답글 수정 요청
-    public ResponseEntity<?> editAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long answerId, @RequestBody AnswerPostDto answerPostDto) {
+    public ResponseEntity<?> editAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                        @PathVariable Long answerId,
+                                        @RequestBody AnswerPostDto answerPostDto) {
 
+        log.info("111");
 
         if (answerService.findById(answerId).isEmpty()) //해당 게시물이 없을 때 에러메세지
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
 
+        log.info("222");
+
         if (principalDetails.getOwner().getOwnerId() != answerId) //접근 유저가 아닐경우
             throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER);
+
+        log.info("333");
 
         Answer answer = answerService.update(answerId, answerMapper.answerPostDtoToAnswer(
                 principalDetails.getOwner(), answerId, answerPostDto
         ));
 
+        log.info("444");
+
         AnswerInfoDto answerInfoDto = answerMapper.getAnswerInfo(answer);
+
+        log.info("555");
 
         AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .answer(answerInfoDto)
                 .message("답글을 변경하였습니다.")
                 .build();
+
+        log.info("666");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

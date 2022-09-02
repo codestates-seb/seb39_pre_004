@@ -81,7 +81,7 @@ public class QuestionController {
         );
 
         //Todo : 작성한 질문 아이디의 조회 페이지로 리다이렉션을 합니다.
-        return new ResponseEntity<>(commonService.redirect("/questions/" + question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
+        return new ResponseEntity<>(getQuestion(question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
     }
 
     @GetMapping("/{questionId}") // 게시글 조회 페이지
@@ -136,7 +136,7 @@ public class QuestionController {
 
         questionService.update(questionId, questionPostDto);
 
-        return new ResponseEntity<>(commonService.redirect("/questions/" + question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
+        return new ResponseEntity<>(getQuestion(question.getQuestionId()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{questionId}") // 게시글 삭제 요청
@@ -318,6 +318,5 @@ public class QuestionController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
 }

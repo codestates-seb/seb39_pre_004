@@ -20,7 +20,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Users userEntity = usersRepository.findByEmail(email).orElseThrow(
-                () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_USER_ID)
+                () -> new CustomNotContentItemException(ExceptionMessage.CONFLICT_LIKE_DOWN)
         );
 
         return new PrincipalDetails(userEntity);
