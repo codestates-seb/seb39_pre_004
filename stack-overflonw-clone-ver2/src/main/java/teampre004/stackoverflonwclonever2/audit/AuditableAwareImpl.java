@@ -2,7 +2,7 @@ package teampre004.stackoverflonwclonever2.audit;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Service;
-import teampre004.stackoverflonwclonever2.domain.account.Account;
+import teampre004.stackoverflonwclonever2.domain.account.entity.Account;
 
 import java.util.Optional;
 

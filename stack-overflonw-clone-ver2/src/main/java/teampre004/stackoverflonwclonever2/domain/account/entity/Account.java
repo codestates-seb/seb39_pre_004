@@ -1,14 +1,18 @@
-package teampre004.stackoverflonwclonever2.domain.account;
+package teampre004.stackoverflonwclonever2.domain.account.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.type.TextType;
+import teampre004.stackoverflonwclonever2.domain.account.Provider;
+import teampre004.stackoverflonwclonever2.domain.account.Role;
+import teampre004.stackoverflonwclonever2.domain.post.entity.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -43,9 +47,21 @@ public class Account {
     private String bio;
 
     private String image;
-    
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Answer> answers = new HashSet<>();
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Question> questions = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Bookmark> bookmarks = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Vote> votes = new HashSet<>();
 
 
 }
