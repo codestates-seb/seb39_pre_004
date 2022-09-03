@@ -141,7 +141,7 @@ const ViewContainer = ({ data }) => {
           </div>
         </Div>
         <CommentContainer
-          comments={data.comments}
+          data={data}
           type={data.answers ? 'question' : 'answer'}
         />
         {/* 토글용 key 필요 */}

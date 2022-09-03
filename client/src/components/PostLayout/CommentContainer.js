@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { commentActions } from '../../slices/commentSlice';
+import { addComment } from '../../slices/postSlice';
+import { inputAction } from '../../slices/inputSlice';
 import styled from 'styled-components';
 import Bluebutton from '../Bluebutton';
-// import { TextButton } from './ViewContainer';
 
 const CommentList = styled.ul`
   display: flex;
@@ -22,20 +23,35 @@ const CommentToggle = styled.section`
   }
 `;
 
-const CommentContainer = ({ type, comments }) => {
+const CommentContainer = ({ data }) => {
   const dispatch = useDispatch();
-  const isChecked = useSelector((state) => state.comment.checked);
+  const [isChecked, setChecked] = useState(false);
+  const { commentValue } = useSelector((state) => state.input);
 
-  const handleComment = () => {
-    dispatch(commentActions.setChecked());
+  const handleEditContainer = () => {
+    setChecked(!isChecked);
+  };
+  const handleWrite = (event) => {
+    dispatch(inputAction.comment(event.target.value));
   };
 
-  console.log('코멘트소속, eslint 때문에 지우지 말아주세요', type);
+  // 댓글의 commment 추가 API 수정되면 url 수정하겠습니다.
+  const dataForCommentThunk = {
+    url: `${data.answerId || data.questionId}/comments`,
+    requestbody: commentValue,
+  };
+  const submitComment = (event) => {
+    event.preventDefault();
+    dispatch(addComment(dataForCommentThunk));
+    dispatch(inputAction.comment(''));
+  };
+
+  // console.log(코맨트 타입 확인용 type);
   return (
     <>
       <CommentList>
-        {comments.length > 0 &&
-          comments.map((comment) => {
+        {data.comments.length > 0 &&
+          data.comments.map((comment) => {
             return (
               <li key={comment.questionCommentId || comment.answerCommentId}>
                 <p>{comment.body}</p>
@@ -49,14 +65,13 @@ const CommentContainer = ({ type, comments }) => {
       {isChecked ? (
         <CommentToggle>
           <div className="commentInputArea">
-            <textarea />
+            <textarea onChange={handleWrite} value={commentValue} />
             <div>{'Enter at least 15 charactors'}</div>
           </div>
-          <Bluebutton>Add comment</Bluebutton>
+          <Bluebutton onClick={submitComment}>Add comment</Bluebutton>
         </CommentToggle>
       ) : null}
-      <button onClick={handleComment}>Add a comment</button>
-      {/* <TextButton text="Add a comment" onClick={handleComment} /> */}
+      <button onClick={handleEditContainer}>Add a comment</button>
     </>
   );
 };

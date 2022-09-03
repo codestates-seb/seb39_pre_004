@@ -79,6 +79,28 @@ export const editAnswer = createAsyncThunk(
   }
 );
 
+/** CommentContainer.js */
+/** 아래 코드는 요청 URL에 자동으로 question이 붙게 됩니다. */
+export const addComment = createAsyncThunk(
+  'postSlice/addComment',
+  async (data) => {
+    const responseData = await axios.post(
+      data.url,
+      { body: data.requestbody },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+    try {
+      return responseData.data.comment;
+      // console.log('코맨트 추가 후 성공', responseData);
+      // 업데이트된 답글 return 예정
+    } catch (error) {
+      throw new Error('답변 수정 에러');
+    }
+  }
+);
+
 const postSlice = createSlice({
   name: 'post',
   initialState: initialPostState,
@@ -114,6 +136,13 @@ const postSlice = createSlice({
           return initialPostState;
         }
         // return state.answers.filter();/* url 문제로 보류했습니다 */
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        action.payload[0].questionCommentId
+          ? (state.comments = action.payload)
+          : null;
+        // console.log(action.payload);
+        /* 답변의 댓글인 경우 추가할 예정입니다. */
       });
   },
 });

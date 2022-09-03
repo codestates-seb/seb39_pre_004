@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { addAnswer } from '../../slices/postSlice';
-import { inputAction } from '../../slices/inputAnswerSlice';
+import { inputAction } from '../../slices/inputSlice';
 import styled from 'styled-components';
 import BlueButton from '../Bluebutton';
 import ViewContainer from './ViewContainer';
@@ -24,7 +24,7 @@ const SeletContainer = styled.div`
 
 const Answer = () => {
   const dispatch = useDispatch();
-  const { value } = useSelector((state) => state.inputAnswer);
+  const { value } = useSelector((state) => state.input);
   const { answers, questionId } = useSelector((state) => state.singlePost);
 
   const handleSubmit = (event) => {
@@ -34,10 +34,10 @@ const Answer = () => {
       requestbody: value,
     };
     dispatch(addAnswer(dataForThunk));
-    dispatch(inputAction.fill(''));
+    dispatch(inputAction.answer(''));
   };
   const handleInput = (event) => {
-    dispatch(inputAction.fill(event.target.value));
+    dispatch(inputAction.answer(event.target.value));
   };
 
   return (
