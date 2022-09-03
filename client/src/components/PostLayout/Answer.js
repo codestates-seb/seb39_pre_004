@@ -39,9 +39,6 @@ const Answer = () => {
   const handleInput = (event) => {
     dispatch(inputAction.fill(event.target.value));
   };
-  // const displayValue = (event) => {
-  //   dispatch;
-  // };
 
   return (
     <>
@@ -76,11 +73,7 @@ const Answer = () => {
       </section>
       <section className="addAnswerContainer">
         <h3>Your Answer</h3>
-        <Textarea
-          // onChange={displayValue}
-          onBlur={handleInput}
-          // value={value}
-        ></Textarea>
+        <Textarea onChange={handleInput} value={value}></Textarea>
         <BlueButton onClick={handleSubmit}>Post Your Answer</BlueButton>
       </section>
     </>
