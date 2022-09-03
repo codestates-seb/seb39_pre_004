@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialInputSlice = {
   value: '',
 };
-const inputSlice = createSlice({
+const inputAnswerSlice = createSlice({
   name: 'input',
   initialState: initialInputSlice,
   reducers: {
@@ -12,5 +12,5 @@ const inputSlice = createSlice({
     },
   },
 });
-export default inputSlice.reducer;
-export const inputAction = inputSlice.actions;
+export default inputAnswerSlice.reducer;
+export const inputAction = inputAnswerSlice.actions;
