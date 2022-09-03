@@ -4,6 +4,7 @@ import { addComment } from '../../slices/postSlice';
 import { inputAction } from '../../slices/inputSlice';
 import styled from 'styled-components';
 import Bluebutton from '../Bluebutton';
+import { TextButton } from './ViewContainer';
 
 const CommentList = styled.ul`
   display: flex;
@@ -58,6 +59,7 @@ const CommentContainer = ({ data }) => {
                 <div>{comment.owner.name}</div>
                 <div>{comment.createDate}</div>
                 {/* 작성자라면 Delete 버튼 노출 -> 코멘트 수정창 렌더링 */}
+                <TextButton>Delete</TextButton>
               </li>
             );
           })}

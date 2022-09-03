@@ -144,7 +144,6 @@ const ViewContainer = ({ data }) => {
           data={data}
           type={data.answers ? 'question' : 'answer'}
         />
-        {/* 토글용 key 필요 */}
       </QuestionBody>
     </Container>
   );
