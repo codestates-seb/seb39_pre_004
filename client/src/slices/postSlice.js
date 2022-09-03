@@ -40,7 +40,7 @@ export const addAnswer = createAsyncThunk(
   'postSlice/addAnswer',
   async (data) => {
     const responseData = await axios.post(data.url, {
-      body: JSON.stringify(data.requestbody),
+      body: data.requestbody,
       headers: { 'Content-Type': 'application/json' },
     });
     try {
