@@ -1,7 +1,8 @@
 // import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { deleteSomething } from '../../slices/postSlice';
+import { deleteSomething, editAnswer } from '../../slices/postSlice';
 import styled from 'styled-components';
 import CommentContainer from './CommentContainer';
 
@@ -37,8 +38,23 @@ const Div = styled.div`
 `;
 
 const ViewContainer = ({ data }) => {
+  const [isEditMode, setEditMode] = useState(false);
+  const [answerBody, setAnswerBody] = useState(data.body);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handelEditMode = () => {
+    setEditMode(true);
+  };
+  const handelAnswerSave = (event) => {
+    event.preventDefault();
+    const dataForThunk = {
+      url: `answers/${data.answerId}/edit` /* url변경 필요 */,
+      requestbody: answerBody,
+    };
+    dispatch(editAnswer(dataForThunk));
+    setEditMode(false);
+  };
 
   const dataForDelete = {
     target: '',
@@ -58,6 +74,7 @@ const ViewContainer = ({ data }) => {
     dataForDelete.url = `${data.answerId}/`;
     dispatch(deleteSomething(dataForDelete));
   };
+
   return (
     <Container>
       <Menu>
@@ -71,7 +88,17 @@ const ViewContainer = ({ data }) => {
         )}
       </Menu>
       <QuestionBody>
-        <div>{data.body}</div>
+        {isEditMode ? (
+          <textarea
+            value={answerBody}
+            onChange={(event) => {
+              setAnswerBody(event.target.value);
+            }}
+          ></textarea>
+        ) : (
+          <div>{answerBody}</div>
+        )}
+
         <div>
           {data.tag
             ? data.tag.map((el, idx) => (
@@ -92,7 +119,11 @@ const ViewContainer = ({ data }) => {
               </>
             ) : (
               <>
-                <TextButton>Edit</TextButton>
+                {isEditMode ? (
+                  <TextButton onClick={handelAnswerSave}>Save</TextButton>
+                ) : (
+                  <TextButton onClick={handelEditMode}>Edit</TextButton>
+                )}
                 <TextButton onClick={handelDeleteAnswer}>Delete</TextButton>
               </>
             )}

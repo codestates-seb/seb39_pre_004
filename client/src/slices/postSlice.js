@@ -16,6 +16,7 @@ const initialPostState = {
   views: 0,
 };
 
+/** Post.js */
 export const fetchPost = createAsyncThunk(
   'postSlice/fetchPost',
   async (url) => {
@@ -28,6 +29,27 @@ export const fetchPost = createAsyncThunk(
   }
 );
 
+/** Answer.js */
+export const addAnswer = createAsyncThunk(
+  'postSlice/addAnswer',
+  async (data) => {
+    const responseData = await axios.post(
+      data.url,
+      { body: data.requestbody },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+    try {
+      return responseData.data.answer;
+    } catch (error) {
+      throw new Error('답변 추가 에러');
+    }
+  }
+);
+
+/** ViewContainer.js */
+/** 아래 코드는 요청 URL에 자동으로 question이 붙게 됩니다. */
 export const deleteSomething = createAsyncThunk(
   'postSlice/deleteSomething',
   async (data) => {
@@ -36,17 +58,23 @@ export const deleteSomething = createAsyncThunk(
   }
 );
 
-export const addAnswer = createAsyncThunk(
-  'postSlice/addAnswer',
+export const editAnswer = createAsyncThunk(
+  'postSlice/editAnswer',
   async (data) => {
-    const responseData = await axios.post(data.url, {
-      body: data.requestbody,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    console.log(data.url);
+    console.log(data.requestbody);
+    const responseData = await axios.put(
+      data.url,
+      { body: data.requestbody },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
     try {
-      return responseData.data.answer;
+      console.log(responseData, 'elint오류 발생합니다. 지우지 말아주세요');
+      // 업데이트된 답글 return 예정
     } catch (error) {
-      throw new Error('답변추가 에러');
+      throw new Error('답변 수정 에러');
     }
   }
 );
@@ -75,6 +103,10 @@ const postSlice = createSlice({
       })
       .addCase(addAnswer.fulfilled, (state, action) => {
         state.answers.push(action.payload);
+      })
+      .addCase(editAnswer.fulfilled, (/* state, action */) => {
+        // 수정 성공후 반환된 answer의 id와 일치하는 부분을 대체
+        // url 문제로 보류했습니다.
       })
       .addCase(deleteSomething.fulfilled, (state, action) => {
         console.log('action.payload', action.payload);
