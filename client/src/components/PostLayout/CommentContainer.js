@@ -22,23 +22,29 @@ const CommentToggle = styled.section`
   }
 `;
 
-const CommentContainer = () => {
+const CommentContainer = ({ type, comments }) => {
   const dispatch = useDispatch();
   const isChecked = useSelector((state) => state.comment.checked);
 
   const handleComment = () => {
     dispatch(commentActions.setChecked());
   };
+
+  console.log('코멘트소속, eslint 때문에 지우지 말아주세요', type);
   return (
     <>
       <CommentList>
-        {/* map적용 */}
-        <li>
-          <p>{'commentContent'}</p>
-          <div>{'commentUser'}</div>
-          <div>{'23 hours ago'}</div>
-          {/* 작성자라면 Edit버튼 노출 -> 코멘트 수정창 렌더링 */}
-        </li>
+        {comments.length > 0 &&
+          comments.map((comment) => {
+            return (
+              <li key={comment.questionCommentId || comment.answerCommentId}>
+                <p>{comment.body}</p>
+                <div>{comment.owner.name}</div>
+                <div>{comment.createDate}</div>
+                {/* 작성자라면 Delete 버튼 노출 -> 코멘트 수정창 렌더링 */}
+              </li>
+            );
+          })}
       </CommentList>
       {isChecked ? (
         <CommentToggle>

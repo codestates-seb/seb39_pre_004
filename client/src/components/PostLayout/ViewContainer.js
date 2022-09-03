@@ -140,7 +140,10 @@ const ViewContainer = ({ data }) => {
             <div>New contributor</div>
           </div>
         </Div>
-        <CommentContainer />
+        <CommentContainer
+          comments={data.comments}
+          type={data.answers ? 'question' : 'answer'}
+        />
         {/* 토글용 key 필요 */}
       </QuestionBody>
     </Container>
