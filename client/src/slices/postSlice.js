@@ -61,8 +61,8 @@ export const deleteSomething = createAsyncThunk(
 export const editAnswer = createAsyncThunk(
   'postSlice/editAnswer',
   async (data) => {
-    console.log(data.url);
-    console.log(data.requestbody);
+    // console.log(data.url);
+    // console.log(data.requestbody);
     const responseData = await axios.put(
       data.url,
       { body: data.requestbody },
@@ -131,7 +131,7 @@ const postSlice = createSlice({
         // url 문제로 보류했습니다.
       })
       .addCase(deleteSomething.fulfilled, (state, action) => {
-        console.log('action.payload', action.payload);
+        // console.log('action.payload', action.payload);
         if (action.payload === 'question') {
           return initialPostState;
         }
