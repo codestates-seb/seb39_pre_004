@@ -10,6 +10,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
+import team.pre004.stackoverflowclone.dto.common.CMRespDto;
+import team.pre004.stackoverflowclone.dto.common.QuestionRespDto;
+import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.ResponseCode;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
 import team.pre004.stackoverflowclone.web.config.auth.Jwt;
 
 
@@ -32,15 +37,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             Users user = om.readValue(request.getInputStream(), Users.class);
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+
             return authentication;
+
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_AUTHORIZATION);
         }
-        return null;
     }
 
     @Override
