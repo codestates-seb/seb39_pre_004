@@ -15,7 +15,7 @@ const Header = styled.header`
   }
 `;
 
-const BlueButton = styled(Bluebutton)`
+export const BlueButton = styled(Bluebutton)`
   padding: 10px 14px;
   @media screen and (max-width: 1040px) {
     margin-bottom: 0.5rem;

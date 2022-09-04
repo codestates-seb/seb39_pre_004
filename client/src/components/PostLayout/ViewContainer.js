@@ -7,33 +7,84 @@ import styled from 'styled-components';
 import CommentContainer from './CommentContainer';
 
 export const TextButton = styled.button`
-  color: gray;
+  color: var(--deep-gray);
+  font-size: 0.75rem;
   background-color: transparent;
+  cursor: pointer;
 `;
 
 const Container = styled.div`
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: row;
+  gap: 10px;
 `;
 const Menu = styled.section`
+  width: 40px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
 `;
 const QuestionBody = styled.section`
   flex: 1;
+  margin-right: 10px;
+  div {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid var(--gray);
+    padding: 10px;
+    resize: none;
+  }
 `;
 const Div = styled.div`
   display: flex;
   justify-content: space-between;
   .controllButtons {
     flex-grow: 1;
-  }
-  .userInfoContainer {
     display: flex;
-    flex-direction: column;
-    .userInfo {
-      display: flex;
-    }
+    align-items: baseline;
+    gap: 10px;
+  }
+`;
+const UserInfoContainer = styled.div`
+  background-color: var(--background-blue);
+  flex-basis: 200px;
+  height: 65px;
+  padding: 0.5rem;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & > :first-child {
+    color: var(--deep-gray);
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+  .userInfo {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  img {
+    width: 33px;
+    height: 33px;
+    border-radius: 3px;
+  }
+  .useName {
+    color: var(--deep-blue);
+    font-size: 0.85rem;
+    margin: 0;
   }
 `;
 
@@ -100,6 +151,7 @@ const ViewContainer = ({ data }) => {
         )}
 
         <div>
+          <div>태그</div>
           {data.tag
             ? data.tag.map((el, idx) => (
                 /*CSS 컴포넌트 분리*/
@@ -128,17 +180,17 @@ const ViewContainer = ({ data }) => {
               </>
             )}
           </div>
-          <div className="userInfoContainer">
-            <div>asked {data.modDate}</div>
+          <UserInfoContainer>
+            <div>asked {data.modDate.slice(0, 10)}</div>
             <div className="userInfo">
-              <img src={data.image} alt="userImage" />
-              <div>
-                <div>{data.owner.name}</div>
-                <div>{1}</div>
-              </div>
+              <img
+                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=1400&q=60"
+                alt="userImage"
+              />
+              {/* <img src={data.image} alt="userImage" /> */}
+              <div className="useName">{data.owner.name}</div>
             </div>
-            <div>New contributor</div>
-          </div>
+          </UserInfoContainer>
         </Div>
         <CommentContainer
           data={data}

@@ -21,6 +21,10 @@ const SeletContainer = styled.div`
   .sortTypeContainer {
   }
 `;
+const H3 = styled.h3`
+  font-weight: 500;
+  margin-bottom: 15px;
+`;
 
 const Answer = () => {
   const dispatch = useDispatch();
@@ -72,7 +76,7 @@ const Answer = () => {
         </section>
       </section>
       <section className="addAnswerContainer">
-        <h3>Your Answer</h3>
+        <H3>Your Answer</H3>
         <Textarea onChange={handleInput} value={value}></Textarea>
         <BlueButton onClick={handleSubmit}>Post Your Answer</BlueButton>
       </section>
