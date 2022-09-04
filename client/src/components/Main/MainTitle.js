@@ -1,6 +1,7 @@
 import BlueButton from '../Bluebutton';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const TitleContainer = styled.div`
   display: flex;
@@ -18,12 +19,20 @@ const TitleBlock = styled.h1`
 `;
 
 const MainTitle = () => {
+  const { success } = useSelector((state) => state.user);
+
   return (
     <TitleContainer>
       <TitleBlock>All Questions</TitleBlock>
-      <Link to="/ask">
-        <BlueButton>Ask Question</BlueButton>
-      </Link>
+      {success ? (
+        <Link to="/ask">
+          <BlueButton>Ask Question</BlueButton>
+        </Link>
+      ) : (
+        <Link to="/login">
+          <BlueButton>Ask Question</BlueButton>
+        </Link>
+      )}
     </TitleContainer>
   );
 };

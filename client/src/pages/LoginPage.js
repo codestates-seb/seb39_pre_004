@@ -44,6 +44,7 @@ const LoginPage = () => {
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [isValid, setIsValid] = useState(true);
   const data = { email: loginEmail, password: loginPassword };
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const LoginPage = () => {
   const onLoginHandler = (e) => {
     e.preventDefault();
     dispatch(userLogin(data));
+    success ? setIsValid(true) : setIsValid(false);
   };
 
   return (
@@ -78,7 +80,7 @@ const LoginPage = () => {
                 onChange={(e) => setLoginPassword(e.target.value)}
                 required
               />
-              {/* {!isLogin && <span>Email 또는 Password를 확인하세요.</span>} */}
+              {isValid ? null : <span>Email 또는 Password를 확인하세요.</span>}
             </div>
             <BlueButton type="submit">Log in</BlueButton>
           </LoginBlock>

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '../../assets/images/logo.svg';
 import BlueButton from '../Bluebutton';
+import { useSelector } from 'react-redux';
 
 const SearchBar = styled.div`
   margin: 0px 30px;
@@ -54,6 +55,8 @@ const ButtonBlock = styled.div`
 `;
 
 const Header = () => {
+  const { success } = useSelector((state) => state.user);
+
   return (
     <header>
       <HeaderBlock>
@@ -70,15 +73,20 @@ const Header = () => {
           <input type="search" placeholder="Search..." />
         </SearchBar>
         <ButtonBlock>
-          <Link to="/users">
-            <BlueButton>profile</BlueButton>
-          </Link>
-          <Link to="/login">
-            <BlueButton>Log in</BlueButton>
-          </Link>
-          <Link to="/signup">
-            <BlueButton>Sign up</BlueButton>
-          </Link>
+          {success ? (
+            <Link to="/users">
+              <BlueButton>profile</BlueButton>
+            </Link>
+          ) : (
+            <>
+              <Link to="/login">
+                <BlueButton>Log in</BlueButton>
+              </Link>
+              <Link to="/signup">
+                <BlueButton>Sign up</BlueButton>
+              </Link>
+            </>
+          )}
         </ButtonBlock>
       </HeaderBlock>
     </header>
