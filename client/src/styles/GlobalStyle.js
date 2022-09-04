@@ -7,13 +7,19 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;  
     box-sizing: border-box;
+    color: var(--basic);
   }
 
   :root {
+  --basic: #3b4045;
   --orange: #F48225;
   --red: #DE4F54;
   --blue: #0a95ff;
+  --deep-blue: #0074cc;
+  --blue-bg: #d9eaf7;
+  --deep-gray:#6a737c;
   --dark-gray: #838C95;
+  --gray-bar:#e3e6e8;
   --gray: #dddddd;
   --light-gray: #f8f9f9;
   --black: #232629;
