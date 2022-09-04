@@ -1,15 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// userToken 초기화
-const userToken = localStorage.getItem('userToken')
-  ? localStorage.getItem('userToken')
-  : null;
-
 const initialUserState = {
   loading: false,
   userEmail: null,
-  userToken, // jwt
+  userToken: localStorage.getItem('userToken'), // jwt
   success: false, // 현재 로그인 상태
   error: null,
 };
