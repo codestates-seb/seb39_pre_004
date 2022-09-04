@@ -77,7 +77,7 @@ public class QuestionController {
                         principalDetails.getUsers(), questionPostDto)
         );
         //Todo : 작성한 질문 아이디의 조회 페이지로 리다이렉션을 합니다.
-        return new ResponseEntity<>(getQuestion(question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
+        return new ResponseEntity<>(getQuestion(question.getQuestionId()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}") // 게시글 조회 페이지
@@ -131,7 +131,7 @@ public class QuestionController {
                 principalDetails.getUsers(), questionPostDto));
 
         System.out.println("id = " + id + ", question.body = " + question.getBody());
-        
+
         return new ResponseEntity<>(getQuestion(question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
     }
 
