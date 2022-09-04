@@ -29,16 +29,19 @@ const Menu = styled.section`
   gap: 0.8rem;
 `;
 const QuestionBody = styled.section`
+  width: 100%;
   flex: 1;
   margin-right: 10px;
-  div {
+  & > div:first-child {
     width: 100%;
     margin-bottom: 10px;
+    word-break: break-word;
   }
   textarea {
     width: 100%;
-    height: 100px;
+    min-height: 100px;
     border: 1px solid var(--gray);
+    border-radius: 3px;
     padding: 10px;
     resize: none;
   }
@@ -54,15 +57,14 @@ const Div = styled.div`
   }
 `;
 const UserInfoContainer = styled.div`
-  background-color: var(--background-blue);
-  flex-basis: 200px;
+  background-color: var(--blue-bg);
+  flex-basis: 130px;
   height: 65px;
   padding: 0.5rem;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   & > :first-child {
     color: var(--deep-gray);
     font-size: 0.75rem;
@@ -72,7 +74,6 @@ const UserInfoContainer = styled.div`
   .userInfo {
     margin: 0;
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 10px;
   }
