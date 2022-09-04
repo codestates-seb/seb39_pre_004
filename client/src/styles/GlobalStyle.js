@@ -1,8 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import './colors.css';
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300,400;700&display=swap');
  * {
     list-style: none;
     text-decoration: none;
@@ -10,6 +8,16 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;  
     box-sizing: border-box;
   }
+
+  :root {
+  --orange: #F48225;
+  --blue: #0a95ff;
+  --dark-gray: #838C95;
+  --gray: #dddddd;
+  --light-gray: #f8f9f9;
+  --black: #232629;
+  --white: #ffffff;
+}
 
   body {
     background: #ffffff;
