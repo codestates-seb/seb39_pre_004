@@ -7,11 +7,14 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;  
     box-sizing: border-box;
+    color: var(--basic);
   }
 
   :root {
+  --basic: #3b4045;
   --orange: #F48225;
   --blue: #0a95ff;
+  --deep-gray:#6a737c;
   --dark-gray: #838C95;
   --gray: #dddddd;
   --light-gray: #f8f9f9;
