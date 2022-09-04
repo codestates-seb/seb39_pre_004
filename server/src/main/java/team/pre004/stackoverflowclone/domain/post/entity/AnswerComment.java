@@ -24,6 +24,7 @@ public class AnswerComment extends LocalDateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerCommentId;
 
+    @Lob
     @Column(nullable = false)
     private String body;
 

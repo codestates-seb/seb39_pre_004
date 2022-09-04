@@ -81,6 +81,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         //Todo: 해당 게시판을 삭제합니다.
         try {

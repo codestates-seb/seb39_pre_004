@@ -1,4 +1,4 @@
-package team.pre004.stackoverflowclone.mapper.impl.web.controller;
+package team.pre004.stackoverflowclone.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsExce
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.AnswerMapper;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
-import team.pre004.stackoverflowclone.mapper.impl.web.config.auth.PrincipalDetails;
+import team.pre004.stackoverflowclone.web.config.auth.PrincipalDetails;
 import team.pre004.stackoverflowclone.service.AnswerCommentService;
 import team.pre004.stackoverflowclone.service.AnswerService;
 import team.pre004.stackoverflowclone.service.CommonService;
@@ -29,7 +29,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/answers")
+@RequestMapping("/questions/answers")
 public class AnswerController {
 
     private final AnswerService answerService;

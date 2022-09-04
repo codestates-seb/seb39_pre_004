@@ -1,4 +1,4 @@
-package team.pre004.stackoverflowclone.mapper.impl.web.controller;
+package team.pre004.stackoverflowclone.web.controller;
 
 import io.swagger.annotations.Api;
 

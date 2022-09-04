@@ -1,4 +1,4 @@
-package team.pre004.stackoverflowclone.mapper.impl.web.config.auth;
+package team.pre004.stackoverflowclone.web.config.auth;
 
 import lombok.AccessLevel;
 import lombok.Builder;

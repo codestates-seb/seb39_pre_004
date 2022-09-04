@@ -1,4 +1,4 @@
-package team.pre004.stackoverflowclone.mapper.impl.web.config;
+package team.pre004.stackoverflowclone.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

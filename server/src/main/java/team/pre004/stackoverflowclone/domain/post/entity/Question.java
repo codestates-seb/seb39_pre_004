@@ -31,6 +31,7 @@ public class Question extends LocalDateEntity {
     @Column(nullable = false)
     private String title;
 
+    @Lob
     @Column(nullable = false)
     private String body;
 
