@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Bluebutton from '../Bluebutton';
+import BlueButton from '../Bluebutton';
 import ViewContainer from './ViewContainer';
 
 const Header = styled.header`
@@ -15,12 +15,11 @@ const Header = styled.header`
   }
 `;
 
-export const BlueButton = styled(Bluebutton)`
-  padding: 10px 14px;
+export const BlueBtnAlign = styled(BlueButton)`
   @media screen and (max-width: 1040px) {
-    margin-bottom: 0.5rem;
     /* 오른쪽으로 붙이기 */
     /* align-self: flex-end !important; */
+    /* margin-bottom: 0.5rem; */
   }
 `;
 
@@ -73,7 +72,7 @@ const Question = () => {
       <Header>
         <H1>{title}</H1>
         <Link to="/ask">
-          <BlueButton>Ask Question</BlueButton>
+          <BlueBtnAlign>Ask Question</BlueBtnAlign>
           {/* <Bluebutton>Ask Question</Bluebutton> */}
         </Link>
       </Header>
