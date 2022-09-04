@@ -105,10 +105,11 @@ const ViewContainer = ({ data }) => {
   const handelEditMode = () => {
     setEditMode(true);
   };
+
   const handelAnswerSave = (event) => {
     event.preventDefault();
     const dataForThunk = {
-      url: `answers/${data.answerId}/edit` /* url변경 필요 */,
+      url: `/answers/${data.answerId}/edit` /* url변경 필요 */,
       requestbody: answerBody,
     };
     dispatch(editAnswer(dataForThunk));
@@ -121,16 +122,14 @@ const ViewContainer = ({ data }) => {
   };
   const handelDeleteQestion = () => {
     dataForDelete.target = 'question';
-    dataForDelete.url = `${data.questionId}/`;
-    // dispatch(deleteSomething(`questions/${data.questionId}/`));
-    // dispatch(deleteSomething(`${data.questionId}/`));
+    dataForDelete.url = `/questions/${data.questionId}/`;
     dispatch(deleteSomething(dataForDelete));
 
     navigate('/');
   };
   const handelDeleteAnswer = () => {
     dataForDelete.target = 'answer';
-    dataForDelete.url = `${data.answerId}/`;
+    dataForDelete.url = `/answers/${data.answerId}/`;
     dispatch(deleteSomething(dataForDelete));
   };
 

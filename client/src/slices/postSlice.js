@@ -53,8 +53,17 @@ export const addAnswer = createAsyncThunk(
 export const deleteSomething = createAsyncThunk(
   'postSlice/deleteSomething',
   async (data) => {
-    await axios.delete(data.url);
-    return data.target;
+    console.log(data);
+    const responseData = await axios.delete(data.url);
+    try {
+      const payload = {
+        newLists: responseData.data.answer,
+        type: data.target,
+      };
+      return payload;
+    } catch (error) {
+      throw new Error('삭제 오류 발생');
+    }
   }
 );
 
@@ -71,8 +80,7 @@ export const editAnswer = createAsyncThunk(
       }
     );
     try {
-      console.log(responseData, 'elint오류 발생합니다. 지우지 말아주세요');
-      // 업데이트된 답글 return 예정
+      return responseData.data;
     } catch (error) {
       throw new Error('답변 수정 에러');
     }
@@ -126,16 +134,16 @@ const postSlice = createSlice({
       .addCase(addAnswer.fulfilled, (state, action) => {
         state.answers.push(action.payload);
       })
-      .addCase(editAnswer.fulfilled, (/* state, action */) => {
-        // 수정 성공후 반환된 answer의 id와 일치하는 부분을 대체
-        // url 문제로 보류했습니다.
-      })
+      // .addCase(editAnswer.fulfilled, (/* state, action */) => {
+      //   // 수정 성공후 반환된 answer의 id와 일치하는 부분을 대체
+      //   // url 문제로 보류했습니다.
+      // })
       .addCase(deleteSomething.fulfilled, (state, action) => {
-        // console.log('action.payload', action.payload);
-        if (action.payload === 'question') {
+        if (action.payload.type === 'question') {
           return initialPostState;
+        } else {
+          state.answers = action.payload.newLists;
         }
-        // return state.answers.filter();/* url 문제로 보류했습니다 */
       })
       .addCase(addComment.fulfilled, (state, action) => {
         action.payload[0].questionCommentId
