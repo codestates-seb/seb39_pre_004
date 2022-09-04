@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addAnswer } from '../../slices/postSlice';
+import { inputAction } from '../../slices/inputSlice';
 import styled from 'styled-components';
 import BlueButton from '../Bluebutton';
 import ViewContainer from './ViewContainer';
-import TextEditer from '../TextEditor';
+import Textarea from '../CommonLayout/Textarea';
 
 const SortMenu = styled.div`
   display: flex;
@@ -24,18 +24,20 @@ const SeletContainer = styled.div`
 
 const Answer = () => {
   const dispatch = useDispatch();
-  const store = useSelector((state) => state.singlePost);
-  const { answers, questionId } = store;
-  const [answerBody, setAnswerBody] = useState('텍스트 에디터 value값');
+  const { value } = useSelector((state) => state.input);
+  const { answers, questionId } = useSelector((state) => state.singlePost);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setAnswerBody('eslint 에러떄문에 넣은 것입니다.');
     const dataForThunk = {
       url: `/answers/${questionId}/add` /* url변경 필요 */,
-      requestbody: answerBody,
+      requestbody: value,
     };
     dispatch(addAnswer(dataForThunk));
+    dispatch(inputAction.answer(''));
+  };
+  const handleInput = (event) => {
+    dispatch(inputAction.answer(event.target.value));
   };
 
   return (
@@ -71,7 +73,7 @@ const Answer = () => {
       </section>
       <section className="addAnswerContainer">
         <h3>Your Answer</h3>
-        <TextEditer></TextEditer> {/* 인풋값 추출 필요 */}
+        <Textarea onChange={handleInput} value={value}></Textarea>
         <BlueButton onClick={handleSubmit}>Post Your Answer</BlueButton>
       </section>
     </>
