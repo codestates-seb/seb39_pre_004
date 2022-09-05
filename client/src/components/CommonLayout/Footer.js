@@ -6,7 +6,8 @@ const FooterBlock = styled.div`
   flex-direction: row;
   background: var(--black);
   color: var(--white);
-  width: 100vw;
+  overflow: hidden;
+  width: 100%;
   height: 322px;
   font-size: 0.9rem;
   * {

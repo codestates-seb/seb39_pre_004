@@ -6,8 +6,7 @@ const ContainerBlock = styled.div`
   width: 100%;
   main {
     border-left: 1px solid var(--gray);
-    height: 1030px;
-    overflow-y: scroll;
+    min-height: 1030px;
   }
 `;
 
