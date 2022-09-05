@@ -42,15 +42,6 @@ const Sidebar = () => {
           <li>
             <Link to="/ask">Ask</Link>
           </li>
-          <li>
-            <Link to="/edit">Edit</Link>
-          </li>
-          <li>
-            <Link to="/questions">Questions</Link>
-          </li>
-          <li>
-            <Link to="/users">users</Link>
-          </li>
         </ol>
       </SideBarBlock>
     </nav>
