@@ -6,13 +6,7 @@ import { deleteSomething, editAnswer } from '../../slices/postSlice';
 import styled from 'styled-components';
 import CommentContainer from './CommentContainer';
 import Tag from '../Tag';
-
-export const TextButton = styled.button`
-  color: var(--deep-gray);
-  font-size: 0.75rem;
-  background-color: transparent;
-  cursor: pointer;
-`;
+import TextButton from '../TextButton';
 
 const Container = styled.div`
   width: 100%;

@@ -4,11 +4,15 @@ import { addComment } from '../../slices/postSlice';
 import { inputAction } from '../../slices/inputSlice';
 import styled from 'styled-components';
 import BlueButton from '../Bluebutton';
-// import { TextButton } from './ViewContainer';
+import TextButton from '../TextButton';
 
 const AddBtn = styled(BlueButton)`
   /* padding: */
   /* height: 100%; */
+`;
+const TextBtnComment = styled(TextButton)`
+  color: var(--gray-text);
+  margin-top: 10px;
 `;
 
 const CommentList = styled.ul`
@@ -20,7 +24,7 @@ const CommentList = styled.ul`
   li {
     border-top: 0.2px solid var(--gray-bar);
     border-bottom: 0.2px solid var(--gray-bar);
-    padding: 7px 0 5px 0;
+    padding: 9px 15px 6px 15px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -86,7 +90,6 @@ const CommentContainer = ({ type, data }) => {
   if (data.answerId) {
     pathForAddComment = `/answers/${data.answerId}/comments`;
   }
-  ///answers/1/comments
   const dataForCommentThunk = {
     url: pathForAddComment,
     requestbody: commentValue,
@@ -111,7 +114,7 @@ const CommentContainer = ({ type, data }) => {
                 <div className="block">{comment.owner.name}</div>
                 <div>{comment.createDate}</div>
                 {/* 작성자라면 Delete 버튼 노출 -> 코멘트 수정창 렌더링 */}
-                {/* <TextButton>Delete</TextButton> */}
+                {/* <TextBtnComment>Delete</TextBtnComment> */}
               </li>
             );
           })}
@@ -125,7 +128,9 @@ const CommentContainer = ({ type, data }) => {
           <AddBtn onClick={submitComment}>Add comment</AddBtn>
         </CommentToggle>
       ) : null}
-      <button onClick={handleEditContainer}>Add a comment</button>
+      <TextBtnComment onClick={handleEditContainer}>
+        Add a comment
+      </TextBtnComment>
     </>
   );
 };
