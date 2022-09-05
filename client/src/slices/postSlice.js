@@ -53,7 +53,6 @@ export const addAnswer = createAsyncThunk(
 export const deleteSomething = createAsyncThunk(
   'postSlice/deleteSomething',
   async (data) => {
-    console.log(data);
     const responseData = await axios.delete(data.url);
     try {
       const payload = {
@@ -100,9 +99,11 @@ export const addComment = createAsyncThunk(
       }
     );
     try {
-      return responseData.data.comment;
-      // console.log('코맨트 추가 후 성공', responseData);
-      // 업데이트된 답글 return 예정
+      const payload = {
+        newLists: responseData.data.comment,
+        targetId: data.id,
+      };
+      return payload;
     } catch (error) {
       throw new Error('답변 수정 에러');
     }
@@ -146,11 +147,14 @@ const postSlice = createSlice({
         }
       })
       .addCase(addComment.fulfilled, (state, action) => {
-        action.payload[0].questionCommentId
-          ? (state.comments = action.payload)
-          : null;
-        // console.log(action.payload);
-        /* 답변의 댓글인 경우 추가할 예정입니다. */
+        if (action.payload.newLists[0].questionCommentId) {
+          state.comments = action.payload.newLists;
+        } else {
+          const answerIndex = state.answers.findIndex(
+            (answers) => answers.answerId === action.payload.targetId
+          );
+          state.answers[answerIndex].comments = action.payload.newLists;
+        }
       });
   },
 });

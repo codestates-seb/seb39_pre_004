@@ -24,7 +24,7 @@ const CommentToggle = styled.section`
   }
 `;
 
-const CommentContainer = ({ data }) => {
+const CommentContainer = ({ type, data }) => {
   const dispatch = useDispatch();
   const [isChecked, setChecked] = useState(false);
   const { commentValue } = useSelector((state) => state.input);
@@ -36,10 +36,19 @@ const CommentContainer = ({ data }) => {
     dispatch(inputAction.comment(event.target.value));
   };
 
-  // 댓글의 commment 추가 API 수정되면 url 수정하겠습니다.
+  let pathForAddComment;
+  if (data.questionId) {
+    pathForAddComment = `/questions/${data.questionId}/comments`;
+  }
+  if (data.answerId) {
+    pathForAddComment = `/answers/${data.answerId}/comments`;
+  }
+  ///answers/1/comments
   const dataForCommentThunk = {
-    url: `${data.answerId || data.questionId}/comments`,
+    url: pathForAddComment,
     requestbody: commentValue,
+    id: data.questionId || data.answerId,
+    type,
   };
   const submitComment = (event) => {
     event.preventDefault();
@@ -47,7 +56,6 @@ const CommentContainer = ({ data }) => {
     dispatch(inputAction.comment(''));
   };
 
-  // console.log(코맨트 타입 확인용 type);
   return (
     <>
       <CommentList>
