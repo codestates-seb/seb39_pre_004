@@ -4,14 +4,12 @@ package team.pre004.stackoverflowclone.web.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.domain.post.entity.Question;
-import team.pre004.stackoverflowclone.domain.post.entity.QuestionComment;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.dto.common.CMRespDto;
@@ -26,9 +24,7 @@ import team.pre004.stackoverflowclone.dto.post.response.LikesDto;
 import team.pre004.stackoverflowclone.dto.post.PostType;
 import team.pre004.stackoverflowclone.dto.post.request.QuestionCommentDto;
 
-import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentByIdException;
-import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 import team.pre004.stackoverflowclone.mapper.CommentMapper;
 import team.pre004.stackoverflowclone.mapper.QuestionMapper;
 import team.pre004.stackoverflowclone.mapper.UsersMapper;
@@ -42,7 +38,7 @@ import team.pre004.stackoverflowclone.service.QuestionService;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/api/questions")
 public class QuestionController {
 
     //Test User
@@ -73,6 +69,8 @@ public class QuestionController {
             @AuthenticationPrincipal PrincipalDetails principalDetails
             , @RequestBody QuestionPostDto questionPostDto
     ) {
+        log.info(principalDetails.getUsername());
+        log.info(questionPostDto.toString());
         //Todo : 로그인한 유저만 작성 요청을 할 수 있습니다.
         //Todo : 작성한 title, body, tags를 DB에 저장합니다.
 
@@ -81,7 +79,7 @@ public class QuestionController {
         );
 
         //Todo : 작성한 질문 아이디의 조회 페이지로 리다이렉션을 합니다.
-        return new ResponseEntity<>(getQuestion(question.getQuestionId()), HttpStatus.MOVED_PERMANENTLY);
+        return new ResponseEntity<>(question.getQuestionId(), HttpStatus.OK);
     }
 
     @GetMapping("/{questionId}") // 게시글 조회 페이지
@@ -150,7 +148,6 @@ public class QuestionController {
         );
 
         authService.isAuthenticatedUser(userId, question.getOwner().getOwnerId());
-
         questionService.deleteById(questionId);
 
         return new ResponseEntity<>(commonService.redirect("/main"), HttpStatus.MOVED_PERMANENTLY);

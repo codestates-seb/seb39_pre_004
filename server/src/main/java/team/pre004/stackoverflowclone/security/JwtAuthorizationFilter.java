@@ -2,6 +2,7 @@ package team.pre004.stackoverflowclone.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,7 +12,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
+import team.pre004.stackoverflowclone.handler.exception.CustomTokenExpiredException;
 import team.pre004.stackoverflowclone.web.config.auth.Jwt;
 
 
@@ -36,18 +39,23 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         String jwtHeader = request.getHeader("Authorization");
 
-        if(jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
+        if (jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
             chain.doFilter(request, response);
             return;
         }
 
+        String email;
         String jwtToken = jwtHeader.replace("Bearer ", "");
-
-        String email = JWT.require(Algorithm.HMAC512(Jwt.SECRET_CODE.getValue()))
-                .build()
-                .verify(jwtToken)
-                .getClaim("email")
-                .asString();
+        try {
+            email = JWT.require(Algorithm.HMAC512(Jwt.SECRET_CODE.getValue()))
+                    .build()
+                    .verify(jwtToken)
+                    .getClaim("email")
+                    .asString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomTokenExpiredException("유효한 인증 정보가 아닙니다.");
+        }
 
         if (email != null) {
             Users userEntity = usersRepository
@@ -61,8 +69,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             chain.doFilter(request, response);
-        }
-        else
+        } else
             super.doFilterInternal(request, response, chain);
     }
 

@@ -34,7 +34,7 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/answers")
+@RequestMapping("/api/answers")
 public class AnswerController {
 
     private final AnswerService answerService;
@@ -46,21 +46,14 @@ public class AnswerController {
     private final AuthService authService;
 
 
-    @PostMapping("/{answerId}/add") // 답글 작성 요청
+    @PostMapping("/{questionId}/add") // 답글 작성 요청
     public ResponseEntity<?> addAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails,
-                                       @PathVariable Long answerId,
+                                       @PathVariable Long questionId,
                                        @RequestBody AnswerPostDto answerPostDto) {
-
-        Users user = principalDetails.getOwner();
-        answerService.findById(answerId).orElseThrow(
-                () -> new CustomNotContentByIdException(ExceptionMessage.NOT_CONTENT_ANSWER_ID)
-        );
-
-        authService.isAuthenticatedUser(user.getOwnerId(), answerId);
 
         Answer answer = answerService.save(
                 answerMapper.answerPostDtoToAnswer(
-                        principalDetails.getOwner(), answerId, answerPostDto
+                        principalDetails.getOwner(), questionId, answerPostDto
                 )
         );
 
@@ -82,47 +75,41 @@ public class AnswerController {
                                         @PathVariable Long answerId,
                                         @RequestBody AnswerPostDto answerPostDto) {
 
-        log.info("111");
-
+        Users user = principalDetails.getOwner();
         if (answerService.findById(answerId).isEmpty()) //해당 게시물이 없을 때 에러메세지
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
 
-        log.info("222");
-
-        if (principalDetails.getOwner().getOwnerId() != answerId) //접근 유저가 아닐경우
-            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER);
-
-        log.info("333");
+        authService.isAuthenticatedUser(user.getOwnerId(), answerService.findById(answerId).get().getOwner().getOwnerId());
 
         Answer answer = answerService.update(answerId, answerMapper.answerPostDtoToAnswer(
                 principalDetails.getOwner(), answerId, answerPostDto
         ));
 
-        log.info("444");
-
         AnswerInfoDto answerInfoDto = answerMapper.getAnswerInfo(answer);
-
-        log.info("555");
-
         AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .answer(answerInfoDto)
                 .message("답글을 변경하였습니다.")
                 .build();
 
-        log.info("666");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
-
     @DeleteMapping("/{answerId}") // 답글 삭제 요청
-    public ResponseEntity<?> deleteAnswer(@PathVariable Long answerId) {
+    public ResponseEntity<?> deleteAnswer(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                          @PathVariable Long answerId) {
+
+        Users user = principalDetails.getOwner();
+        if (answerService.findById(answerId).isEmpty()) //해당 게시물이 없을 때 에러메세지
+            throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
 
         Question question = answerService.findById(answerId).orElseThrow(
                 () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID)
         ).getQuestion();
+
+        authService.isAuthenticatedUser(user.getOwnerId(), answerService.findById(answerId).get().getOwner().getOwnerId());
 
         answerService.deleteById(answerId);
         Set<Answer> answers = answerService.findAllByQuestion(question);
@@ -136,13 +123,15 @@ public class AnswerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/likes-up") // 답글 좋아요 요청
-    public ResponseEntity<?> upAnswerLike(@PathVariable Long id) {
-        Long userId = 1L;
+    @PostMapping("/{answerId}/likes-up") // 답글 좋아요 요청
+    public ResponseEntity<?> upAnswerLike(@PathVariable Long answerId,
+                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        Long userId = principalDetails.getOwner().getOwnerId();
 
         LikesDto likes = LikesDto.builder()
-                .likes(answerService.selectLikeUp(userId, id))
-                .postId(id)
+                .likes(answerService.selectLikeUp(userId, answerId))
+                .postId(answerId)
                 .postType(PostType.ANSWER)
                 .build();
 
@@ -154,14 +143,15 @@ public class AnswerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/likes-down") // 답글 싫어요 요청
-    public ResponseEntity<?> downAnswerLike(@PathVariable Long id) {
+    @PostMapping("/{answerId}/likes-down") // 답글 싫어요 요청
+    public ResponseEntity<?> downAnswerLike(@PathVariable Long answerId,
+                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Long userId = 1L;
+        Long userId = principalDetails.getOwner().getOwnerId();
 
         LikesDto likes = LikesDto.builder()
-                .likes(answerService.selectLikeDown(userId, id))
-                .postId(id)
+                .likes(answerService.selectLikeDown(userId, answerId))
+                .postId(answerId)
                 .postType(PostType.ANSWER)
                 .build();
 
@@ -174,14 +164,15 @@ public class AnswerController {
 
     }
 
-    @PostMapping("/{id}/likes-up/undo") // 답글 좋아요 요청취소
-    public ResponseEntity<?> upUndoAnswerLike(@PathVariable Long id) {
+    @PostMapping("/{answerId}/likes-up/undo") // 답글 좋아요 요청취소
+    public ResponseEntity<?> upUndoAnswerLike(@PathVariable Long answerId,
+                                              @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Long userId = 1L;
+        Long userId = principalDetails.getOwner().getOwnerId();
 
         LikesDto likes = LikesDto.builder()
-                .likes(answerService.selectLikeUpUndo(userId, id))
-                .postId(id)
+                .likes(answerService.selectLikeUpUndo(userId, answerId))
+                .postId(answerId)
                 .postType(PostType.ANSWER)
                 .build();
 
@@ -193,14 +184,15 @@ public class AnswerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/likes-down/undo") // 답글 싫어요 요청 취소
-    public ResponseEntity<?> downUndoAnswerLike(@PathVariable Long id) {
+    @PostMapping("/{answerId}/likes-down/undo") // 답글 싫어요 요청 취소
+    public ResponseEntity<?> downUndoAnswerLike(@PathVariable Long answerId,
+                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Long userId = 1L;
+        Long userId = principalDetails.getOwner().getOwnerId();
 
         LikesDto likes = LikesDto.builder()
-                .likes(answerService.selectLikeDownUndo(userId, id))
-                .postId(id)
+                .likes(answerService.selectLikeDownUndo(userId, answerId))
+                .postId(answerId)
                 .postType(PostType.ANSWER)
                 .build();
 
@@ -212,47 +204,58 @@ public class AnswerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/comments") //답글 댓글 작성 요청
-    public ResponseEntity<?> addAnswerComment(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable Long id, @RequestBody AnswerCommentDto answerCommentDto) {
-
+    @PostMapping("/{answerId}/comments") //답글 댓글 작성 요청
+    public ResponseEntity<?> addAnswerComment(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                              @PathVariable Long answerId,
+                                              @RequestBody AnswerCommentDto answerCommentDto) {
 
         answerCommentService.save(
-                commentMapper.getAnswerComment(principalDetails.getOwner(), id, answerCommentDto));
+                commentMapper.getAnswerComment(principalDetails.getOwner(), answerId, answerCommentDto));
 
         CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .comment(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(id)))
+                .comment(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(answerId)))
                 .build();
 
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/comments/{commentId}") //답글 댓글 수정 요청
+    @PutMapping("/{answerId}/comments/{commentId}") //답글 댓글 수정 요청
     public ResponseEntity updateAnswerComment(
-            @PathVariable Long id, @PathVariable Long commentId,
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @PathVariable Long answerId, @PathVariable Long commentId,
             @RequestBody AnswerCommentDto answerCommentDto) {
 
+        Users users = principalDetails.getOwner();
 
-         answerCommentService.update(id, commentId, answerCommentDto);
+        authService.isAuthenticatedUser(users.getOwnerId(), answerCommentService.findById(commentId).getOwner().getOwnerId());
+        answerCommentService.update(answerId, commentId, answerCommentDto);
 
 
         CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .comment(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(id)))
+                .comment(commentMapper.getAnswerCommentInfos(answerCommentService.findAllByAnswer(answerId)))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}/comments/{commentId}") //답글 댓글 삭제 요청
-    public ResponseEntity<?> deleteAnswerComment(@PathVariable Long id, @PathVariable Long commentId) {
+    @DeleteMapping("/{answerId}/comments/{commentId}") //답글 댓글 삭제 요청
+    public ResponseEntity<?> deleteAnswerComment(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            @PathVariable Long answerId, @PathVariable Long commentId) {
 
-        answerCommentService.deleteById(id, commentId);
+
+        Users users = principalDetails.getOwner();
+
+        authService.isAuthenticatedUser(users.getOwnerId(), answerCommentService.findById(commentId).getOwner().getOwnerId());
+
+        answerCommentService.deleteById(answerId, commentId);
 
         CommentRespDto<?> response = CommentRespDto.builder()
                 .code(ResponseCode.SUCCESS)
-                .comment(answerCommentService.findAllByAnswer(id))
+                .comment(answerCommentService.findAllByAnswer(answerId))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);

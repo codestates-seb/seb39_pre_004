@@ -23,6 +23,7 @@ public class QuestionComment extends LocalDateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionCommentId;
 
+    @Lob
     @Column(nullable = false)
     private String body;
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @Api(tags = {"유저관리 API"})
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @GetMapping("/{id}/me") //내 정보 페이지

@@ -1,5 +1,6 @@
 package team.pre004.stackoverflowclone.handler;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,6 +73,9 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(),null ), HttpStatus.BAD_REQUEST);
     }
 
-
+    @ExceptionHandler(CustomTokenExpiredException.class)
+    public ResponseEntity<?> tokenExpiredException(CustomTokenExpiredException e){
+        return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, "유효한 인증 정보가 아닙니다.",null ), HttpStatus.BAD_REQUEST);
+    }
 
 }

@@ -14,7 +14,7 @@ import team.pre004.stackoverflowclone.security.PrincipalDetails;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class AuthController {
 
     private final AuthService authService;
