@@ -5,13 +5,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { deleteSomething, editAnswer } from '../../slices/postSlice';
 import styled from 'styled-components';
 import CommentContainer from './CommentContainer';
-
-export const TextButton = styled.button`
-  color: var(--deep-gray);
-  font-size: 0.75rem;
-  background-color: transparent;
-  cursor: pointer;
-`;
+import Tag from '../Tag';
+import TextButton from '../TextButton';
 
 const Container = styled.div`
   width: 100%;
@@ -45,6 +40,12 @@ const QuestionBody = styled.section`
     padding: 10px;
     resize: none;
   }
+`;
+const TagContainer = styled.div`
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 `;
 const Div = styled.div`
   display: flex;
@@ -98,13 +99,14 @@ const ViewContainer = ({ data }) => {
   const handelEditMode = () => {
     setEditMode(true);
   };
+
   const handelAnswerSave = (event) => {
     event.preventDefault();
-    const dataForThunk = {
-      url: `answers/${data.answerId}/edit` /* url변경 필요 */,
+    const dataForEdit = {
+      url: `/answers/${data.answerId}/edit`,
       requestbody: answerBody,
     };
-    dispatch(editAnswer(dataForThunk));
+    dispatch(editAnswer(dataForEdit));
     setEditMode(false);
   };
 
@@ -114,16 +116,13 @@ const ViewContainer = ({ data }) => {
   };
   const handelDeleteQestion = () => {
     dataForDelete.target = 'question';
-    dataForDelete.url = `${data.questionId}/`;
-    // dispatch(deleteSomething(`questions/${data.questionId}/`));
-    // dispatch(deleteSomething(`${data.questionId}/`));
+    dataForDelete.url = `/questions/${data.questionId}/`;
     dispatch(deleteSomething(dataForDelete));
-
     navigate('/');
   };
   const handelDeleteAnswer = () => {
     dataForDelete.target = 'answer';
-    dataForDelete.url = `${data.answerId}/`;
+    dataForDelete.url = `/answers/${data.answerId}/`;
     dispatch(deleteSomething(dataForDelete));
   };
 
@@ -151,15 +150,18 @@ const ViewContainer = ({ data }) => {
           <div>{answerBody}</div>
         )}
 
-        <div>
-          <div>태그</div>
+        <TagContainer>
+          {/* 임의로 추가한 태그로 DB에서 사용할 수 있으면 지우겠습니다. */}
+          <Tag>javascript</Tag>
+          <Tag>javascript</Tag>
+          <Tag>javascript</Tag>
           {data.tag
             ? data.tag.map((el, idx) => (
                 /*CSS 컴포넌트 분리*/
-                <div key={idx}>{el}</div>
+                <Tag key={idx}>{el}</Tag>
               ))
             : null}
-        </div>
+        </TagContainer>
         <Div>
           <div className="controllButtons">
             {data.answers ? (

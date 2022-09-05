@@ -16,10 +16,9 @@ const Header = styled.header`
 `;
 
 export const BlueBtnAlign = styled(BlueButton)`
-  @media screen and (max-width: 1040px) {
-    /* 오른쪽으로 붙이기 */
-    /* align-self: flex-end !important; */
-    /* margin-bottom: 0.5rem; */
+  @media screen and (max-width: 640px) {
+    margin-bottom: 20px;
+    /* 오른쪽으로 이동해야합니다 */
   }
 `;
 
@@ -73,7 +72,6 @@ const Question = () => {
         <H1>{title}</H1>
         <Link to="/ask">
           <BlueBtnAlign>Ask Question</BlueBtnAlign>
-          {/* <Bluebutton>Ask Question</Bluebutton> */}
         </Link>
       </Header>
       <InfoContainer>
