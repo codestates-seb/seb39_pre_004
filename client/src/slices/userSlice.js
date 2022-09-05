@@ -5,18 +5,58 @@ const initialUserState = {
   loading: false,
   userEmail: null,
   userToken: localStorage.getItem('userToken'), // jwt
-  success: false, // 현재 로그인 상태
+  success: localStorage.getItem('userToken') ? true : false, // 현재 로그인 상태
   error: null,
 };
 
-// createAsyncThunk : 비동기 작업을 처리하는 액션 생성자
+// 로그인 액션 생성자
 export const userLogin = createAsyncThunk(
   'userSlice/userLogin ',
   async (userData) => {
     try {
       const data = await axios.post('/login', userData);
-      localStorage.clear();
-      localStorage.setItem('userToken', data.headers.authorization);
+      if (data.status === 200) {
+        localStorage.clear();
+        localStorage.setItem('userToken', data.headers.authorization);
+      }
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return error.response.data.message;
+      } else {
+        return error.message;
+      }
+    }
+  }
+);
+
+// 회원가입 액션 생성자
+export const userSignUp = createAsyncThunk(
+  'userSlice/userSignUp ',
+  async (signUpData) => {
+    try {
+      const data = await axios.post('/users/signup', signUpData);
+      if (data.status === 200) {
+        localStorage.clear();
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return error.response.data.message;
+      } else {
+        return error.message;
+      }
+    }
+  }
+);
+
+// 로그아웃 액션 생성자
+export const userLogout = createAsyncThunk(
+  'userSlice/userLogout ',
+  async () => {
+    try {
+      await axios.post('/logout', {
+        headers: { authorization: localStorage.getItem('userToken') },
+      });
     } catch (error) {
       if (error.response && error.response.data.message) {
         return error.response.data.message;
@@ -39,11 +79,11 @@ const userSlice = createSlice({
       })
       .addCase(userLogin.fulfilled, (state, action) => {
         state.loading = false;
+        // 인가된 사용자라면 success 상태값 true로 변경
         if (action.payload !== 'Unauthorized') {
           state.success = true;
         }
         state.userEmail = action.meta.arg.email;
-        console.log(action);
       })
       .addCase(userLogin.rejected, (state, { payload }) => {
         state.loading = false;
