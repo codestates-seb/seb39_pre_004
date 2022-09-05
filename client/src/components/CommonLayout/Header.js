@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Logo from '../../assets/images/logo.svg';
 import BlueButton from '../Bluebutton';
 import { useSelector } from 'react-redux';
+//import { userLogout } from '../../slices/userSlice';
 
 const SearchBar = styled.div`
   margin: 0px 30px;
@@ -56,6 +57,18 @@ const ButtonBlock = styled.div`
 
 const Header = () => {
   const { success } = useSelector((state) => state.user);
+  //const dispatch = useDispatch();
+  //const navigate = useNavigate();
+
+  // const onLogOutHandler = (e) => {
+  //   e.preventDefault();
+  //   dispatch(userLogout()).then((res) => {
+  //     console.log(res);
+  //     if (res.data.status === 200) {
+  //       alert('로그아웃 되었습니다.');
+  //     }
+  //   });
+  // };
 
   return (
     <header>
@@ -74,9 +87,13 @@ const Header = () => {
         </SearchBar>
         <ButtonBlock>
           {success ? (
-            <Link to="/users">
-              <BlueButton>profile</BlueButton>
-            </Link>
+            <>
+              <Link to="/users">
+                <BlueButton>profile</BlueButton>
+              </Link>
+              <BlueButton>Log Out</BlueButton>
+              {/* <BlueButton onClick={onLogOutHandler}>Log Out</BlueButton> */}
+            </>
           ) : (
             <>
               <Link to="/login">

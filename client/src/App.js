@@ -8,8 +8,11 @@ import Post from './pages/Post';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import JoinPage from './pages/JoinPage';
+import { useSelector } from 'react-redux';
 
 const App = () => {
+  useSelector((state) => state.user);
+
   return (
     <BrowserRouter>
       <GlobalStyle />

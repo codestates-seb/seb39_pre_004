@@ -44,7 +44,7 @@ const Edit = () => {
         onChange={(e) => setEditBody(e.target.value)}
       />
       <Subtitle>Tags</Subtitle>
-      <Input placeholder="e.g (c# java wpf)" />
+      <Input placeholder="e.g &#40;c# java wpf&#41;" />
       <BlueButton onClick={handleSubmit}>Save edits</BlueButton>
     </>
   );

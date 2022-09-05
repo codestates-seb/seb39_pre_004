@@ -9,6 +9,9 @@ const FooterBlock = styled.div`
   width: 100vw;
   height: 322px;
   font-size: 0.9rem;
+  * {
+    color: var(--white);
+  }
   h5 {
     font-size: 1rem;
     margin-bottom: 10px;

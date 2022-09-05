@@ -20,7 +20,7 @@ const QuestionStatus = styled.div`
 const QuestionContent = styled.div`
   width: 100vw;
   padding: 0 0 0 30px;
-  h3 {
+  .main-title {
     margin-top: 10px;
     color: var(--deep-blue);
     font-weight: normal;
@@ -32,7 +32,7 @@ const QuestionContent = styled.div`
     -webkit-box-orient: vertical;
   }
 
-  div {
+  .main-body {
     color: var(--deep-gray);
     font-size: 0.9rem;
     text-overflow: ellipsis;
@@ -45,12 +45,17 @@ const QuestionContent = styled.div`
 `;
 
 const AuthorInfoBlock = styled.div`
-  width: 170px;
+  width: 175px;
   margin-top: 5px;
   display: flex;
+  gap: 0.5rem;
   align-items: center;
   margin-left: auto;
-  font-size: 13px;
+  font-size: 0.8rem;
+  & span {
+    color: var(--dark-gray);
+    vertical-align: 3px;
+  }
 `;
 
 const QuestionRow = ({ id, question }) => {
@@ -63,9 +68,9 @@ const QuestionRow = ({ id, question }) => {
       </QuestionStatus>
       <QuestionContent>
         <Link to={`/questions/${id}`}>
-          <h3>{question.title}</h3>
+          <h3 className="main-title">{question.title}</h3>
         </Link>
-        <div>{question.body}</div>
+        <div className="main-body">{question.body}</div>
         <AuthorInfoBlock>
           <Link to={`/users/`}>
             <img

@@ -3,10 +3,10 @@ import Subtitle from '../components/Subtitle';
 import BlueButton from '../components/Bluebutton';
 import LoginSocial from '../components/SocialButton/LoginSocial';
 import Input from '../components/Input';
-import { useEffect, useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userLogin } from '../slices/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const Container = styled.div`
   width: 100%;
@@ -40,23 +40,22 @@ const LoginBlock = styled.div`
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { success } = useSelector((state) => state.user);
 
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
+  const loginEmail = useRef();
+  const loginPassword = useRef();
   const [isValid, setIsValid] = useState(true);
-  const data = { email: loginEmail, password: loginPassword };
-
-  useEffect(() => {
-    if (success) {
-      navigate('/');
-    }
-  }, [success]);
 
   const onLoginHandler = (e) => {
     e.preventDefault();
-    dispatch(userLogin(data));
-    success ? setIsValid(true) : setIsValid(false);
+    const data = {
+      email: loginEmail.current.value,
+      password: loginPassword.current.value,
+    };
+    // 로그인 요청
+    dispatch(userLogin(data)).then((res) => {
+      if (res.payload.statusText !== 'OK') setIsValid(false);
+      else navigate('/');
+    });
   };
 
   return (
@@ -67,19 +66,11 @@ const LoginPage = () => {
           <LoginBlock>
             <div>
               <Subtitle>Email</Subtitle>
-              <Input
-                type="email"
-                onChange={(e) => setLoginEmail(e.target.value)}
-                required
-              />
+              <Input type="email" ref={loginEmail} required />
             </div>
             <div>
               <Subtitle>Password </Subtitle>
-              <Input
-                type="password"
-                onChange={(e) => setLoginPassword(e.target.value)}
-                required
-              />
+              <Input type="password" ref={loginPassword} required />
               {isValid ? null : <span>Email 또는 Password를 확인하세요.</span>}
             </div>
             <BlueButton type="submit">Log in</BlueButton>

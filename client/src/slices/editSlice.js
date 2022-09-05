@@ -9,6 +9,7 @@ const initialPostState = {
 export const editFetch = createAsyncThunk(
   'editSlice/editFetch',
   async (editRequest) => {
+    console.log(editRequest);
     const res = await axios.put(
       editRequest.url,
       { title: editRequest.title, body: editRequest.body },
