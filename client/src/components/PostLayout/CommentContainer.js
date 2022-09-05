@@ -3,24 +3,67 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addComment } from '../../slices/postSlice';
 import { inputAction } from '../../slices/inputSlice';
 import styled from 'styled-components';
-import Bluebutton from '../Bluebutton';
-import { TextButton } from './ViewContainer';
+import BlueButton from '../Bluebutton';
+// import { TextButton } from './ViewContainer';
+
+const AddBtn = styled(BlueButton)`
+  /* padding: */
+  /* height: 100%; */
+`;
 
 const CommentList = styled.ul`
+  font-size: 0.8rem;
+  margin-top: 10px;
+  padding-top: 3px;
   display: flex;
   flex-direction: column;
   li {
+    border-top: 0.2px solid var(--gray-bar);
+    border-bottom: 0.2px solid var(--gray-bar);
+    padding: 7px 0 5px 0;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 3px;
+    word-break: break-word;
+    & > p {
+      font-size: 0.9rem;
+    }
+    .block {
+      background-color: var(--blue-bg);
+      color: var(--deep-blue);
+      padding: 4px 5px 2px 5px;
+      border-radius: 3px;
+    }
+    & > div:last-child {
+      color: var(--dark-gray);
+    }
   }
 `;
+
 const CommentToggle = styled.section`
+  margin-top: 10px;
   display: flex;
-  & > :first-child {
-    flex: 1;
+  flex-direction: row;
+  gap: 5px;
+
+  .commentInputArea {
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
   }
+
   textarea {
-    width: 100%;
+    /* width: 100%; */
+    /* height: 80px; */
+    /* border: 1px solid var(--gray); */
+    /* border-radius: 3px; */
+    /* resize: none; */
+    /* padding: 10px; */
+    /* flex-basis: 1; */
+    /* height: 80px; */
+    /* width: 100%; */
   }
 `;
 
@@ -64,10 +107,11 @@ const CommentContainer = ({ type, data }) => {
             return (
               <li key={comment.questionCommentId || comment.answerCommentId}>
                 <p>{comment.body}</p>
-                <div>{comment.owner.name}</div>
+                <span>-</span>
+                <div className="block">{comment.owner.name}</div>
                 <div>{comment.createDate}</div>
                 {/* 작성자라면 Delete 버튼 노출 -> 코멘트 수정창 렌더링 */}
-                <TextButton>Delete</TextButton>
+                {/* <TextButton>Delete</TextButton> */}
               </li>
             );
           })}
@@ -76,9 +120,9 @@ const CommentContainer = ({ type, data }) => {
         <CommentToggle>
           <div className="commentInputArea">
             <textarea onChange={handleWrite} value={commentValue} />
-            <div>{'Enter at least 15 charactors'}</div>
+            <div>Enter at least 15 charactors</div>
           </div>
-          <Bluebutton onClick={submitComment}>Add comment</Bluebutton>
+          <AddBtn onClick={submitComment}>Add comment</AddBtn>
         </CommentToggle>
       ) : null}
       <button onClick={handleEditContainer}>Add a comment</button>
