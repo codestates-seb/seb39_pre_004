@@ -29,7 +29,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/questions/answers")
+@RequestMapping("/answers")
 public class AnswerController {
 
     private final AnswerService answerService;
@@ -82,8 +82,8 @@ public class AnswerController {
         if (answerService.findById(answerId).isEmpty()) //해당 게시물이 없을 때 에러메세지
             throw new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_ANSWER_ID);
 
-        if (principalDetails.getUsers().getOwnerId() != answerId) //접근 유저가 아닐경우
-            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER);
+//        if (principalDetails.getUsers().getOwnerId() != answerId) //접근 유저가 아닐경우
+//            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_EDIT_ANSWER);
 
         Answer answer = answerService.update(answerId, answerMapper.answerPostDtoToAnswer(
                 principalDetails.getUsers(), answerId, answerPostDto
@@ -110,8 +110,7 @@ public class AnswerController {
         ).getQuestion();
 
         answerService.deleteById(answerId);
-        Set<Answer> answers = answerService.findAllByQuestion(question);
-
+        Set<AnswerInfoDto> answers = answerMapper.getAnswerInfos(answerService.findAllByQuestion(question));
         AnswerRespDto<?> response = AnswerRespDto.builder()
                 .code(ResponseCode.SUCCESS)
                 .message("답글이 정상적으로 삭제되었습니다.")
