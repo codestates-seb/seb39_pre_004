@@ -5,10 +5,10 @@ import { inputAction } from '../../slices/inputSlice';
 import styled from 'styled-components';
 import BlueButton from '../Bluebutton';
 import TextButton from '../TextButton';
+import Textarea from '../CommonLayout/Textarea';
 
 const AddBtn = styled(BlueButton)`
-  /* padding: */
-  /* height: 100%; */
+  height: 3rem;
 `;
 const TextBtnComment = styled(TextButton)`
   color: var(--gray-text);
@@ -51,23 +51,19 @@ const CommentToggle = styled.section`
   display: flex;
   flex-direction: row;
   gap: 5px;
-
   .commentInputArea {
     font-size: 0.9rem;
+    flex: 1;
     display: flex;
     flex-direction: column;
-  }
-
-  textarea {
-    /* width: 100%; */
-    /* height: 80px; */
-    /* border: 1px solid var(--gray); */
-    /* border-radius: 3px; */
-    /* resize: none; */
-    /* padding: 10px; */
-    /* flex-basis: 1; */
-    /* height: 80px; */
-    /* width: 100%; */
+    gap: 7px;
+    & > Textarea {
+      margin-bottom: 0%;
+      height: 50px;
+    }
+    & > :nth-child(2) {
+      color: var(--dark-gray);
+    }
   }
 `;
 
@@ -100,6 +96,7 @@ const CommentContainer = ({ type, data }) => {
     event.preventDefault();
     dispatch(addComment(dataForCommentThunk));
     dispatch(inputAction.comment(''));
+    setChecked(!isChecked);
   };
 
   return (
@@ -122,7 +119,7 @@ const CommentContainer = ({ type, data }) => {
       {isChecked ? (
         <CommentToggle>
           <div className="commentInputArea">
-            <textarea onChange={handleWrite} value={commentValue} />
+            <Textarea onChange={handleWrite} value={commentValue} />
             <div>Enter at least 15 charactors</div>
           </div>
           <AddBtn onClick={submitComment}>Add comment</AddBtn>
