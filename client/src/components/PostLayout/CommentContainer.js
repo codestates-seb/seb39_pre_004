@@ -13,6 +13,9 @@ const AddBtn = styled(BlueButton)`
 const TextBtnComment = styled(TextButton)`
   color: var(--gray-text);
   margin-top: 10px;
+  :hover {
+    color: var(--blue);
+  }
 `;
 
 const CommentList = styled.ul`
