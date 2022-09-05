@@ -109,17 +109,6 @@ export const addComment = createAsyncThunk(
 const postSlice = createSlice({
   name: 'post',
   initialState: initialPostState,
-  reducers: {
-    // plusLike: (state) => {},
-    // minusLike: (state) => {},
-    // editPost:
-    // deletePost:
-    // addComment: (state, action) => {
-    //   state.comments = state.comments.push(action.payload);
-    // },
-    // edit: (state, action) => {},
-    // deleteComment: (state, action) => {},
-  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPost.fulfilled, (state, action) => {
