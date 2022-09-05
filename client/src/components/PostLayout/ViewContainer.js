@@ -108,11 +108,11 @@ const ViewContainer = ({ data }) => {
 
   const handelAnswerSave = (event) => {
     event.preventDefault();
-    const dataForThunk = {
-      url: `/answers/${data.answerId}/edit` /* url변경 필요 */,
+    const dataForEdit = {
+      url: `/answers/${data.answerId}/edit`,
       requestbody: answerBody,
     };
-    dispatch(editAnswer(dataForThunk));
+    dispatch(editAnswer(dataForEdit));
     setEditMode(false);
   };
 
@@ -124,7 +124,6 @@ const ViewContainer = ({ data }) => {
     dataForDelete.target = 'question';
     dataForDelete.url = `/questions/${data.questionId}/`;
     dispatch(deleteSomething(dataForDelete));
-
     navigate('/');
   };
   const handelDeleteAnswer = () => {

@@ -49,7 +49,6 @@ export const addAnswer = createAsyncThunk(
 );
 
 /** ViewContainer.js */
-/** 아래 코드는 요청 URL에 자동으로 question이 붙게 됩니다. */
 export const deleteSomething = createAsyncThunk(
   'postSlice/deleteSomething',
   async (data) => {
@@ -69,8 +68,6 @@ export const deleteSomething = createAsyncThunk(
 export const editAnswer = createAsyncThunk(
   'postSlice/editAnswer',
   async (data) => {
-    // console.log(data.url);
-    // console.log(data.requestbody);
     const responseData = await axios.put(
       data.url,
       { body: data.requestbody },
@@ -79,7 +76,7 @@ export const editAnswer = createAsyncThunk(
       }
     );
     try {
-      return responseData.data;
+      return responseData.data.answer;
     } catch (error) {
       throw new Error('답변 수정 에러');
     }
@@ -87,7 +84,6 @@ export const editAnswer = createAsyncThunk(
 );
 
 /** CommentContainer.js */
-/** 아래 코드는 요청 URL에 자동으로 question이 붙게 됩니다. */
 export const addComment = createAsyncThunk(
   'postSlice/addComment',
   async (data) => {
@@ -135,10 +131,12 @@ const postSlice = createSlice({
       .addCase(addAnswer.fulfilled, (state, action) => {
         state.answers.push(action.payload);
       })
-      // .addCase(editAnswer.fulfilled, (/* state, action */) => {
-      //   // 수정 성공후 반환된 answer의 id와 일치하는 부분을 대체
-      //   // url 문제로 보류했습니다.
-      // })
+      .addCase(editAnswer.fulfilled, (state, action) => {
+        const changedAnswerIdx = state.answers.findIndex(
+          (answer) => answer.answerId === action.payload.answerId
+        );
+        state.answers[changedAnswerIdx] = action.payload;
+      })
       .addCase(deleteSomething.fulfilled, (state, action) => {
         if (action.payload.type === 'question') {
           return initialPostState;
