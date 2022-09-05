@@ -22,8 +22,9 @@ const Ask = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(asyncAddFetch(addRequest));
-    navigate('/');
+    dispatch(asyncAddFetch(addRequest)).then((res) => {
+      navigate(`/questions/${res.payload}`);
+    });
   };
 
   return (

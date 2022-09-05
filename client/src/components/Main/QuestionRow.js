@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 const RowContainer = styled.div`
   display: flex;
   align-items: center;
-  height: 100px;
-  margin-top: 20px;
+  padding: 15px;
   border-bottom: 1px solid var(--gray);
 `;
 
@@ -13,12 +12,17 @@ const QuestionStatus = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  text-align: right;
 `;
 
 const QuestionContent = styled.div`
   width: 100vw;
-  padding: 0 30px;
-  h3 {
+  padding: 0 0 0 30px;
+  .main-title {
+    margin-top: 10px;
+    color: var(--deep-blue);
     font-weight: normal;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -28,7 +32,9 @@ const QuestionContent = styled.div`
     -webkit-box-orient: vertical;
   }
 
-  div {
+  .main-body {
+    color: var(--deep-gray);
+    font-size: 0.9rem;
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-word; // 두 줄 이상
@@ -39,12 +45,17 @@ const QuestionContent = styled.div`
 `;
 
 const AuthorInfoBlock = styled.div`
-  width: 170px;
+  width: 175px;
   margin-top: 5px;
   display: flex;
+  gap: 0.5rem;
   align-items: center;
   margin-left: auto;
-  font-size: 13px;
+  font-size: 0.8rem;
+  & span {
+    color: var(--dark-gray);
+    vertical-align: 3px;
+  }
 `;
 
 const QuestionRow = ({ id, question }) => {
@@ -57,9 +68,9 @@ const QuestionRow = ({ id, question }) => {
       </QuestionStatus>
       <QuestionContent>
         <Link to={`/questions/${id}`}>
-          <h3>{question.title}</h3>
+          <h3 className="main-title">{question.title}</h3>
         </Link>
-        <div>{question.body}</div>
+        <div className="main-body">{question.body}</div>
         <AuthorInfoBlock>
           <Link to={`/users/`}>
             <img

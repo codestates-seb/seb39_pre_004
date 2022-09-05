@@ -1,42 +1,51 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { editFetch } from '../slices/editSlice';
 import Subtitle from '../components/Subtitle';
 import Input from '../components/Input';
 import BlueButton from '../components/Bluebutton';
-import styled from 'styled-components';
-
-const Textarea = styled.textarea`
-  width: 100%;
-  height: 250px;
-  border: 1px solid var(--gray);
-  resize: none;
-  padding: 10px;
-  margin-bottom: 20px;
-`;
+import Textarea from '../components/CommonLayout/Textarea';
 
 const Edit = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  const store = useSelector((state) => state.singlePost);
+  const { questionId, title, body } = store;
 
-  const [isEdit, setIsEdit] = useState(false);
+  const [editTitle, setEditTitle] = useState(title);
+  const [editBody, setEditBody] = useState(body);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const editRequest = {
+      url: `/questions/${questionId}/edit`,
+      title: editTitle,
+      body: editBody,
+    };
+    dispatch(editFetch(editRequest));
+    navigate(`/questions/${questionId}`);
+  };
 
   return (
     <>
       <Subtitle>Title</Subtitle>
       <Input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
         placeholder="e.g is threr an R function for finding the index if an element in a vector"
+        value={editTitle}
+        onChange={(e) => setEditTitle(e.target.value)}
       />
+
       <Subtitle>Body</Subtitle>
-      <Textarea value={body} onChange={(e) => setBody(e.target.value)} />
-      <Subtitle>Tags</Subtitle>
-      <Input
-        type="text"
-        placeholder="e.g. &#40;ruby-on-rails.net sql-server)"
+      <Textarea
+        value={editBody}
+        onChange={(e) => setEditBody(e.target.value)}
       />
-      <BlueButton value={isEdit} onClick={() => setIsEdit(true)}>
-        Save edits
-      </BlueButton>
+      <Subtitle>Tags</Subtitle>
+      <Input placeholder="e.g &#40;c# java wpf&#41;" />
+      <BlueButton onClick={handleSubmit}>Save edits</BlueButton>
     </>
   );
 };

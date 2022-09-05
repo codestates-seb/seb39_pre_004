@@ -166,7 +166,7 @@ const ViewContainer = ({ data }) => {
           <div className="controllButtons">
             {data.answers ? (
               <>
-                <Link to="/edit">
+                <Link to={`/questions/${data.questionId}/edit`}>
                   <TextButton>Edit</TextButton>
                 </Link>
 

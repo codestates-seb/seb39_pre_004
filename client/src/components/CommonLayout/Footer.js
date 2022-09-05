@@ -1,23 +1,41 @@
 import styled from 'styled-components';
 
 const FooterBlock = styled.div`
-  padding: 32px 12px 12px 12px;
+  padding: 32px 35px 12px 35px;
   display: flex;
   flex-direction: row;
   background: var(--black);
   color: var(--white);
-  position: absolute;
   width: 100vw;
   height: 322px;
+  font-size: 0.9rem;
+  * {
+    color: var(--white);
+  }
+  h5 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .footer-logo {
+    width: 100%;
+    flex: 0 0 130px;
+  }
   div {
     width: 100%;
+    flex: 0 0 190px;
   }
   ul {
-    padding: 10px;
     display: block;
   }
   .footer-col {
     display: flex;
+    flex: 1 auto;
+    line-height: 1.5rem;
+  }
+  .footer-copyright {
+    font-size: 0.8rem;
+    margin-top: auto;
+    margin-bottom: 30px;
   }
 `;
 
@@ -25,7 +43,7 @@ const Footer = () => {
   return (
     <footer>
       <FooterBlock>
-        <div>
+        <div className="footer-logo">
           <svg aria-hidden="true" width="32" height="37" viewBox="0 0 32 37">
             <path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path>
             <path
@@ -60,8 +78,21 @@ const Footer = () => {
               <li>Privacy Policy</li>
             </ul>
           </div>
+          <div>
+            <ul>
+              <h5> STACK EXCHANGE NETWORK</h5>
+              <li>Technology Culture</li>
+              <li>Culture & recreation</li>
+              <li>Life & arts</li>
+              <li>Science</li>
+              <li>Professional</li>
+              <li>Business</li>
+              <li>API</li>
+              <li>Data</li>
+            </ul>
+          </div>
         </div>
-        <div>
+        <div className="footer-copyright">
           Site design / logo © 2022 Stack Exchange Inc; user contributions
           licensed under CC BY-SA. rev 2022.8.26.42925
         </div>
