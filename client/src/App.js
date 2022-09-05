@@ -20,7 +20,7 @@ const App = () => {
           <Route path="/signup" element={<JoinPage />}></Route>
           <Route path="/ask" element={<AskPage />}></Route>
           <Route path="/users" element={<Mypage />}></Route>
-          <Route path="/edit" element={<EditPage />}></Route>
+          <Route path="/questions/:id/edit" element={<EditPage />}></Route>
           <Route path="/questions/:id" element={<Post />}></Route>
         </Route>
       </Routes>

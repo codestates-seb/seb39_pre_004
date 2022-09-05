@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
 const initialPostState = {
   title: '',
   body: '',
@@ -23,14 +22,9 @@ const addSlice = createSlice({
   initialState: initialPostState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(asyncAddFetch.pending, (/*state, action*/) => {})
-      .addCase(asyncAddFetch.fulfilled, (state, action) => {
-        return state.push(action.payload);
-      })
-      .addCase(asyncAddFetch.rejected, (state, action) => {
-        console.log(action.error.message);
-      });
+    builder.addCase(asyncAddFetch.fulfilled, (state, action) => {
+      return action.payload;
+    });
   },
 });
 

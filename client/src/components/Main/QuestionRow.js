@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 const RowContainer = styled.div`
   display: flex;
   align-items: center;
-  height: 100px;
-  margin-top: 20px;
+  padding: 15px;
   border-bottom: 1px solid var(--gray);
 `;
 
@@ -13,12 +12,17 @@ const QuestionStatus = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  text-align: right;
 `;
 
 const QuestionContent = styled.div`
   width: 100vw;
-  padding: 0 30px;
+  padding: 0 0 0 30px;
   h3 {
+    margin-top: 10px;
+    color: var(--deep-blue);
     font-weight: normal;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -29,6 +33,8 @@ const QuestionContent = styled.div`
   }
 
   div {
+    color: var(--deep-gray);
+    font-size: 0.9rem;
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-word; // 두 줄 이상

@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 const SideBarBlock = styled.div`
   padding: 24px;
-  background-color: var(--white);
-  border-right: 1px solid var(--gray);
   width: 164px;
   max-height: 100%;
   height: 100vh;
