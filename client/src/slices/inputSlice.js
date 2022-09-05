@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialInputSlice = {
   value: '',
-  commentValue: '코멘트 인풋값',
+  commentValue: '',
 };
 const inputSlice = createSlice({
   name: 'input',

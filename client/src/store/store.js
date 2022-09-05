@@ -3,7 +3,6 @@ import {
   configureStore,
   getDefaultMiddleware,
 } from '@reduxjs/toolkit';
-import commentReducer from '../slices/commentSlice';
 import postReducer from '../slices/postSlice';
 import addReducer from '../slices/addSlice';
 import userReducer from '../slices/userSlice';
@@ -25,7 +24,6 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({
   reducer: {
     persistedReducer,
-    comment: commentReducer,
     singlePost: postReducer,
     add: addReducer,
     user: userReducer,
