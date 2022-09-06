@@ -22,9 +22,14 @@ const Ask = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(asyncAddFetch(addRequest)).then((res) => {
-      navigate(`/questions/${res.payload}`);
-    });
+    if (localStorage.getItem('userToken')) {
+      dispatch(asyncAddFetch(addRequest)).then((res) => {
+        navigate(`/questions/${res.payload}`);
+      });
+    } else {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+    }
   };
 
   return (
