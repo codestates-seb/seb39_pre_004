@@ -14,7 +14,7 @@ export const userLogin = createAsyncThunk(
   'userSlice/userLogin ',
   async (userData) => {
     try {
-      const data = await axios.post('/login', userData);
+      const data = await axios.post('/api/login', userData);
       if (data.status === 200) {
         localStorage.clear();
         localStorage.setItem('userToken', data.headers.authorization);
