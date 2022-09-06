@@ -9,12 +9,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.filter.CorsFilter;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
 import team.pre004.stackoverflowclone.security.JwtAuthenticationFilter;
 import team.pre004.stackoverflowclone.security.JwtAuthorizationFilter;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 @Configuration
@@ -39,8 +46,6 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .apply(new CustomDsl())
                 .and()
-
-
                 .authorizeRequests()    // 권한요청 처리 설정 메서드
                 .antMatchers("/h2-console/**").permitAll()  // 누구나 h2-console 접속 허용
                 .antMatchers("/questions")
@@ -53,6 +58,20 @@ public class SecurityConfig {
                 .and()
                 .oauth2Login()
                 .loginPage("/login")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/main")
+                .deleteCookies("JESSIONID", "remember-me")
+                .addLogoutHandler(new SecurityContextLogoutHandler())
+                        .logoutSuccessHandler(new LogoutSuccessHandler() {
+                            @Override
+                            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                                response.sendRedirect("/main");
+                            }
+                        })
+
+
         ;
 
 
