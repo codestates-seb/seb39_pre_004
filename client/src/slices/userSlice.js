@@ -14,7 +14,7 @@ export const userLogin = createAsyncThunk(
   'userSlice/userLogin ',
   async (userData) => {
     try {
-      const data = await axios.post('/login', userData);
+      const data = await axios.post('/api/login', userData);
       if (data.status === 200) {
         localStorage.clear();
         localStorage.setItem('userToken', data.headers.authorization);
@@ -35,7 +35,7 @@ export const userSignUp = createAsyncThunk(
   'userSlice/userSignUp ',
   async (signUpData) => {
     try {
-      const data = await axios.post('/users/signup', signUpData);
+      const data = await axios.post('/api/users/signup', signUpData);
       if (data.status === 200) {
         localStorage.clear();
       }
@@ -54,7 +54,7 @@ export const userLogout = createAsyncThunk(
   'userSlice/userLogout ',
   async () => {
     try {
-      await axios.post('/logout', {
+      await axios.post('/api/logout', {
         headers: { authorization: localStorage.getItem('userToken') },
       });
     } catch (error) {

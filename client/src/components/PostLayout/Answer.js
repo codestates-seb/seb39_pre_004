@@ -55,7 +55,7 @@ const Answer = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const dataForThunk = {
-      url: `/answers/${questionId}/add` /* url변경 필요 */,
+      url: `/api/answers/${questionId}/add` /* url변경 필요 */,
       requestbody: value,
     };
     dispatch(addAnswer(dataForThunk));

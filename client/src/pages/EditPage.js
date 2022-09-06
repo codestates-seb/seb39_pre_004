@@ -21,7 +21,7 @@ const Edit = () => {
     e.preventDefault();
 
     const editRequest = {
-      url: `/questions/${questionId}/edit`,
+      url: `/api/questions/${questionId}/edit`,
       title: editTitle,
       body: editBody,
     };

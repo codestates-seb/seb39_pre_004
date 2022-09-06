@@ -8,7 +8,7 @@ const initialPostState = {
 export const asyncAddFetch = createAsyncThunk(
   'addSlice/fetchAdd',
   async (addRequest) => {
-    const res = await axios.post('/questions/add', addRequest);
+    const res = await axios.post('/api/questions/add', addRequest);
     try {
       return res.data;
     } catch (error) {

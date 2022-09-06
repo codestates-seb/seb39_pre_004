@@ -8,7 +8,7 @@ import Answer from '../components/PostLayout/Answer';
 
 const Post = () => {
   const { id } = useParams();
-  const url = `/questions/${id}`;
+  const url = `/api/questions/${id}`;
 
   const dispatch = useDispatch();
 

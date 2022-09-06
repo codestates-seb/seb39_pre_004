@@ -103,7 +103,7 @@ const ViewContainer = ({ data }) => {
   const handelAnswerSave = (event) => {
     event.preventDefault();
     const dataForEdit = {
-      url: `/answers/${data.answerId}/edit`,
+      url: `/api/answers/${data.answerId}/edit`,
       requestbody: answerBody,
     };
     dispatch(editAnswer(dataForEdit));
@@ -116,13 +116,13 @@ const ViewContainer = ({ data }) => {
   };
   const handelDeleteQestion = () => {
     dataForDelete.target = 'question';
-    dataForDelete.url = `/questions/${data.questionId}/`;
+    dataForDelete.url = `/api/questions/${data.questionId}/`;
     dispatch(deleteSomething(dataForDelete));
     navigate('/');
   };
   const handelDeleteAnswer = () => {
     dataForDelete.target = 'answer';
-    dataForDelete.url = `/answers/${data.answerId}/`;
+    dataForDelete.url = `/api/answers/${data.answerId}/`;
     dispatch(deleteSomething(dataForDelete));
   };
 

@@ -13,7 +13,7 @@ const MainPage = () => {
   const [mainData, setMainData] = useState(null);
 
   const getMainData = async () => {
-    const { data } = await axios.get('/main');
+    const { data } = await axios.get('/api/main');
     setMainData(data.question);
   };
 

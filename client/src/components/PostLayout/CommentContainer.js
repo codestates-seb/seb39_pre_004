@@ -84,10 +84,10 @@ const CommentContainer = ({ type, data }) => {
 
   let pathForAddComment;
   if (data.questionId) {
-    pathForAddComment = `/questions/${data.questionId}/comments`;
+    pathForAddComment = `/api/questions/${data.questionId}/comments`;
   }
   if (data.answerId) {
-    pathForAddComment = `/answers/${data.answerId}/comments`;
+    pathForAddComment = `/api/answers/${data.answerId}/comments`;
   }
   const dataForCommentThunk = {
     url: pathForAddComment,
