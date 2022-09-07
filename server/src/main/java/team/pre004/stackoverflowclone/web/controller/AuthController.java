@@ -1,84 +1,80 @@
 package team.pre004.stackoverflowclone.web.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.pre004.stackoverflowclone.domain.user.User;
-import team.pre004.stackoverflowclone.domain.user.UserRepository;
-import team.pre004.stackoverflowclone.dto.request.UserSignUpDto;
-import team.pre004.stackoverflowclone.dto.response.UserResponseDto;
-import team.pre004.stackoverflowclone.mapper.AuthMapper;
-
-import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
-
+import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
 
 @RequiredArgsConstructor
 @RestController
-@Api(tags = {"유저관리 API"})
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final AuthMapper authMapper;
 
-    @PostMapping("/signup")
-    @ApiOperation(value = "회원가입")
-    public ResponseEntity postSignUp(@Valid @RequestBody UserSignUpDto requestbody){
 
-        User user = userRepository.save(authMapper.userSignUpToUser(requestbody));
-        UserResponseDto response = authMapper.userToUserResponseDto(userRepository.getReferenceById(user.getId()));
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+    @GetMapping("/signup") //회원 가입 페이지
+    public ResponseEntity getSignUpForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/signup") //회원 가입 요청
+    public ResponseEntity signUp(@RequestBody SignUpDto signUpDto) {
+
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/signup/oauth2/authorization/google") //구글 회원 가입 페이지
+    public ResponseEntity getGoogleSignUpForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/signup/oauth2/authorization/github") //깃허브 회원 가입 페이지
+    public ResponseEntity getGithubSignUpForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/signup/oauth2/authorization/facebook") //페이스북 회원 가입 페이지
+    public ResponseEntity getFacebookSignUpForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/login") //로그인 페이지
+    public ResponseEntity getLoginForm() {
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 
-    @PostMapping("/auth/google")
-    public ResponseEntity postSignUpGoogle(){
+    @PostMapping("/login") //로그인요청
+    public ResponseEntity login() {
 
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postSignUpGoogle");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping("/login/oauth2/authorization/google") // 구글 로그인 페이지
+    public ResponseEntity getGoogleLoginForm() {
 
-    @PostMapping("/login")
-    public ResponseEntity postLogin(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postLogin");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/login/auth/google")
-    public ResponseEntity postLoginGoogle(){
+    @GetMapping("/login/oauth2/authorization/github") // 깃허브 로그인 페이지
+    public ResponseEntity getGithubLoginForm() {
 
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postLoginGoogle");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/findpw")
-    public ResponseEntity postFindPw(){
+    @GetMapping("/login/oauth2/authorization/facebook") // 페이스북 로그인 페이지
+    public ResponseEntity getFacebookLoginForm() {
 
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postFindPw");
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity postLogout(){
-
-        Map<String, String> map = new HashMap<>();
-        map.put("body", "postLogout");
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
 
 }
