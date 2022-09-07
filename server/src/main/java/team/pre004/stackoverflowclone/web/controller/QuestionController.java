@@ -69,8 +69,7 @@ public class QuestionController {
             @AuthenticationPrincipal PrincipalDetails principalDetails
             , @RequestBody QuestionPostDto questionPostDto
     ) {
-        log.info(principalDetails.getUsername());
-        log.info(questionPostDto.toString());
+
         //Todo : 로그인한 유저만 작성 요청을 할 수 있습니다.
         //Todo : 작성한 title, body, tags를 DB에 저장합니다.
 

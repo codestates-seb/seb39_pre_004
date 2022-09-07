@@ -29,9 +29,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf()
-                .ignoringAntMatchers("/h2-console/**")
-                .disable();
+        http.csrf().disable();
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -41,18 +39,19 @@ public class SecurityConfig {
                 .and()
 
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutUrl("/api/logout")
+                .logoutSuccessUrl("/api/login")
                 .and()
 
 
-                .authorizeRequests()    // 권한요청 처리 설정 메서드
-                .antMatchers("/h2-console/**").permitAll()  // 누구나 h2-console 접속 허용
-                .antMatchers("/questions")
+                .authorizeRequests()    // 권한요청 처리 설정 메서드// 누구나 h2-console 접속 허용
+                .antMatchers("/api/questions")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/v1/manager/**")
+                .antMatchers("/api/manager/**")
                 .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/questions/id")
+                .antMatchers("/api/questions/id")
+                .access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/answers/**")
                 .access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
 //                .and()
