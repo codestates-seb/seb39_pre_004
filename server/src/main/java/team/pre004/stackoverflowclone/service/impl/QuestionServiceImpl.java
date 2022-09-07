@@ -15,6 +15,7 @@ import team.pre004.stackoverflowclone.domain.post.repository.QuestionLikeUpRepos
 import team.pre004.stackoverflowclone.domain.post.repository.QuestionRepository;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
+import team.pre004.stackoverflowclone.dto.post.request.QuestionPostDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.exception.CustomLikesConflictException;
 import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
@@ -56,16 +57,16 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     @Transactional
-    public Question update(Long id, Question question) {
+    public Question update(Long id, QuestionPostDto questionPostDto) {
 
         Question updateQuestion = questionRepository.findById(id).orElseThrow(
                 () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_QUESTION_ID)
         );
 
         updateQuestion.update(
-                question.getTitle(),
-                question.getBody(),
-                question.getTags()
+                questionPostDto.getTitle(),
+                questionPostDto.getBody(),
+                questionPostDto.getTags()
         );
 
         return updateQuestion;

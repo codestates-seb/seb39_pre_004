@@ -10,6 +10,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
+import team.pre004.stackoverflowclone.dto.common.CMRespDto;
+import team.pre004.stackoverflowclone.dto.common.QuestionRespDto;
+import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.ResponseCode;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
 import team.pre004.stackoverflowclone.web.config.auth.Jwt;
 
 
@@ -31,16 +36,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             ObjectMapper om = new ObjectMapper();
             Users user = om.readValue(request.getInputStream(), Users.class);
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword());
-
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+
             return authentication;
+
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_AUTHORIZATION);
         }
-        return null;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject("pre004")
                 .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 10)))
                 .withClaim("ownerId", principalDetails.getOwner().getOwnerId())
-                .withClaim("name", principalDetails.getOwner().getName())
+                .withClaim("email", principalDetails.getOwner().getEmail())
                 .sign(Algorithm.HMAC512(Jwt.SECRET_CODE.getValue()));
         response.addHeader("Authorization", "Bearer " + jwtToken);
     }

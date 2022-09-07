@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
+import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
 
 @Service
 @RequiredArgsConstructor
@@ -16,9 +18,13 @@ public class PrincipalDetailsService implements UserDetailsService {
     private final UsersRepository usersRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Users userEntity = usersRepository.findByName(name).orElseThrow();
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Users userEntity = usersRepository.findByEmail(email).orElseThrow(
+                () -> new CustomNotContentItemException(ExceptionMessage.CONFLICT_LIKE_DOWN)
+        );
+
         return new PrincipalDetails(userEntity);
     }
+
 
 }

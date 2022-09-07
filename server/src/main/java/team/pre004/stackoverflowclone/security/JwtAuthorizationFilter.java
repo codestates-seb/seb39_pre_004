@@ -2,6 +2,7 @@ package team.pre004.stackoverflowclone.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,6 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import team.pre004.stackoverflowclone.domain.user.entity.Users;
 import team.pre004.stackoverflowclone.domain.user.repository.UsersRepository;
+import team.pre004.stackoverflowclone.handler.ExceptionMessage;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotContentItemException;
+import team.pre004.stackoverflowclone.handler.exception.CustomTokenExpiredException;
 import team.pre004.stackoverflowclone.web.config.auth.Jwt;
 
 
@@ -22,7 +27,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UsersRepository usersRepository) {
         super(authenticationManager);
@@ -31,28 +36,40 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("인증이나 권한이 필요한 주소 요청 됨.");
+
         String jwtHeader = request.getHeader("Authorization");
 
-        if(jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
+        if (jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
             chain.doFilter(request, response);
             return;
         }
 
+        String email;
         String jwtToken = jwtHeader.replace("Bearer ", "");
+        try {
+            email = JWT.require(Algorithm.HMAC512(Jwt.SECRET_CODE.getValue()))
+                    .build()
+                    .verify(jwtToken)
+                    .getClaim("email")
+                    .asString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomTokenExpiredException("유효한 인증 정보가 아닙니다.");
+        }
 
-        String name = JWT.require(Algorithm.HMAC512(Jwt.SECRET_CODE.getValue())).build().verify(jwtToken).getClaim("name").asString();
-
-        if (name != null) {
-            Users userEntity = usersRepository.findByName(name).orElseThrow();
+        if (email != null) {
+            Users userEntity = usersRepository
+                    .findByEmail(email)
+                    .orElseThrow(
+                            () -> new CustomNotContentItemException(ExceptionMessage.NOT_CONTENT_USER_ID)
+                    );
 
             PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             chain.doFilter(request, response);
-        }
-        else
+        } else
             super.doFilterInternal(request, response, chain);
     }
 

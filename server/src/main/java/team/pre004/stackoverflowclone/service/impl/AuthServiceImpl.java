@@ -11,6 +11,7 @@ import team.pre004.stackoverflowclone.dto.auth.LogInDto;
 import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
 import team.pre004.stackoverflowclone.handler.ExceptionMessage;
 import team.pre004.stackoverflowclone.handler.exception.CustomDuplicationUsersException;
+import team.pre004.stackoverflowclone.handler.exception.CustomNotAccessItemsException;
 import team.pre004.stackoverflowclone.service.AuthService;
 
 @Service
@@ -48,5 +49,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void login(LogInDto logInDto) {
 
+    }
+
+    @Override
+    public boolean isAuthenticatedUser(Long ownerId, Long postId) {
+
+        if(ownerId.equals(postId))
+            return true;
+        else
+            throw new CustomNotAccessItemsException(ExceptionMessage.NOT_ACCESS_AUTHORIZATION);
     }
 }

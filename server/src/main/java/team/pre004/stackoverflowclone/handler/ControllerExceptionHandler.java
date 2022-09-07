@@ -1,9 +1,12 @@
 package team.pre004.stackoverflowclone.handler;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +49,16 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(), null), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> usernameNotFoundException(UsernameNotFoundException e){
+        return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, "해당하는 유저 이메일 정보가 없습니다.", null), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<?> internalAuthenticationServiceException(UsernameNotFoundException e){
+        return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+
 
     //Security Test
 
@@ -58,6 +71,11 @@ public class ControllerExceptionHandler {
 
 
         return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, e.getMessage(),null ), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomTokenExpiredException.class)
+    public ResponseEntity<?> tokenExpiredException(CustomTokenExpiredException e){
+        return new ResponseEntity<>(new CMRespDto<>(ResponseCode.ERROR, "유효한 인증 정보가 아닙니다.",null ), HttpStatus.BAD_REQUEST);
     }
 
 }

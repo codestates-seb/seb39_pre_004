@@ -1,6 +1,7 @@
 package team.pre004.stackoverflowclone.web.config.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,15 +21,15 @@ import team.pre004.stackoverflowclone.security.JwtAuthorizationFilter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
     private final CorsFilter corsFilter;
     private final UsersRepository usersRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //http.addFilterBefore(new FirstFilter(), BasicAuthenticationFilter.class);
-        http.csrf()
-                .ignoringAntMatchers("/h2-console/**")
-                .disable();
+
+        http.csrf().disable();
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -37,16 +38,28 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
 
+                .logout()
+                .logoutUrl("/api/logout")
+                .logoutSuccessUrl("/api/login")
+                .and()
 
-                .authorizeRequests()    // 권한요청 처리 설정 메서드
-                .antMatchers("/h2-console/**").permitAll()  // 누구나 h2-console 접속 허용
-                .antMatchers("/questions")
+
+                .authorizeRequests()    // 권한요청 처리 설정 메서드// 누구나 h2-console 접속 허용
+                .antMatchers("/api/questions")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/v1/manager/**")
+                .antMatchers("/api/manager/**")
                 .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/questions/id")
+                .antMatchers("/api/questions/id")
                 .access("hasRole('ROLE_ADMIN')")
-                .anyRequest().permitAll();
+                .antMatchers("/api/answers/**")
+                .access("hasRole('ROLE_ADMIN')")
+                .anyRequest().permitAll()
+//                .and()
+//                .oauth2Login()
+//                .loginPage("/login")
+        ;
+
+
         return http.build();
     }
 

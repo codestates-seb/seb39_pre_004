@@ -27,11 +27,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// Map Struckt
-
-	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
-
 	//Swagger REST API Docs
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
@@ -48,9 +43,6 @@ dependencies {
 	//validation Check
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	//sercurity
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	testImplementation 'org.springframework.security:spring-security-test'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	//jwt
@@ -60,6 +52,11 @@ dependencies {
 	//StringUtils
 	implementation 'org.apache.commons:commons-lang3:3.11'
 
+	//OAuth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	testImplementation("org.junit.vintage:junit-vintage-engine") {
+		exclude group: "org.hamcrest", module: "hamcrest-core"
+	}
 }
 
 tasks.named('test') {

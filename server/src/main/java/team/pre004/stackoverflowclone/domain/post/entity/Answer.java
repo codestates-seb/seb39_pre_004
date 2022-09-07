@@ -26,6 +26,7 @@ public class Answer extends LocalDateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
+    @Lob
     @Column(nullable = false)
     private String body;
 

@@ -3,15 +3,18 @@ package team.pre004.stackoverflowclone.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.web.bind.annotation.*;
 import team.pre004.stackoverflowclone.dto.auth.SignUpDto;
 import team.pre004.stackoverflowclone.dto.common.OwnerRespDto;
 import team.pre004.stackoverflowclone.handler.ResponseCode;
 import team.pre004.stackoverflowclone.service.AuthService;
+import team.pre004.stackoverflowclone.security.PrincipalDetails;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class AuthController {
 
     private final AuthService authService;
@@ -28,6 +31,11 @@ public class AuthController {
 
         return new ResponseEntity<>(respDto,HttpStatus.ACCEPTED);
 
+    }
+
+    @GetMapping("/users/oauth")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return "users";
     }
 
 
